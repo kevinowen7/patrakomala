@@ -10,3 +10,4 @@ part 'login/pre_login_page.dart';
 part 'login/login_email.dart';
 part 'login/login_nohp.dart';
 part 'login/login_form.dart';
+part 'main_page.dart';

@@ -5,6 +5,7 @@ Color backgroundColorGrey = "DFDFDF".toColor();
 Color mainColorRed = "E03001".toColor();
 Color iconColorMain = "CACACA".toColor();
 
+
 TextStyle blackfontStyle1 = GoogleFonts.montserrat()
     .copyWith(color: "333333".toColor().withOpacity(0.7));
 TextStyle blackfontStyle2 = GoogleFonts.montserrat()

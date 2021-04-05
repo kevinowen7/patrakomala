@@ -5,3 +5,4 @@ import 'package:patrakomala_neumorphic/shared/shared.dart';
 
 part 'text_field_custom.dart';
 part 'search_dropdown_custom.dart';
+part 'custom_bottom_navbar.dart';
