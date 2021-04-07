@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:get/get.dart';
 import 'package:patrakomala_neumorphic/shared/shared.dart';
 import 'package:patrakomala_neumorphic/ui/widgets/widgets.dart';
@@ -11,3 +12,10 @@ part 'login/login_email.dart';
 part 'login/login_nohp.dart';
 part 'login/login_form.dart';
 part 'main_page.dart';
+part 'creative_belt/creative_belt_page.dart';
+part 'creative_product/creative_product.dart';
+part 'creative_product/search_box.dart';
+part 'creative_product/product_detail.dart';
+part 'creative_news/creative_news.dart';
+part 'creative_news/tab_berita.dart';
+part 'creative_news/tab_publikasi.dart';

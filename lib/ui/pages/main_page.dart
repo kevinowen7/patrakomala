@@ -36,31 +36,58 @@ class _MainPageState extends State<MainPage> {
               color: mainColorRed,
             ),
           ),
-          PageView(
-            controller: pageController,
-            onPageChanged: (index) {
-              setState(() {
-                selectedPage = index;
-              });
-            },
-            children: [
-              Center(
-                child: LoginEmail(),
-              ),
-              Center(
-                child: LoginEmail(),
-              ),
-              Center(
-                child: Text("2"),
-              ),
-              Center(
-                child: Text("3"),
-              ),
-              Center(
-                child: Text("4"),
-              ),
-            ],
-          ),
+          (selectedPage == 0)
+              ? PageView(
+                  controller: pageController,
+                  physics: new NeverScrollableScrollPhysics(),
+                  onPageChanged: (index) {
+                    setState(() {
+                      selectedPage = index;
+                    });
+                  },
+                  children: [
+                    Center(
+                      child: CreativeBeltPage(),
+                    ),
+                    Center(
+                      child: CreativeProduct(),
+                    ),
+                    Center(
+                      child: CreativeProduct(),
+                    ),
+                    Center(
+                      child: Text("3"),
+                    ),
+                    Center(
+                      child: Text("4"),
+                    ),
+                  ],
+                )
+              : PageView(
+                  controller: pageController,
+                  onPageChanged: (index) {
+                    setState(() {
+                      selectedPage = index;
+                    });
+                  },
+                  children: [
+                    Center(
+                      child: CreativeBeltPage(),
+                    ),
+                    Center(
+                      child: CreativeNews(),
+                    ),
+                    Center(
+                      child: CreativeProduct(),
+                    ),
+                    Center(
+                      child: Text("3"),
+                    ),
+                    Center(
+                      child: Text("4"),
+                    ),
+                  ],
+                ),
           Align(
             alignment: Alignment.bottomCenter,
             child: Container(
