@@ -56,7 +56,7 @@ class _MainPageState extends State<MainPage> {
                       child: CreativeProduct(),
                     ),
                     Center(
-                      child: Text("3"),
+                      child: CreativeEvent(),
                     ),
                     Center(
                       child: Text("4"),
@@ -81,7 +81,7 @@ class _MainPageState extends State<MainPage> {
                       child: CreativeProduct(),
                     ),
                     Center(
-                      child: Text("3"),
+                      child: CreativeEvent(),
                     ),
                     Center(
                       child: Text("4"),

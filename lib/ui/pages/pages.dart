@@ -18,4 +18,8 @@ part 'creative_product/search_box.dart';
 part 'creative_product/product_detail.dart';
 part 'creative_news/creative_news.dart';
 part 'creative_news/tab_berita.dart';
+part 'creative_news/news_detail.dart';
+part 'creative_news/public_details.dart';
 part 'creative_news/tab_publikasi.dart';
+part 'creative_event/creative_event.dart';
+part 'creative_event/event_detail.dart';

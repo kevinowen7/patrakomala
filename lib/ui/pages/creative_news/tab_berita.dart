@@ -36,43 +36,48 @@ class TabBerita extends StatelessWidget {
           child: ListView.builder(
             scrollDirection: Axis.horizontal,
             itemCount: beritaItems.length,
-            itemBuilder: (BuildContext context, int index) => Row(
-              children: [
-                Container(
-                  height: 122,
-                  width: 140,
-                  decoration: BoxDecoration(
-                    image: DecorationImage(
-                      image: NetworkImage(
-                          "https://assets.pikiran-rakyat.com/crop/0x0:0x0/x/photo/2020/03/29/1571813690.png"),
-                      fit: BoxFit.cover,
+            itemBuilder: (BuildContext context, int index) => InkWell(
+              onTap: () {
+                Get.to(NewsDetail());
+              },
+              child: Row(
+                children: [
+                  Container(
+                    height: 122,
+                    width: 140,
+                    decoration: BoxDecoration(
+                      image: DecorationImage(
+                        image: NetworkImage(
+                            "https://assets.pikiran-rakyat.com/crop/0x0:0x0/x/photo/2020/03/29/1571813690.png"),
+                        fit: BoxFit.cover,
+                      ),
+                      borderRadius: BorderRadius.circular(10),
                     ),
-                    borderRadius: BorderRadius.circular(10),
                   ),
-                ),
-                Container(
-                  margin: EdgeInsets.only(left: 15, right: defaultMargin),
-                  child: Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          "Contoh Berita",
-                          style: titleStyle,
-                        ),
-                        SizedBox(height: 10),
-                        Container(
-                          width: (MediaQuery.of(context).size.width) - 192,
-                          child: Text(
-                            "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the ",
-                            style: normalFontStyle.copyWith(
-                                color: "333333".toColor()),
-                            textAlign: TextAlign.left,
+                  Container(
+                    margin: EdgeInsets.only(left: 15, right: defaultMargin),
+                    child: Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            "Contoh Berita",
+                            style: titleStyle,
                           ),
-                        ),
-                      ]),
-                )
-              ],
+                          SizedBox(height: 10),
+                          Container(
+                            width: (MediaQuery.of(context).size.width) - 192,
+                            child: Text(
+                              "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the ",
+                              style: normalFontStyle.copyWith(
+                                  color: "333333".toColor()),
+                              textAlign: TextAlign.left,
+                            ),
+                          ),
+                        ]),
+                  )
+                ],
+              ),
             ),
           ),
         ),

@@ -12,3 +12,4 @@ part 'search_dropdown_multiple_custom.dart';
 part 'custom_header.dart';
 part 'custom_tabbar.dart';
 part 'line_border.dart';
+part 'icon_text.dart';

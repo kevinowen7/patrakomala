@@ -30,19 +30,25 @@ class TabPublikasi extends StatelessWidget {
 
       // List Publikasi
       SizedBox(height: 20),
-      Container(
-        margin: EdgeInsets.symmetric(horizontal: defaultMargin),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            Text("PERDA No. 1 Tahun 2019", style: titleStyle),
-            SizedBox(height: 5),
-            Text("Tahun Terbit 2019",
-                style: normalFontStyle.copyWith(
-                    color: "777777".toColor(), fontSize: 12)),
-            SizedBox(height: 10),
-          ],
+      InkWell(
+        onTap: () {
+          Get.to(PublicDetails());
+        },
+        child: Container(
+          width: double.infinity,
+          margin: EdgeInsets.symmetric(horizontal: defaultMargin),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              Text("PERDA No. 1 Tahun 2019", style: titleStyle),
+              SizedBox(height: 5),
+              Text("Tahun Terbit 2019",
+                  style: normalFontStyle.copyWith(
+                      color: "777777".toColor(), fontSize: 12)),
+              SizedBox(height: 10),
+            ],
+          ),
         ),
       ),
       LineBorder(),
