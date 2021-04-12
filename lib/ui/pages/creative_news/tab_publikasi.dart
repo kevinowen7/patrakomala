@@ -5,26 +5,31 @@ class TabPublikasi extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-      NeuBorder(
-        mBot: 0,
-        mTop: 0,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: defaultMargin),
-              child: Text(
-                "Cari Publikasi ...",
-                style:
-                    normalFontStyle.copyWith(color: Colors.grey, fontSize: 18),
+      InkWell(
+        onTap: () {
+          Get.to(SearchBoxCreativePublic());
+        },
+        child: NeuBorder(
+          mBot: 0,
+          mTop: 0,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: defaultMargin),
+                child: Text(
+                  "Cari Publikasi ...",
+                  style: normalFontStyle.copyWith(
+                      color: Colors.grey, fontSize: 18),
+                ),
               ),
-            ),
-            Padding(
-              padding: EdgeInsets.only(right: defaultMargin),
-              child: Icon(Icons.search, color: Colors.grey),
-            )
-          ],
+              Padding(
+                padding: EdgeInsets.only(right: defaultMargin),
+                child: Icon(Icons.search, color: Colors.grey),
+              )
+            ],
+          ),
         ),
       ),
 

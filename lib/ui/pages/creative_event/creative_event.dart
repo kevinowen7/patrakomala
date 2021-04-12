@@ -17,26 +17,31 @@ class _CreativeEventState extends State<CreativeEvent> {
             CustomHeader(
               title: "Events",
             ),
-            NeuBorder(
-              mTop: 10,
-              mBot: 28,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Padding(
-                    padding: EdgeInsets.symmetric(horizontal: defaultMargin),
-                    child: Text(
-                      "Cari Event ...",
-                      style: normalFontStyle.copyWith(
-                          color: Colors.grey, fontSize: 18),
+            InkWell(
+              onTap: () {
+                Get.to(SearchBoxCreativeEvent());
+              },
+              child: NeuBorder(
+                mTop: 10,
+                mBot: 28,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: defaultMargin),
+                      child: Text(
+                        "Cari Event ...",
+                        style: normalFontStyle.copyWith(
+                            color: Colors.grey, fontSize: 18),
+                      ),
                     ),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.only(right: defaultMargin),
-                    child: Icon(Icons.search, color: Colors.grey),
-                  )
-                ],
+                    Padding(
+                      padding: EdgeInsets.only(right: defaultMargin),
+                      child: Icon(Icons.search, color: Colors.grey),
+                    )
+                  ],
+                ),
               ),
             ),
             Container(

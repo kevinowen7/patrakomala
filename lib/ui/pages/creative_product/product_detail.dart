@@ -58,7 +58,8 @@ class ProductDetail extends StatelessWidget {
     return PopupMenuButton(
         // color: Colors.transparent,
         child: Text("Beli Produk",
-            style: normalFontStyle.copyWith(color: mainColorRed),
+            style: normalFontStyle.copyWith(
+                color: mainColorRed, fontSize: 14, fontWeight: FontWeight.w600),
             textAlign: TextAlign.center),
         onSelected: (value) {
           Fluttertoast.showToast(
@@ -227,33 +228,36 @@ class ProductDetail extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Container(
-                        margin: EdgeInsets.symmetric(horizontal: defaultMargin),
-                        height: 40,
-                        width: (MediaQuery.of(context).size.width) - 70,
-                        decoration: BoxDecoration(
-                          boxShadow: <BoxShadow>[
-                            BoxShadow(
-                              color: Color.fromRGBO(17, 18, 19, 0.3),
-                              offset: Offset(0.0, 0.0),
-                              blurRadius: 2.0,
-                            ),
-                          ],
-                          gradient: RadialGradient(colors: [
-                            "FEFEFE".toColor(),
-                            "F8F8F8".toColor(),
-                          ]),
-                          borderRadius:
-                              BorderRadius.all(const Radius.circular(5.0)),
+                      InkWell(
+                        child: Container(
+                          margin:
+                              EdgeInsets.symmetric(horizontal: defaultMargin),
+                          height: 40,
+                          width: (MediaQuery.of(context).size.width) - 70,
+                          decoration: BoxDecoration(
+                            boxShadow: <BoxShadow>[
+                              BoxShadow(
+                                color: Color.fromRGBO(17, 18, 19, 0.3),
+                                offset: Offset(0.0, 0.0),
+                                blurRadius: 2.0,
+                              ),
+                            ],
+                            gradient: RadialGradient(colors: [
+                              "FEFEFE".toColor(),
+                              "F8F8F8".toColor(),
+                            ]),
+                            borderRadius:
+                                BorderRadius.all(const Radius.circular(5.0)),
+                          ),
+                          child: Center(
+                              child: Text(
+                            "Lihat Profil Usaha",
+                            style: normalFontStyle.copyWith(
+                                color: mainColorRed,
+                                fontSize: 14,
+                                fontWeight: FontWeight.w600),
+                          )),
                         ),
-                        child: Center(
-                            child: Text(
-                          "Lihat Profil Usaha",
-                          style: normalFontStyle.copyWith(
-                              color: mainColorRed,
-                              fontSize: 14,
-                              fontWeight: FontWeight.w600),
-                        )),
                       ),
                       SizedBox(
                         height: 6,

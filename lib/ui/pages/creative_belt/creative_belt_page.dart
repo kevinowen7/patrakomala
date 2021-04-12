@@ -330,45 +330,45 @@ class _CreativeBeltPageState extends State<CreativeBeltPage> {
     return Stack(
       children: <Widget>[
         // Google Map widget
-        Opacity(
-          opacity: _isMapLoading ? 0 : 1,
-          child: GoogleMap(
-            mapToolbarEnabled: false,
-            initialCameraPosition: CameraPosition(
-              target: LatLng(-6.9218518, 107.6048254),
-              zoom: _currentZoom,
-            ),
-            markers: _markers,
-            onMapCreated: (controller) => _onMapCreated(controller),
-            onCameraMove: (position) => _updateMarkers(position.zoom),
-          ),
-        ),
+        // Opacity(
+        //   opacity: _isMapLoading ? 0 : 1,
+        //   child: GoogleMap(
+        //     mapToolbarEnabled: false,
+        //     initialCameraPosition: CameraPosition(
+        //       target: LatLng(-6.9218518, 107.6048254),
+        //       zoom: _currentZoom,
+        //     ),
+        //     markers: _markers,
+        //     onMapCreated: (controller) => _onMapCreated(controller),
+        //     onCameraMove: (position) => _updateMarkers(position.zoom),
+        //   ),
+        // ),
 
         // Map loading indicator
-        Opacity(
-          opacity: _isMapLoading ? 1 : 0,
-          child: Center(child: CircularProgressIndicator()),
-        ),
+        // Opacity(
+        //   opacity: _isMapLoading ? 1 : 0,
+        //   child: Center(child: CircularProgressIndicator()),
+        // ),
 
         // Map markers loading indicator
-        if (_areMarkersLoading)
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Align(
-              alignment: Alignment.topCenter,
-              child: Card(
-                elevation: 2,
-                color: Colors.grey.withOpacity(0.9),
-                child: Padding(
-                  padding: const EdgeInsets.all(4),
-                  child: Text(
-                    'Loading',
-                    style: TextStyle(color: Colors.white),
-                  ),
-                ),
-              ),
-            ),
-          ),
+        // if (_areMarkersLoading)
+        //   Padding(`
+        //     padding: const EdgeInsets.all(8.0),
+        //     child: Align(
+        //       alignment: Alignment.topCenter,
+        //       child: Card(
+        //         elevation: 2,
+        //         color: Colors.grey.withOpacity(0.9),
+        //         child: Padding(
+        //           padding: const EdgeInsets.all(4),
+        //           child: Text(
+        //             'Loading',
+        //             style: TextStyle(color: Colors.white),
+        //           ),
+        //         ),
+        //       ),
+        //     ),
+        //   ),
 
         Positioned(
           top: 20,

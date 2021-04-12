@@ -7,26 +7,31 @@ class TabBerita extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        NeuBorder(
-          mBot: 0,
-          mTop: 0,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: defaultMargin),
-                child: Text(
-                  "Cari Berita ...",
-                  style: normalFontStyle.copyWith(
-                      color: Colors.grey, fontSize: 18),
+        InkWell(
+          onTap: () {
+            Get.to(SearchBoxCreativeNews());
+          },
+          child: NeuBorder(
+            mBot: 0,
+            mTop: 0,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: defaultMargin),
+                  child: Text(
+                    "Cari Berita ...",
+                    style: normalFontStyle.copyWith(
+                        color: Colors.grey, fontSize: 18),
+                  ),
                 ),
-              ),
-              Padding(
-                padding: EdgeInsets.only(right: defaultMargin),
-                child: Icon(Icons.search, color: Colors.grey),
-              )
-            ],
+                Padding(
+                  padding: EdgeInsets.only(right: defaultMargin),
+                  child: Icon(Icons.search, color: Colors.grey),
+                )
+              ],
+            ),
           ),
         ),
         SizedBox(height: 40),
