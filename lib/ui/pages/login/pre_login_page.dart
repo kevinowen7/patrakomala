@@ -25,7 +25,9 @@ class PreLoginPage extends StatelessWidget {
               height: 40,
             ),
             InkWell(
-              onTap: () {},
+              onTap: () {
+                Get.to(MainPage());
+              },
               child: Container(
                 width: 271,
                 height: 40,

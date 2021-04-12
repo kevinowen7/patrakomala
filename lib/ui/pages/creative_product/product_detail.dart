@@ -1,6 +1,115 @@
 part of '../pages.dart';
 
 class ProductDetail extends StatelessWidget {
+  Widget myPopMenu() {
+    return PopupMenuButton(
+        child: Icon(Icons.share),
+        onSelected: (value) {
+          Fluttertoast.showToast(
+              msg: "You have selected " + value.toString(),
+              toastLength: Toast.LENGTH_SHORT,
+              gravity: ToastGravity.BOTTOM,
+              timeInSecForIosWeb: 1,
+              backgroundColor: Colors.black,
+              textColor: Colors.white,
+              fontSize: 16.0);
+        },
+        itemBuilder: (context) => [
+              PopupMenuItem(
+                  value: 1,
+                  child: Row(
+                    children: <Widget>[
+                      Padding(
+                        padding: const EdgeInsets.fromLTRB(2, 2, 8, 2),
+                        child: Icon(
+                          FontAwesome.facebook,
+                          color: Colors.blue,
+                        ),
+                      ),
+                      Text('Facebook')
+                    ],
+                  )),
+              PopupMenuItem(
+                  value: 2,
+                  child: Row(
+                    children: <Widget>[
+                      Padding(
+                          padding: const EdgeInsets.fromLTRB(2, 2, 8, 2),
+                          child: Icon(FontAwesome.twitter,
+                              color: Colors.lightBlue)),
+                      Text('Twitter')
+                    ],
+                  )),
+              PopupMenuItem(
+                  value: 3,
+                  child: Row(
+                    children: <Widget>[
+                      Padding(
+                        padding: const EdgeInsets.fromLTRB(2, 2, 8, 2),
+                        child: Icon(FontAwesome.whatsapp, color: Colors.green),
+                      ),
+                      Text('WhatsApp')
+                    ],
+                  )),
+            ]);
+  }
+
+  Widget marketPlaceButton() {
+    return PopupMenuButton(
+        // color: Colors.transparent,
+        child: Text("Beli Produk",
+            style: normalFontStyle.copyWith(color: mainColorRed),
+            textAlign: TextAlign.center),
+        onSelected: (value) {
+          Fluttertoast.showToast(
+              msg: "You have selected " + value.toString(),
+              toastLength: Toast.LENGTH_SHORT,
+              gravity: ToastGravity.BOTTOM,
+              timeInSecForIosWeb: 1,
+              backgroundColor: Colors.black,
+              textColor: Colors.white,
+              fontSize: 16.0);
+        },
+        itemBuilder: (context) => [
+              PopupMenuItem(
+                  value: 1,
+                  child: Row(
+                    children: <Widget>[
+                      Padding(
+                        padding: const EdgeInsets.fromLTRB(2, 2, 8, 2),
+                        child: Image.asset('assets/images/lazada.jpg',
+                            width: 20, height: 20),
+                      ),
+                      Text('Lazada')
+                    ],
+                  )),
+              PopupMenuItem(
+                  value: 2,
+                  child: Row(
+                    children: <Widget>[
+                      Padding(
+                        padding: const EdgeInsets.fromLTRB(2, 2, 8, 2),
+                        child: Image.asset('assets/images/tokped.png',
+                            width: 20, height: 20),
+                      ),
+                      Text('Tokopedia')
+                    ],
+                  )),
+              PopupMenuItem(
+                  value: 3,
+                  child: Row(
+                    children: <Widget>[
+                      Padding(
+                        padding: const EdgeInsets.fromLTRB(2, 2, 8, 2),
+                        child: Image.asset('assets/images/shopee.png',
+                            width: 20, height: 20),
+                      ),
+                      Text('Shopee')
+                    ],
+                  )),
+            ]);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -169,13 +278,15 @@ class ProductDetail extends StatelessWidget {
                               BorderRadius.all(const Radius.circular(5.0)),
                         ),
                         child: Center(
-                            child: Text(
-                          "Beli Produk",
-                          style: normalFontStyle.copyWith(
-                              color: mainColorRed,
-                              fontSize: 14,
-                              fontWeight: FontWeight.w600),
-                        )),
+                          child: FlatButton(
+                            color: Colors.transparent,
+                            onPressed: null,
+                            child: Container(
+                              width: double.infinity,
+                              child: marketPlaceButton(),
+                            ),
+                          ),
+                        ),
                       ),
                     ],
                   ),

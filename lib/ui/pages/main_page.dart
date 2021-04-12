@@ -59,7 +59,7 @@ class _MainPageState extends State<MainPage> {
                       child: CreativeEvent(),
                     ),
                     Center(
-                      child: Text("4"),
+                      child: Pcc(),
                     ),
                   ],
                 )
@@ -84,7 +84,7 @@ class _MainPageState extends State<MainPage> {
                       child: CreativeEvent(),
                     ),
                     Center(
-                      child: Text("4"),
+                      child: Pcc(),
                     ),
                   ],
                 ),
