@@ -1,13 +1,13 @@
 part of '../pages.dart';
 
-class SearchBoxPCC extends StatefulWidget {
+class SearchBoxCreativeEvent extends StatefulWidget {
   @override
-  _SearchBoxPCCState createState() => _SearchBoxPCCState();
+  _SearchBoxCreativeEventState createState() => _SearchBoxCreativeEventState();
 }
 
-class _SearchBoxPCCState extends State<SearchBoxPCC> {
-  List<String> itemsSubsektor = ['Subsektor 1', 'Subsektor 2', 'Subsektor 3'];
-  List<String> itemsBelt = ['Belt 1', 'Belt 2', 'Belt 3'];
+class _SearchBoxCreativeEventState extends State<SearchBoxCreativeEvent> {
+  List<String> itemsJenis = ['Jenis 1', 'Jenis 2', 'Jenis 3'];
+  List<String> itemsKegiatan = ['Kegiatan 1', 'Kegiatan 2', 'Kegiatan 3'];
   TextEditingController subsektorController = TextEditingController();
 
   @override
@@ -43,7 +43,7 @@ class _SearchBoxPCCState extends State<SearchBoxPCC> {
                           },
                           child: Icon(Icons.arrow_back, color: Colors.grey)),
                       border: InputBorder.none,
-                      hintText: "Cari Event ...",
+                      hintText: "Cari Artikel ...",
                       hintStyle: normalFontStyle.copyWith(
                           color: Colors.grey, fontSize: 18),
                     ),
@@ -63,7 +63,7 @@ class _SearchBoxPCCState extends State<SearchBoxPCC> {
                 mBot: 0,
                 child: SearchMultipleCustom(
                   hintText: "Tanggal",
-                  items: itemsSubsektor,
+                  items: [],
                   selectEditingController: subsektorController,
                 ),
               ),
@@ -71,8 +71,8 @@ class _SearchBoxPCCState extends State<SearchBoxPCC> {
                 mTop: 16,
                 mBot: 0,
                 child: SearchMultipleCustom(
-                  hintText: "Subsektor",
-                  items: itemsSubsektor,
+                  hintText: "Jenis Artikel",
+                  items: itemsJenis,
                   selectEditingController: subsektorController,
                 ),
               ),
@@ -80,8 +80,8 @@ class _SearchBoxPCCState extends State<SearchBoxPCC> {
                 mTop: 16,
                 mBot: 16,
                 child: SearchMultipleCustom(
-                  hintText: "Pentahelix",
-                  items: itemsSubsektor,
+                  hintText: "Jenis Kegiatan",
+                  items: itemsKegiatan,
                   selectEditingController: subsektorController,
                 ),
               ),

@@ -229,6 +229,9 @@ class ProductDetail extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       InkWell(
+                        onTap: () {
+                          Get.to(WorkshopDetail());
+                        },
                         child: Container(
                           margin:
                               EdgeInsets.symmetric(horizontal: defaultMargin),

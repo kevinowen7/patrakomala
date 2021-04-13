@@ -22,7 +22,7 @@ class _CreativeEventState extends State<CreativeEvent> {
                 Get.to(SearchBoxCreativeEvent());
               },
               child: NeuBorder(
-                mTop: 10,
+                mTop: 0,
                 mBot: 28,
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,

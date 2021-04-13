@@ -27,6 +27,9 @@ part 'creative_belt/search_box.dart';
 part 'creative_product/creative_product.dart';
 part 'creative_product/search_box.dart';
 part 'creative_product/product_detail.dart';
+part 'creative_product/workshop_detail.dart';
+part 'creative_product/tab_profil.dart';
+part 'creative_product/tab_produk.dart';
 part 'creative_news/creative_news.dart';
 part 'creative_news/tab_berita.dart';
 part 'creative_news/news_detail.dart';
@@ -40,3 +43,6 @@ part 'creative_event/search_box.dart';
 part 'pcc/pcc.dart';
 part 'pcc/list_pcc.dart';
 part 'pcc/pcc_detail.dart';
+part 'pcc/search_box_pcc.dart';
+
+part 'tes_page.dart';
