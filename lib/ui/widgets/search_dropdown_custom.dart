@@ -7,6 +7,7 @@ class SelectDropdownCustom extends StatefulWidget {
   final String selectedValue;
   final TextEditingController selectEditingController;
   final List<String> items;
+  final Function(String selectProv) onChanged;
 
   SelectDropdownCustom(
       {this.icon,
@@ -14,6 +15,7 @@ class SelectDropdownCustom extends StatefulWidget {
       this.label,
       this.selectEditingController,
       this.selectedValue,
+      this.onChanged,
       this.items});
   @override
   _SelectDropdownCustomState createState() => _SelectDropdownCustomState();
@@ -22,7 +24,6 @@ class SelectDropdownCustom extends StatefulWidget {
 class _SelectDropdownCustomState extends State<SelectDropdownCustom> {
   @override
   Widget build(BuildContext context) {
-    String newSelectedValue = widget.selectedValue;
 
     return Container(
       width: 271,
@@ -53,31 +54,25 @@ class _SelectDropdownCustomState extends State<SelectDropdownCustom> {
         underline: Padding(
           padding: EdgeInsets.all(5),
         ),
-        items: widget.items.map((i) {
+        items: widget.items.map((data) {
           return (DropdownMenuItem(
             child: Text(
-              i.toString(),
-              style: normalFontStyle.copyWith(
-                  color: "333333".toColor().withOpacity(0.3)),
+              data,
+              style: normalFontStyle.copyWith(color: "333333".toColor()),
             ),
-            value: i.toString(),
+            value: data,
           ));
         }).toList(),
-        value: newSelectedValue,
+        // value: newSelectedValue,
         hint: Padding(
           padding: EdgeInsets.all(0),
           child: Text(
             widget.hintText,
-            style: normalFontStyle.copyWith(
-                color: "333333".toColor().withOpacity(0.3)),
+            style: normalFontStyle.copyWith(color: "333333".toColor()),
           ),
         ),
         searchHint: widget.hintText,
-        onChanged: (value) {
-          setState(() {
-            newSelectedValue = value;
-          });
-        },
+        onChanged: widget.onChanged,
         dialogBox: true,
         isExpanded: true,
       ),

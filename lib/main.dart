@@ -1,16 +1,23 @@
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 import 'package:get/get.dart';
+import 'package:patrakomala_neumorphic/bloc/bloc.dart';
 import 'package:patrakomala_neumorphic/ui/pages/pages.dart';
-import 'package:supercharged/supercharged.dart';
 
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return GetMaterialApp(
-      home: TesPage(),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(
+          create: (_) => ProvinsiBloc(),
+        ),
+      ],
+      child: GetMaterialApp(
+        home: TesPage(),
+      ),
     );
   }
 }

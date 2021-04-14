@@ -26,7 +26,7 @@ class PreLoginPage extends StatelessWidget {
             ),
             InkWell(
               onTap: () {
-                Get.to(MainPage());
+                Get.to(LoginEmail());
               },
               child: Container(
                 width: 271,
@@ -71,14 +71,14 @@ class PreLoginPage extends StatelessWidget {
                         height: 32,
                       ),
                       Text(
-                        "Login",
+                        " Login dengan Patrakomala ID",
                         style: normalFontStyle.copyWith(
                             color: 'FEFEFE'.toColor(),
                             fontWeight: FontWeight.w600,
-                            fontSize: 22),
+                            fontSize: 14),
                       ),
                       Container(
-                        width: 32,
+                        width: 20,
                         height: 32,
                       )
                     ],
@@ -89,9 +89,9 @@ class PreLoginPage extends StatelessWidget {
             SizedBox(
               height: 40,
             ),
-            InkWell(
+            GestureDetector(
               onTap: () {
-                Get.to(LoginEmail());
+                Get.to(LoginFormEmailPage());
               },
               child: Container(
                 width: 271,

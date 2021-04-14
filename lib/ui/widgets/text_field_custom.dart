@@ -4,8 +4,13 @@ class TextFieldCustom extends StatelessWidget {
   final IconData icon;
   final TextEditingController textEditingController;
   final String hintText;
+  final bool isPassword;
 
-  TextFieldCustom({this.icon, this.textEditingController, this.hintText});
+  TextFieldCustom(
+      {this.icon,
+      this.isPassword = false,
+      this.textEditingController,
+      this.hintText});
 
   @override
   Widget build(BuildContext context) {
@@ -34,6 +39,8 @@ class TextFieldCustom extends StatelessWidget {
           borderRadius: BorderRadius.circular(10),
           border: Border.all(color: Colors.black)),
       child: TextField(
+        controller: textEditingController,
+        obscureText: (isPassword) ? true : false,
         decoration: (icon != null)
             ? InputDecoration(
                 prefixIcon: Icon(

@@ -1,19 +1,48 @@
 part of '../pages.dart';
 
-class LoginFormPage extends StatefulWidget {
+class LoginFormEmailPage extends StatefulWidget {
   @override
-  _LoginFormPageState createState() => _LoginFormPageState();
+  _LoginFormEmailPageState createState() => _LoginFormEmailPageState();
 }
 
-class _LoginFormPageState extends State<LoginFormPage> {
-  TextEditingController namaController = TextEditingController();
-  TextEditingController tempatLahirController = TextEditingController();
+class _LoginFormEmailPageState extends State<LoginFormEmailPage> {
+  bool isLoading = false;
 
-  List<String> itemsProvinsi = ['Jawa Barat', 'Jawa Tengah', 'Jawa Timur'];
-  List<String> itemsKota = ['Kab. Bandung', 'Kota Bandung', 'Kota Cimahi'];
+  TextEditingController emailController = TextEditingController();
+  TextEditingController namaController = TextEditingController();
+  TextEditingController genderController = TextEditingController();
+  TextEditingController tempatLahirController = TextEditingController();
+  TextEditingController tanggalLahirController = TextEditingController();
+
+  int selectedProv;
+  int selectedKota;
+  int idProv;
+  int selectedGender;
+  String identifier;
+
+  List<String> provinsi = [];
+  List<String> kota = [];
+
+  List<String> itemProvinsi = [];
   String dropdownValue = 'Laki - Laki';
   bool isValueDate = false;
   final format = DateFormat("dd-MM-yyyy");
+
+  void getProv() async {
+    var result = await ProvinsiServices.getProvinsi();
+
+    (result.value).asMap().forEach((index, value) {
+      setState(() {
+        provinsi.add(value.nama);
+      });
+    });
+  }
+
+  @override
+  void initState() {
+    this.getProv();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -38,6 +67,12 @@ class _LoginFormPageState extends State<LoginFormPage> {
               ),
               SizedBox(
                 height: 40,
+              ),
+              TextFieldCustom(
+                  textEditingController: emailController,
+                  hintText: "Alamat Email"),
+              SizedBox(
+                height: 10,
               ),
               TextFieldCustom(
                   textEditingController: namaController,
@@ -75,6 +110,13 @@ class _LoginFormPageState extends State<LoginFormPage> {
                     onChanged: (newValue) {
                       setState(() {
                         dropdownValue = newValue;
+                        if (dropdownValue == 'Laki - Laki') {
+                          selectedGender = 1;
+                        } else if (dropdownValue == 'Perempuan') {
+                          selectedGender = 2;
+                        } else {
+                          selectedGender = 3;
+                        }
                       });
                     },
                     items: <String>[
@@ -102,14 +144,24 @@ class _LoginFormPageState extends State<LoginFormPage> {
               ),
               SelectDropdownCustom(
                 hintText: "Pilih Provinsi",
-                items: itemsProvinsi,
+                items: provinsi,
+                onChanged: (value) {
+                  setState(() {
+                    getIDProv(value);
+                  });
+                },
               ),
               SizedBox(
                 height: 10,
               ),
               SelectDropdownCustom(
                 hintText: "Pilih Kabupaten/Kota",
-                items: itemsKota,
+                items: kota,
+                onChanged: (value) {
+                  setState(() {
+                    getIDKota(value, idProv);
+                  });
+                },
               ),
               SizedBox(
                 height: 10,
@@ -166,64 +218,127 @@ class _LoginFormPageState extends State<LoginFormPage> {
                 height: 10,
               ),
               InkWell(
-                onTap: () {},
-                child: Container(
-                  width: 271,
-                  height: 40,
-                  decoration: BoxDecoration(
-                    boxShadow: <BoxShadow>[
-                      BoxShadow(
-                        color: Color(0xFF333333),
-                        offset: Offset(0.0, -2.0),
-                        blurRadius: 4.0,
-                      ),
-                      BoxShadow(
-                        color: Color(0xFF030303),
-                        offset: Offset(0.0, 1.0),
-                        blurRadius: 4.0,
-                      ),
-                      BoxShadow(
-                        color: Color.fromRGBO(51, 51, 51, 0.16),
-                        offset: Offset(0, 0.0),
-                        blurRadius: 0.0,
-                      ),
-                    ],
-                    gradient: LinearGradient(
-                      begin: Alignment.topCenter,
-                      end: Alignment.bottomRight,
-                      colors: [
-                        Color(0xFFC43008),
-                        Color(0xFFF55226),
-                      ],
-                    ),
-                    borderRadius: BorderRadius.all(const Radius.circular(10.0)),
-                  ),
-                  child: Padding(
-                    padding: EdgeInsets.fromLTRB(10, 4, 10, 4),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Image.asset(
-                          'assets/images/small_patrakomala.png',
-                          width: 32,
-                          height: 32,
+                onTap: () async {
+                  var result = await UserServices.getDeviceDetails();
+
+                  setState(() {
+                    isLoading = true;
+                    identifier = result.message;
+                  });
+
+                  if (!(namaController.text.trim() != "" &&
+                      emailController.text.trim() != "" &&
+                      selectedProv != null &&
+                      selectedKota != null &&
+                      tempatLahirController.text.trim() != "" &&
+                      tanggalLahirController.text.trim() != "")) {
+                    Get.snackbar("", "",
+                        backgroundColor: "D9435E".toColor(),
+                        icon: Icon(
+                          FontAwesome.close,
+                          color: Colors.white,
                         ),
-                        Text(
-                          "Lanjut",
-                          style: normalFontStyle.copyWith(
-                              color: 'FEFEFE'.toColor(),
-                              fontWeight: FontWeight.w600,
-                              fontSize: 16),
+                        titleText: Text(
+                          "Gagal Login",
+                          style: GoogleFonts.montserrat(
+                              color: Colors.white, fontWeight: FontWeight.w600),
                         ),
-                        Container(
-                          width: 32,
-                          height: 32,
-                        )
-                      ],
-                    ),
-                  ),
-                ),
+                        messageText: Text(
+                          "Mohon isi semua kolom",
+                          style: GoogleFonts.montserrat(color: Colors.white),
+                        ));
+                  } else if (!EmailValidator.validate(emailController.text)) {
+                    Get.snackbar("", "",
+                        backgroundColor: "D9435E".toColor(),
+                        icon: Icon(
+                          FontAwesome.close,
+                          color: Colors.white,
+                        ),
+                        titleText: Text(
+                          "Gagal Login",
+                          style: GoogleFonts.montserrat(
+                              color: Colors.white, fontWeight: FontWeight.w600),
+                        ),
+                        messageText: Text(
+                          "Masukan format email yang sesuai",
+                          style: GoogleFonts.montserrat(color: Colors.white),
+                        ));
+                  }
+
+                  print(emailController.text);
+                  print(namaController.text);
+                  print(selectedGender);
+                  print(selectedProv);
+                  print(selectedKota);
+                  print(identifier);
+
+                  setState(() {
+                    isLoading = false;
+                  });
+                },
+                child: (isLoading)
+                    ? SpinKitFadingCircle(
+                        color: backgroundColor,
+                        size: 50,
+                      )
+                    : Container(
+                        width: 271,
+                        height: 40,
+                        decoration: BoxDecoration(
+                          boxShadow: <BoxShadow>[
+                            BoxShadow(
+                              color: Color(0xFF333333),
+                              offset: Offset(0.0, -2.0),
+                              blurRadius: 4.0,
+                            ),
+                            BoxShadow(
+                              color: Color(0xFF030303),
+                              offset: Offset(0.0, 1.0),
+                              blurRadius: 4.0,
+                            ),
+                            BoxShadow(
+                              color: Color.fromRGBO(51, 51, 51, 0.16),
+                              offset: Offset(0, 0.0),
+                              blurRadius: 0.0,
+                            ),
+                          ],
+                          gradient: LinearGradient(
+                            begin: Alignment.topCenter,
+                            end: Alignment.bottomRight,
+                            colors: [
+                              Color(0xFFC43008),
+                              Color(0xFFF55226),
+                            ],
+                          ),
+                          borderRadius:
+                              BorderRadius.all(const Radius.circular(10.0)),
+                        ),
+                        child: Padding(
+                          padding: EdgeInsets.fromLTRB(10, 4, 10, 4),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Image.asset(
+                                'assets/images/small_patrakomala.png',
+                                width: 32,
+                                height: 32,
+                              ),
+                              Text(
+                                "Login",
+                                style: normalFontStyle.copyWith(
+                                    color: 'FEFEFE'.toColor(),
+                                    fontWeight: FontWeight.w600,
+                                    fontSize: 16),
+                              ),
+                              Container(
+                                width: 32,
+                                height: 32,
+                              )
+                            ],
+                          ),
+                        ),
+                      ),
               ),
             ],
           ),
@@ -245,5 +360,42 @@ class _LoginFormPageState extends State<LoginFormPage> {
         )
       ]),
     );
+  }
+
+  void getIDProv(values) async {
+    var result = await ProvinsiServices.getProvinsi();
+    (result.value).asMap().forEach((index, value) {
+      if (value.nama == values) {
+        setState(() {
+          selectedProv = value.id;
+        });
+        getKota(value.id);
+      }
+    });
+  }
+
+  void getIDKota(values, id) async {
+    var result = await ProvinsiServices.getKota(id);
+    (result.value).asMap().forEach((index, value) {
+      if (value.nama == values) {
+        setState(() {
+          selectedKota = value.id;
+        });
+      }
+    });
+  }
+
+  void getKota(int id) async {
+    var result = await ProvinsiServices.getKota(id);
+    setState(() {
+      kota = [];
+    });
+
+    (result.value).asMap().forEach((index, value) {
+      setState(() {
+        kota.add(value.nama);
+        idProv = id;
+      });
+    });
   }
 }

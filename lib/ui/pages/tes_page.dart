@@ -1,21 +1,33 @@
 part of 'pages.dart';
 
-class TesPage extends StatelessWidget {
+class TesPage extends StatefulWidget {
+  @override
+  _TesPageState createState() => _TesPageState();
+}
+
+class _TesPageState extends State<TesPage> {
+  String finalEmail;
+  Future getValidationData() async {
+    final SharedPreferences sharedPreferences =
+        await SharedPreferences.getInstance();
+    var obtainedEmail = sharedPreferences.getString('email');
+    setState(() {
+      finalEmail = obtainedEmail;
+    });
+  }
+
+  @override
+  void initState() {
+    getValidationData().whenComplete(() async {
+      Get.to((finalEmail == null) ? PreLoginPage() : MainPage());
+    });
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Container(
-        child: Center(
-          child: RaisedButton(
-            onPressed: () async {
-              var result = await UserServices.signInSSO(
-                  "kerjaanburhan@gmail.com", "localhost");
-              print('INI LOG YA ====');
-              print(result.value.appLogin);
-            },
-          ),
-        ),
-      ),
+    return Container(
+      color: Colors.white,
     );
   }
 }

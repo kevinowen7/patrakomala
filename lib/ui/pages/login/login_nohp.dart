@@ -35,7 +35,7 @@ class LoginNoHp extends StatelessWidget {
               ),
               InkWell(
                 onTap: () {
-                  Get.to(LoginFormPage());
+                  Get.to(LoginFormEmailPage());
                 },
                 child: Container(
                   width: 271,

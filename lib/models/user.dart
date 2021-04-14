@@ -8,7 +8,6 @@ class User extends Equatable {
     this.telp,
     this.email,
     this.appLogin,
-    this.gender,
   });
 
   int userId;
@@ -17,7 +16,6 @@ class User extends Equatable {
   String telp;
   String email;
   int appLogin;
-  int gender;
 
   User copyWith({
     int userId,
@@ -26,7 +24,6 @@ class User extends Equatable {
     String telp,
     String email,
     int appLogin,
-    int gender,
   }) =>
       User(
         userId: userId ?? this.userId,
@@ -35,7 +32,6 @@ class User extends Equatable {
         telp: telp ?? this.telp,
         email: email ?? this.email,
         appLogin: appLogin ?? this.appLogin,
-        gender: gender ?? this.gender,
       );
 
   factory User.fromJson(Map<String, dynamic> data) => User(
@@ -45,9 +41,8 @@ class User extends Equatable {
         ktp: data['ktp'],
         telp: data['telp'],
         appLogin: data['app_login'],
-        gender: data['gender'],
       );
 
   @override
-  List<Object> get props => [userId, name, email, ktp, telp, appLogin, gender];
+  List<Object> get props => [userId, name, email, ktp, telp, appLogin];
 }

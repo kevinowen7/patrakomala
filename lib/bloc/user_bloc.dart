@@ -8,12 +8,10 @@ part 'user_event.dart';
 part 'user_state.dart';
 
 class UserBloc extends Bloc<UserEvent, UserState> {
-  UserBloc() : super(UserInitial());
+  UserState get initialState => UserInitial();
 
   @override
   Stream<UserState> mapEventToState(
     UserEvent event,
-  ) async* {
-    // TODO: implement mapEventToState
-  }
+  ) async* {}
 }
