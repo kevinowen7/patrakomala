@@ -8,16 +8,18 @@ class LoginFormEmailPage extends StatefulWidget {
 class _LoginFormEmailPageState extends State<LoginFormEmailPage> {
   bool isLoading = false;
 
+  RegistrationData registrationData;
+
   TextEditingController emailController = TextEditingController();
   TextEditingController namaController = TextEditingController();
   TextEditingController genderController = TextEditingController();
   TextEditingController tempatLahirController = TextEditingController();
-  TextEditingController tanggalLahirController = TextEditingController();
+  TextEditingController tglLahirController = TextEditingController();
 
   int selectedProv;
   int selectedKota;
   int idProv;
-  int selectedGender;
+  int selectedGender = 1;
   String identifier;
 
   List<String> provinsi = [];
@@ -26,7 +28,7 @@ class _LoginFormEmailPageState extends State<LoginFormEmailPage> {
   List<String> itemProvinsi = [];
   String dropdownValue = 'Laki - Laki';
   bool isValueDate = false;
-  final format = DateFormat("dd-MM-yyyy");
+  final format = DateFormat("yyyy-MM-dd");
 
   void getProv() async {
     var result = await ProvinsiServices.getProvinsi();
@@ -197,6 +199,7 @@ class _LoginFormEmailPageState extends State<LoginFormEmailPage> {
                     borderRadius: BorderRadius.circular(10),
                     border: Border.all(color: Colors.black)),
                 child: DateTimeField(
+                  controller: tglLahirController,
                   decoration: InputDecoration(
                     hintText: "Tanggal Lahir",
                     hintStyle:
@@ -230,8 +233,7 @@ class _LoginFormEmailPageState extends State<LoginFormEmailPage> {
                       emailController.text.trim() != "" &&
                       selectedProv != null &&
                       selectedKota != null &&
-                      tempatLahirController.text.trim() != "" &&
-                      tanggalLahirController.text.trim() != "")) {
+                      tempatLahirController.text.trim() != "")) {
                     Get.snackbar("", "",
                         backgroundColor: "D9435E".toColor(),
                         icon: Icon(
@@ -263,14 +265,26 @@ class _LoginFormEmailPageState extends State<LoginFormEmailPage> {
                           "Masukan format email yang sesuai",
                           style: GoogleFonts.montserrat(color: Colors.white),
                         ));
-                  }
+                  } else {
+                    var loginResult = await UserServices.signInEmail(
+                        namaController.text,
+                        selectedGender,
+                        emailController.text,
+                        selectedProv,
+                        selectedKota,
+                        tempatLahirController.text,
+                        tglLahirController.text,
+                        identifier);
 
-                  print(emailController.text);
-                  print(namaController.text);
-                  print(selectedGender);
-                  print(selectedProv);
-                  print(selectedKota);
-                  print(identifier);
+                    print(loginResult.message);
+
+                    // print(emailController.text);
+                    // print(namaController.text);
+                    // print(selectedGender);
+                    // print(selectedProv);
+                    // print(selectedKota);
+                    // print(tglLahirController.text);
+                  }
 
                   setState(() {
                     isLoading = false;

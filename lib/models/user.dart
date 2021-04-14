@@ -10,12 +10,12 @@ class User extends Equatable {
     this.appLogin,
   });
 
-  int userId;
-  String name;
-  String ktp;
-  String telp;
-  String email;
-  int appLogin;
+  final int userId;
+  final String name;
+  final String ktp;
+  final String telp;
+  final String email;
+  final int appLogin;
 
   User copyWith({
     int userId,

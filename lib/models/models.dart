@@ -7,4 +7,5 @@ part 'map_models.dart';
 part 'user.dart';
 part 'provinsi.dart';
 part 'kota.dart';
+part 'registration_data.dart';
 part 'api_return_value.dart';

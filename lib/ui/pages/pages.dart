@@ -10,7 +10,6 @@ import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:patrakomala_neumorphic/bloc/bloc.dart';
 import 'package:patrakomala_neumorphic/models/models.dart';
 import 'package:patrakomala_neumorphic/services/services.dart';
 import 'package:patrakomala_neumorphic/shared/shared.dart';
