@@ -12,7 +12,10 @@ class MyApp extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider(
-          create: (_) => ProvinsiBloc(),
+          create: (_) => ProductBloc()..add(FetchProduct()),
+        ),
+        BlocProvider(
+          create: (_) => SubsectorBloc()..add(FetchSubsector()),
         ),
       ],
       child: GetMaterialApp(

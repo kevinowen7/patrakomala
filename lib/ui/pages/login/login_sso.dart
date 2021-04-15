@@ -8,7 +8,7 @@ class LoginEmail extends StatefulWidget {
 class _LoginEmailState extends State<LoginEmail> {
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
-
+  String identifier;
   bool isLogin = false;
 
   @override
@@ -52,74 +52,69 @@ class _LoginEmailState extends State<LoginEmail> {
               ),
               InkWell(
                 onTap: () async {
+                  var ridentifier = await UserServices.getDeviceDetails();
                   setState(() {
                     isLogin = true;
+                    identifier = ridentifier.message;
                   });
 
                   if (!(emailController.text != "" &&
                       passwordController.text != "")) {
-                    Get.snackbar("", "",
-                        backgroundColor: "D9435E".toColor(),
-                        icon: Icon(
-                          FontAwesome.close,
-                          color: Colors.white,
-                        ),
-                        titleText: Text(
-                          "Gagal Login",
-                          style: GoogleFonts.montserrat(
-                              color: Colors.white, fontWeight: FontWeight.w600),
-                        ),
-                        messageText: Text(
-                          "Mohon isi semua kolom",
-                          style: GoogleFonts.montserrat(color: Colors.white),
-                        ));
+                    Flushbar(
+                      icon: Icon(
+                        Icons.info_outline,
+                        size: 28.0,
+                        color: Colors.yellow[300],
+                      ),
+                      duration: Duration(milliseconds: 1500),
+                      flushbarPosition: FlushbarPosition.TOP,
+                      flushbarStyle: FlushbarStyle.FLOATING,
+                      // backgroundColor: Color(0xFFFF5C83),
+                      borderRadius: 8,
+                      margin: EdgeInsets.all(defaultMargin),
+                      message: "Mohon isi semua kolom",
+                    )..show(context);
                   } else if (!EmailValidator.validate(emailController.text)) {
-                    Get.snackbar("", "",
-                        backgroundColor: "D9435E".toColor(),
-                        icon: Icon(
-                          FontAwesome.close,
-                          color: Colors.white,
-                        ),
-                        titleText: Text(
-                          "Gagal Login",
-                          style: GoogleFonts.montserrat(
-                              color: Colors.white, fontWeight: FontWeight.w600),
-                        ),
-                        messageText: Text(
-                          "Masukan format email yang sesuai",
-                          style: GoogleFonts.montserrat(color: Colors.white),
-                        ));
+                    Flushbar(
+                      icon: Icon(
+                        Icons.info_outline,
+                        size: 28.0,
+                        color: Colors.yellow[300],
+                      ),
+                      duration: Duration(milliseconds: 1500),
+                      flushbarPosition: FlushbarPosition.TOP,
+                      flushbarStyle: FlushbarStyle.FLOATING,
+                      // backgroundColor: Color(0xFFFF5C83),
+                      borderRadius: 8,
+                      margin: EdgeInsets.all(defaultMargin),
+                      message: "Format Email salah",
+                    )..show(context);
                   } else {
                     var result = await UserServices.signInSSO(
-                        emailController.text, passwordController.text);
+                        emailController.text,
+                        passwordController.text,
+                        identifier);
                     try {
                       final SharedPreferences sharedPreferences =
                           await SharedPreferences.getInstance();
-
-                      
-
-                      sharedPreferences.setString('email', result.value.email);
-                      sharedPreferences.setString('telp', result.value.telp);
-                      sharedPreferences.setInt('userID', result.value.userId);
-
+                      sharedPreferences.setString(
+                          'identifier', result.value.email);
                       Get.to(MainPage());
                     } catch (e) {
-                      Get.snackbar("", "",
-                          backgroundColor: "D9435E".toColor(),
-                          icon: Icon(
-                            FontAwesome.close,
-                            color: Colors.white,
-                          ),
-                          titleText: Text(
-                            "Gagal Login",
-                            style: GoogleFonts.montserrat(
-                                color: Colors.white,
-                                fontWeight: FontWeight.w600),
-                          ),
-                          messageText: Text(
-                            "Email Atau Password Salah !",
-                            style: GoogleFonts.montserrat(color: Colors.white),
-                          ));
+                      Flushbar(
+                        icon: Icon(
+                          Icons.info_outline,
+                          size: 28.0,
+                          color: Colors.yellow[300],
+                        ),
+                        duration: Duration(milliseconds: 1500),
+                        flushbarPosition: FlushbarPosition.TOP,
+                        flushbarStyle: FlushbarStyle.FLOATING,
+                        // backgroundColor: Color(0xFFFF5C83),
+                        borderRadius: 8,
+                        margin: EdgeInsets.all(defaultMargin),
+                        message: "Email atau Password salah",
+                      )..show(context);
                     }
                   }
                   setState(() {

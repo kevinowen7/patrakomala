@@ -6,28 +6,44 @@ class TesPage extends StatefulWidget {
 }
 
 class _TesPageState extends State<TesPage> {
-  String finalEmail;
+  String userIdentifier;
+
   Future getValidationData() async {
     final SharedPreferences sharedPreferences =
         await SharedPreferences.getInstance();
-    var obtainedEmail = sharedPreferences.getString('email');
+    var identifier = await UserServices.getIdentifier();
+    var obtainedEmail = sharedPreferences.getString('identifier');
     setState(() {
-      finalEmail = obtainedEmail;
+      userIdentifier =
+          (identifier.value == obtainedEmail) ? identifier.value : 'no-data';
     });
   }
 
-  @override
+  // @override
   void initState() {
     getValidationData().whenComplete(() async {
-      Get.to((finalEmail == null) ? PreLoginPage() : MainPage());
+      Get.to((userIdentifier == 'no-data') ? PreLoginPage() : MainPage());
     });
+
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: Colors.white,
+      color: backgroundColor,
+      child: Center(
+        // child: RaisedButton(
+        //   onPressed: () async {
+        //     var result = await UserServices.getIdentifier();
+        //     print(result.value);
+        //   },
+        // ),
+        child: SpinKitFadingCircle(
+          color: mainColorRed,
+          size: 50,
+        ),
+      ),
     );
   }
 }

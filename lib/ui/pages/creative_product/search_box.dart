@@ -6,9 +6,24 @@ class SearchBoxProduct extends StatefulWidget {
 }
 
 class _SearchBoxProductState extends State<SearchBoxProduct> {
-  List<String> itemsSubsektor = ['Subsektor 1', 'Subsektor 2', 'Subsektor 3'];
-  List<String> itemsBelt = ['Belt 1', 'Belt 2', 'Belt 3'];
-  TextEditingController subsektorController = TextEditingController();
+  List<String> itemsSubsektor = [];
+
+  void getSubsector() async {
+    var result = await SubsectorServices.getSubsectors();
+
+    (result).asMap().forEach((index, value) {
+      print(value.subSectorName);
+      setState(() {
+        itemsSubsektor.add(value.subSectorName);
+      });
+    });
+  }
+
+  @override
+  void initState() {
+    this.getSubsector();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -27,21 +42,33 @@ class _SearchBoxProductState extends State<SearchBoxProduct> {
           ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.start,
             children: [
+              InkWell(
+                onTap: () {
+                  Get.back();
+                },
+                child: Container(
+                    height: 20,
+                    width: double.infinity,
+                    margin: EdgeInsets.fromLTRB(
+                        defaultMargin, 20, defaultMargin, 20),
+                    decoration: BoxDecoration(
+                        image: DecorationImage(
+                      alignment: Alignment.centerLeft,
+                      image: AssetImage('assets/images/back.png'),
+                      // fit : BoxFit.cover,
+                    ))),
+              ),
               NeuBorder(
                 mTop: 20,
-                mBot: 20,
+                mBot: 0,
                 child: Padding(
                   padding: EdgeInsets.only(left: defaultMargin),
                   child: TextField(
                     style: normalFontStyle.copyWith(
                         color: Colors.grey, fontSize: 18),
                     decoration: InputDecoration(
-                      prefixIcon: GestureDetector(
-                          onTap: () {
-                            Get.back();
-                          },
-                          child: Icon(Icons.arrow_back, color: Colors.grey)),
                       border: InputBorder.none,
                       hintText: "Cari Produk ...",
                       hintStyle: normalFontStyle.copyWith(
@@ -50,41 +77,15 @@ class _SearchBoxProductState extends State<SearchBoxProduct> {
                   ),
                 ),
               ),
-              Center(
-                child: Text("Atau cari berdasarkan kategori",
-                    style: normalFontStyle.copyWith(
-                      fontWeight: FontWeight.w500,
-                      fontSize: 14,
-                      color: Color.fromRGBO(119, 119, 119, 0.5),
-                    )),
-              ),
               NeuBorder2(
-                mTop: 20,
+                mTop: 16,
                 mBot: 0,
                 child: SearchMultipleCustom(
                   hintText: "Subsektor",
                   items: itemsSubsektor,
-                  selectEditingController: subsektorController,
                 ),
               ),
-              NeuBorder2(
-                mTop: 16,
-                mBot: 0,
-                child: SearchMultipleCustom(
-                  hintText: "Belt",
-                  items: itemsBelt,
-                  selectEditingController: subsektorController,
-                ),
-              ),
-              NeuBorder2(
-                mTop: 16,
-                mBot: 16,
-                child: SearchMultipleCustom(
-                  hintText: "Creative Tourism",
-                  items: itemsSubsektor,
-                  selectEditingController: subsektorController,
-                ),
-              ),
+              SizedBox(height: 16),
               Container(
                 margin: EdgeInsets.symmetric(horizontal: defaultMargin),
                 height: 40,

@@ -145,7 +145,7 @@ class PreLoginPage extends StatelessWidget {
             ),
             InkWell(
               onTap: () {
-                Get.to(LoginNoHp());
+                Get.to(LoginFormPhonePage());
               },
               child: Container(
                 width: 271,

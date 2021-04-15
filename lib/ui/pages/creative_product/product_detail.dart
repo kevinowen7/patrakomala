@@ -1,6 +1,25 @@
 part of '../pages.dart';
 
-class ProductDetail extends StatelessWidget {
+class ProductDetail extends StatefulWidget {
+  final Product product;
+
+  ProductDetail(this.product);
+  @override
+  _ProductDetailState createState() => _ProductDetailState();
+}
+
+class _ProductDetailState extends State<ProductDetail> {
+
+  String ytUrl;
+
+  @override
+  void initState(){
+    setState(() {
+      ytUrl = widget.product.produkUrl;
+    });
+    super.initState();
+  }
+
   Widget myPopMenu() {
     return PopupMenuButton(
         child: Icon(Icons.share),
@@ -110,6 +129,14 @@ class ProductDetail extends StatelessWidget {
                   )),
             ]);
   }
+  
+  YoutubePlayerController _controller = YoutubePlayerController(
+    initialVideoId: ytUrl,
+    flags: YoutubePlayerFlags(
+      autoPlay: true,
+      mute: true,
+    ),
+  );
 
   @override
   Widget build(BuildContext context) {
@@ -126,6 +153,17 @@ class ProductDetail extends StatelessWidget {
                   },
                   title: "Produk",
                 ),
+                (widget.product.produkImg == null) ? 
+                Container(
+                  margin: EdgeInsets.fromLTRB(
+                      defaultMargin, 8, defaultMargin, defaultMargin),
+                  width: double.infinity,
+                  height: 200,
+                  child: YoutubePlayer(
+                    controller: _controller,
+                    liveUIColor: Colors.amber,
+                  ),
+                ) :
                 Container(
                   margin: EdgeInsets.fromLTRB(
                       defaultMargin, 8, defaultMargin, defaultMargin),
@@ -146,12 +184,17 @@ class ProductDetail extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        Text(
-                          "Contoh Produk",
-                          style: blackfontStyle1.copyWith(
-                              color: "333333".toColor(),
-                              fontWeight: FontWeight.w600,
-                              fontSize: 20),
+                        Container(
+                          width: MediaQuery.of(context).size.width -
+                              2 * defaultMargin -
+                              100,
+                          child: Text(
+                            widget.product.produkNm,
+                            style: blackfontStyle1.copyWith(
+                                color: "333333".toColor(),
+                                fontWeight: FontWeight.w600,
+                                fontSize: 20),
+                          ),
                         ),
                         Container(
                             decoration: BoxDecoration(
@@ -173,11 +216,16 @@ class ProductDetail extends StatelessWidget {
                             ),
                             child: Padding(
                               padding: const EdgeInsets.all(5),
-                              child: Text(
-                                "Kuliner",
-                                style: normalFontStyle.copyWith(
-                                    fontWeight: FontWeight.w500,
-                                    color: "D51E5A".toColor()),
+                              child: Container(
+                                width: 80,
+                                child: Center(
+                                  child: Text(
+                                    widget.product.subsector,
+                                    style: normalFontStyle.copyWith(
+                                        fontWeight: FontWeight.w500,
+                                        color: "D51E5A".toColor()),
+                                  ),
+                                ),
                               ),
                             )),
                       ]),
@@ -187,21 +235,21 @@ class ProductDetail extends StatelessWidget {
                 ),
                 LineBorder(),
                 SizedBox(height: 20),
-                Padding(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: defaultMargin),
-                  child: Text(
-                    "Contoh Artikel",
-                    style: blackfontStyle1.copyWith(
-                        color: "333333".toColor(),
-                        fontWeight: FontWeight.w500,
-                        fontSize: 17),
-                  ),
-                ),
+                // Padding(
+                //   padding:
+                //       const EdgeInsets.symmetric(horizontal: defaultMargin),
+                //   child: Text(
+                //     "Contoh Artikel",
+                //     style: blackfontStyle1.copyWith(
+                //         color: "333333".toColor(),
+                //         fontWeight: FontWeight.w500,
+                //         fontSize: 17),
+                //   ),
+                // ),
                 Container(
                     margin: EdgeInsets.all(defaultMargin),
                     child: Text(
-                      "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.\n\n when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker \n\n when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker\n\n when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker\n\n when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker ",
+                      widget.product.produkDesc,
                       style:
                           normalFontStyle.copyWith(color: "333333".toColor()),
                       textAlign: TextAlign.left,
@@ -305,4 +353,6 @@ class ProductDetail extends StatelessWidget {
       ),
     );
   }
+
 }
+

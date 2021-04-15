@@ -1,7 +1,8 @@
 part of 'services.dart';
 
 class UserServices {
-  static Future<ApiReturnValue<User>> signInSSO(String email, String password,
+  static Future<ApiReturnValue<User>> signInSSO(
+      String email, String password, String identifier,
       {http.Client client}) async {
     if (client == null) {
       client = http.Client();
@@ -10,8 +11,11 @@ class UserServices {
     String url = baseURL + 'mobile/login';
     var response = await client.post(url,
         headers: {"Content-Type": "application/json"},
-        body: aConvert.jsonEncode(
-            <String, String>{'email': email, 'password': password}));
+        body: aConvert.jsonEncode(<String, String>{
+          'email': email,
+          'password': password,
+          'identifier': identifier
+        }));
 
     if (response.statusCode != 200) {
       return ApiReturnValue(message: 'Please try again');
@@ -27,6 +31,7 @@ class UserServices {
       String nama,
       int gender,
       String email,
+      String notel,
       int provinsi,
       int kota,
       String tempatLahir,
@@ -38,29 +43,52 @@ class UserServices {
     }
 
     String url = baseURL2 + 'mobile/register';
-    var response = await client.post(url, headers: {
-      "Content-Type": "application/json"
-    }, body: aConvert.jsonEncode({
-      'nama': nama,
-      'gender': gender,
-      'email': email,
-      'provinsi': provinsi,
-      'kota':kota,
-      'tempat_lahir': tempatLahir,
-      'tgl_lahir': tglLahir,
-      'identifier': identifier,
-    }));
+    var response = await client.post(url,
+        headers: {"Content-Type": "application/json"},
+        body: aConvert.jsonEncode({
+          'nama': nama,
+          'gender': gender,
+          'email': email,
+          'phone': notel,
+          'provinsi': provinsi,
+          'kota': kota,
+          'tempat_lahir': tempatLahir,
+          'tgl_lahir': tglLahir,
+          'identifier': identifier,
+        }));
 
     if (response.statusCode != 200) {
       return ApiReturnValue(message: 'Please try again');
-    }else{
-      return ApiReturnValue(message: 'Succes');
     }
 
-    // var data = aConvert.jsonDecode(response.body);
-    // User value = User.fromJson(data['response']);
+    var data = aConvert.jsonDecode(response.body);
+    User value = User.fromJson(data['response']);
 
-    // return ApiReturnValue(value: value);
+    return ApiReturnValue(value: value);
+  }
+
+  static Future<ApiReturnValue<String>> getIdentifier(
+      {http.Client client}) async {
+    if (client == null) {
+      client = http.Client();
+    }
+
+    final SharedPreferences sharedPreferences =
+        await SharedPreferences.getInstance();
+    var phoneIdentifier = sharedPreferences.getString('identifier');
+    String url = baseURL2 + 'mobile/identifier';
+    var response = await client.post(url,
+        headers: {"Content-Type": "application/json"},
+        body: aConvert.jsonEncode(<String, String>{
+          'identifier': phoneIdentifier,
+        }));
+
+    var data = aConvert.jsonDecode(response.body);
+    var cloudIdentifier = (data['response']) ? phoneIdentifier : 'no-data';
+
+    return ApiReturnValue(value: cloudIdentifier);
+
+    // return;
   }
 
   static Future<ApiReturnValue<String>> getDeviceDetails() async {

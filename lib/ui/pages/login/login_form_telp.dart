@@ -1,16 +1,14 @@
 part of '../pages.dart';
 
-class LoginFormEmailPage extends StatefulWidget {
+class LoginFormPhonePage extends StatefulWidget {
   @override
-  _LoginFormEmailPageState createState() => _LoginFormEmailPageState();
+  _LoginFormPhonePageState createState() => _LoginFormPhonePageState();
 }
 
-class _LoginFormEmailPageState extends State<LoginFormEmailPage> {
+class _LoginFormPhonePageState extends State<LoginFormPhonePage> {
   bool isLoading = false;
 
-  RegistrationData registrationData;
-
-  TextEditingController emailController = TextEditingController();
+  TextEditingController telponController = TextEditingController();
   TextEditingController namaController = TextEditingController();
   TextEditingController genderController = TextEditingController();
   TextEditingController tempatLahirController = TextEditingController();
@@ -71,8 +69,9 @@ class _LoginFormEmailPageState extends State<LoginFormEmailPage> {
                 height: 40,
               ),
               TextFieldCustom(
-                  textEditingController: emailController,
-                  hintText: "Alamat Email"),
+                  isNumber: true,
+                  textEditingController: telponController,
+                  hintText: "No Telpon"),
               SizedBox(
                 height: 10,
               ),
@@ -230,9 +229,10 @@ class _LoginFormEmailPageState extends State<LoginFormEmailPage> {
                   });
 
                   if (!(namaController.text.trim() != "" &&
-                      emailController.text.trim() != "" &&
+                      telponController.text.trim() != "" &&
                       selectedProv != null &&
                       selectedKota != null &&
+                      telponController.text.trim() != "" &&
                       tempatLahirController.text.trim() != "" &&
                       tglLahirController.text.trim() != "")) {
                     Flushbar(
@@ -249,27 +249,12 @@ class _LoginFormEmailPageState extends State<LoginFormEmailPage> {
                       margin: EdgeInsets.all(defaultMargin),
                       message: "Mohon Isi semua kolom",
                     )..show(context);
-                  } else if (!EmailValidator.validate(emailController.text)) {
-                    Flushbar(
-                      icon: Icon(
-                        Icons.info_outline,
-                        size: 28.0,
-                        color: Colors.yellow[300],
-                      ),
-                      duration: Duration(milliseconds: 1500),
-                      flushbarPosition: FlushbarPosition.TOP,
-                      flushbarStyle: FlushbarStyle.FLOATING,
-                      // backgroundColor: Color(0xFFFF5C83),
-                      borderRadius: 8,
-                      margin: EdgeInsets.all(defaultMargin),
-                      message: "Format Email salah",
-                    )..show(context);
                   } else {
                     var loginResult = await UserServices.signInEmail(
                         namaController.text,
                         selectedGender,
-                        emailController.text,
                         null,
+                        telponController.text,
                         selectedProv,
                         selectedKota,
                         tempatLahirController.text,

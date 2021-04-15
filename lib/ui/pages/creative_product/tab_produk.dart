@@ -24,7 +24,7 @@ class TabProduct extends StatelessWidget {
           itemBuilder: (context, index) {
             return InkWell(
               onTap: () {
-                Get.to(ProductDetail());
+                // Get.to(ProductDetail());
               },
               child: Container(
                 decoration: BoxDecoration(

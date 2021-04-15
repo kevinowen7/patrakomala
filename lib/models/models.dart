@@ -9,3 +9,5 @@ part 'provinsi.dart';
 part 'kota.dart';
 part 'registration_data.dart';
 part 'api_return_value.dart';
+part 'product.dart';
+part 'subsector.dart';
