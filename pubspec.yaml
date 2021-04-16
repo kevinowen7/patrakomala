@@ -48,6 +48,7 @@ dependencies:
   device_info: ^1.0.0
   flushbar: ^1.10.0
   youtube_player_flutter: ^7.0.0+7
+  slugify: ^1.0.0
 
 dev_dependencies:
   flutter_test:

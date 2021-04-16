@@ -12,16 +12,7 @@ class _ProductDetailState extends State<ProductDetail> {
   Widget myPopMenu() {
     return PopupMenuButton(
         child: Icon(Icons.share),
-        onSelected: (value) {
-          Fluttertoast.showToast(
-              msg: "You have selected " + value.toString(),
-              toastLength: Toast.LENGTH_SHORT,
-              gravity: ToastGravity.BOTTOM,
-              timeInSecForIosWeb: 1,
-              backgroundColor: Colors.black,
-              textColor: Colors.white,
-              fontSize: 16.0);
-        },
+        onSelected: (value) {},
         itemBuilder: (context) => [
               PopupMenuItem(
                   value: 1,
@@ -62,12 +53,34 @@ class _ProductDetailState extends State<ProductDetail> {
             ]);
   }
 
+  bool isBisnis = false;
+  int bisnisId = 0;
+  List marketplace = [];
+
   void getMarketplace() async {
     var result = await ProductServices.getMarketPlace(widget.product.produkId);
-    print(result.value[0].img);
+    for (final i in result.value) {
+      var productMap = {
+        'id': i.urlNm,
+        'imageUrl': i.img,
+      };
+      marketplace.add(productMap);
+    }
   }
 
-  void initState(){
+  void cekBisnis() async {
+    var result = await ProductServices.getBisnis(widget.product.produkId);
+    if (result.value != null) {
+      setState(() {
+        isBisnis = true;
+        bisnisId = result.value.bisnisId;
+      });
+    }
+  }
+
+  @override
+  void initState() {
+    this.cekBisnis();
     this.getMarketplace();
     super.initState();
   }
@@ -79,54 +92,29 @@ class _ProductDetailState extends State<ProductDetail> {
             style: normalFontStyle.copyWith(
                 color: mainColorRed, fontSize: 14, fontWeight: FontWeight.w600),
             textAlign: TextAlign.center),
-        onSelected: (value) {
-          Fluttertoast.showToast(
-              msg: "You have selected " + value.toString(),
-              toastLength: Toast.LENGTH_SHORT,
-              gravity: ToastGravity.BOTTOM,
-              timeInSecForIosWeb: 1,
-              backgroundColor: Colors.black,
-              textColor: Colors.white,
-              fontSize: 16.0);
+        onSelected: (value) async {
+          await launch(value);
         },
-        itemBuilder: (context) => [
+        itemBuilder: (context) {
+          var list = List<PopupMenuEntry<Object>>();
+          for (var i in marketplace) {
+            list.add(
               PopupMenuItem(
-                  value: 1,
+                  value: i['id'],
                   child: Row(
                     children: <Widget>[
                       Padding(
                         padding: const EdgeInsets.fromLTRB(2, 2, 8, 2),
-                        child: Image.asset('assets/images/lazada.jpg',
-                            width: 20, height: 20),
+                        child: Image.network(i['imageUrl'], height: 40),
                       ),
-                      Text('Lazada')
+                      Text('MarketPlace Name'),
                     ],
                   )),
-              PopupMenuItem(
-                  value: 2,
-                  child: Row(
-                    children: <Widget>[
-                      Padding(
-                        padding: const EdgeInsets.fromLTRB(2, 2, 8, 2),
-                        child: Image.asset('assets/images/tokped.png',
-                            width: 20, height: 20),
-                      ),
-                      Text('Tokopedia')
-                    ],
-                  )),
-              PopupMenuItem(
-                  value: 3,
-                  child: Row(
-                    children: <Widget>[
-                      Padding(
-                        padding: const EdgeInsets.fromLTRB(2, 2, 8, 2),
-                        child: Image.asset('assets/images/shopee.png',
-                            width: 20, height: 20),
-                      ),
-                      Text('Shopee')
-                    ],
-                  )),
-            ]);
+            );
+          }
+
+          return list;
+        });
   }
 
   @override
@@ -172,8 +160,7 @@ class _ProductDetailState extends State<ProductDetail> {
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(10),
                             image: DecorationImage(
-                              image: NetworkImage(
-                                  widget.product.produkImg),
+                              image: NetworkImage(widget.product.produkImg),
                               fit: BoxFit.cover,
                             )),
                       ),
@@ -276,6 +263,7 @@ class _ProductDetailState extends State<ProductDetail> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
+                      (isBisnis) ?
                       InkWell(
                         onTap: () {
                           Get.to(WorkshopDetail());
@@ -309,7 +297,7 @@ class _ProductDetailState extends State<ProductDetail> {
                                 fontWeight: FontWeight.w600),
                           )),
                         ),
-                      ),
+                      ) : SizedBox(),
                       SizedBox(
                         height: 6,
                       ),

@@ -11,7 +11,7 @@ class FetchProduct extends ProductEvent{
 
 class FilterProduct extends ProductEvent{
   final produkName;
-  final subsector;
+  final List<String> subsector;
 
   FilterProduct({this.produkName,this.subsector});
   @override
@@ -26,13 +26,6 @@ class DetailProduct extends ProductEvent{
   List<Object> get props => [productId];
 }
 
-class MarketPlaceProduct extends ProductEvent{
-  final productId;
-
-  MarketPlaceProduct(this.productId);
-  @override
-  List<Object> get props => [productId];
-}
 
 
 

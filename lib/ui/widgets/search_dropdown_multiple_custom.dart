@@ -3,13 +3,18 @@ part of 'widgets.dart';
 class SearchMultipleCustom extends StatefulWidget {
   final String hintText;
   final String label;
-  List<int> selectedValue;
   final TextEditingController selectEditingController;
   final List<String> items;
+  final Function onChanged;
+  final Function closeButton;
+  final List<int> selectedValue;
+
   SearchMultipleCustom(
       {this.hintText,
       this.label,
       this.selectEditingController,
+      this.onChanged,
+      this.closeButton,
       this.selectedValue,
       this.items});
   @override
@@ -38,16 +43,8 @@ class _SearchMultipleCustomState extends State<SearchMultipleCustom> {
             style: normalFontStyle.copyWith(color: Colors.grey, fontSize: 18)),
       ),
       searchHint: widget.hintText,
-      onChanged: (value) {
-        setState(() {
-          widget.selectedValue = value;
-        });
-      },
-      closeButton: (newValue) {
-        return (newValue.isNotEmpty
-            ? "Simpan ${newValue.length == 1 ? '"' + widget.items[newValue.first].toString() + '"' : '(' + newValue.length.toString() + ')'}"
-            : "Close");
-      },
+      onChanged: widget.onChanged,
+      closeButton: widget.closeButton,
       isExpanded: true,
     );
   }

@@ -7,16 +7,29 @@ class SearchBoxProduct extends StatefulWidget {
 
 class _SearchBoxProductState extends State<SearchBoxProduct> {
   List<String> itemsSubsektor = [];
+  List<int> selectedSubsektor = [];
+  List<String> selectedSlug = [];
+
+  bool isLoading = false;
+
+  TextEditingController produk = TextEditingController();
 
   void getSubsector() async {
     var result = await SubsectorServices.getSubsectors();
-
     (result).asMap().forEach((index, value) {
-      print(value.subSectorName);
       setState(() {
         itemsSubsektor.add(value.subSectorName);
       });
     });
+  }
+
+  void getSlug() async {
+    for (var i in selectedSubsektor) {
+      var slugy = Slugify(itemsSubsektor[i]);
+      setState(() {
+        selectedSlug.add(slugy);
+      });
+    }
   }
 
   @override
@@ -68,6 +81,7 @@ class _SearchBoxProductState extends State<SearchBoxProduct> {
                   child: TextField(
                     style: normalFontStyle.copyWith(
                         color: Colors.grey, fontSize: 18),
+                    controller: produk,
                     decoration: InputDecoration(
                       border: InputBorder.none,
                       hintText: "Cari Produk ...",
@@ -81,37 +95,89 @@ class _SearchBoxProductState extends State<SearchBoxProduct> {
                 mTop: 16,
                 mBot: 0,
                 child: SearchMultipleCustom(
+                  selectedValue: selectedSubsektor,
                   hintText: "Subsektor",
                   items: itemsSubsektor,
+                  onChanged: (value) {
+                    setState(() {
+                      selectedSubsektor = value;
+                    });
+                  },
+                  closeButton: (newValue) {
+                    return (newValue.isNotEmpty
+                        ? "Simpan ${newValue.length == 1 ? '"' + itemsSubsektor[newValue.first].toString() + '"' : '(' + newValue.length.toString() + ')'}"
+                        : "Close");
+                  },
                 ),
               ),
               SizedBox(height: 16),
-              Container(
-                margin: EdgeInsets.symmetric(horizontal: defaultMargin),
-                height: 40,
-                decoration: BoxDecoration(
-                  boxShadow: <BoxShadow>[
-                    BoxShadow(
-                      color: Color.fromRGBO(17, 18, 19, 0.3),
-                      offset: Offset(0.0, 0.0),
-                      blurRadius: 2.0,
-                    ),
-                  ],
-                  gradient: RadialGradient(colors: [
-                    "FEFEFE".toColor(),
-                    "F8F8F8".toColor(),
-                  ]),
-                  borderRadius: BorderRadius.all(const Radius.circular(5.0)),
-                ),
-                child: Center(
-                    child: Text(
-                  "Cari",
-                  style: normalFontStyle.copyWith(
+              (!isLoading)
+                  ? GestureDetector(
+                      onTap: () async {
+                        setState(() {
+                          isLoading = true;
+                        });
+                        if (produk.text.trim() == "" &&
+                            selectedSubsektor.length == 0) {
+                          Flushbar(
+                            icon: Icon(
+                              Icons.info_outline,
+                              size: 28.0,
+                              color: Colors.yellow[300],
+                            ),
+                            duration: Duration(milliseconds: 2000),
+                            flushbarPosition: FlushbarPosition.TOP,
+                            flushbarStyle: FlushbarStyle.FLOATING,
+                            // backgroundColor: Color(0xFFFF5C83),
+                            borderRadius: 8,
+                            margin: EdgeInsets.all(defaultMargin),
+                            message: "Mohon isi salah satu kolom",
+                          )..show(context);
+                        } else {
+                          getSlug();
+                          context.bloc<ProductBloc>().add(FilterProduct(
+                              produkName: produk.text,
+                              subsector: selectedSlug));
+                         
+                          Get.back();
+                          // print(selectedSlug);
+                        }
+                         setState(() {
+                            isLoading = false;
+                          });
+                      },
+                      child: Container(
+                        margin: EdgeInsets.symmetric(horizontal: defaultMargin),
+                        height: 40,
+                        decoration: BoxDecoration(
+                          boxShadow: <BoxShadow>[
+                            BoxShadow(
+                              color: Color.fromRGBO(17, 18, 19, 0.3),
+                              offset: Offset(0.0, 0.0),
+                              blurRadius: 2.0,
+                            ),
+                          ],
+                          gradient: RadialGradient(colors: [
+                            "FEFEFE".toColor(),
+                            "F8F8F8".toColor(),
+                          ]),
+                          borderRadius:
+                              BorderRadius.all(const Radius.circular(5.0)),
+                        ),
+                        child: Center(
+                            child: Text(
+                          "Cari",
+                          style: normalFontStyle.copyWith(
+                              color: mainColorRed,
+                              fontSize: 14,
+                              fontWeight: FontWeight.w600),
+                        )),
+                      ),
+                    )
+                  : SpinKitFadingCircle(
+                      size: 50,
                       color: mainColorRed,
-                      fontSize: 14,
-                      fontWeight: FontWeight.w600),
-                )),
-              ),
+                    )
             ],
           ),
         ),

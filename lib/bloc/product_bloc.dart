@@ -16,9 +16,15 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
   Stream<ProductState> mapEventToState(
     ProductEvent event,
   ) async* {
-    if(event is FetchProduct){
-      ApiReturnValue<List<Product>> products = await ProductServices.getProduct(1);
-      yield(ProductLoaded(products :products));
-    } 
+    if (event is FetchProduct) {
+      ApiReturnValue<List<Product>> products =
+          await ProductServices.getProduct(1);
+      yield(ProductLoaded(products: products));
+    } else if (event is FilterProduct) {
+      ApiReturnValue<List<Product>> products =
+          await ProductServices.filterProduct(
+              1, event.produkName, event.subsector);
+      yield(ProductFilterLoaded(products: products));
+    }
   }
 }
