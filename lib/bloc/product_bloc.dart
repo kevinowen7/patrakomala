@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:patrakomala_neumorphic/bloc/bloc.dart';
 import 'package:patrakomala_neumorphic/models/models.dart';
 import 'package:patrakomala_neumorphic/services/services.dart';
 
@@ -20,6 +19,6 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
     if(event is FetchProduct){
       ApiReturnValue<List<Product>> products = await ProductServices.getProduct(1);
       yield(ProductLoaded(products :products));
-    }
+    } 
   }
 }

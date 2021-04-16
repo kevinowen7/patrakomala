@@ -17,3 +17,21 @@ class ProductLoaded extends ProductState {
   @override
   List<Object> get props => [products];
 }
+
+class ProductDetailLoaded extends ProductState {
+  final Product product;
+  ProductDetailLoaded(this.product);
+
+  @override
+  List<Object> get props => [product];
+
+}
+
+class MarketPlaceProductLoaded extends ProductState {
+  final MarketPlaceProduct marketPlaceProduct;
+  MarketPlaceProductLoaded(this.marketPlaceProduct);
+
+  @override
+  List<Object> get props => [marketPlaceProduct];
+
+}

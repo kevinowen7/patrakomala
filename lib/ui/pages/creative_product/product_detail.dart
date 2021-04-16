@@ -9,17 +9,6 @@ class ProductDetail extends StatefulWidget {
 }
 
 class _ProductDetailState extends State<ProductDetail> {
-
-  String ytUrl;
-
-  @override
-  void initState(){
-    setState(() {
-      ytUrl = widget.product.produkUrl;
-    });
-    super.initState();
-  }
-
   Widget myPopMenu() {
     return PopupMenuButton(
         child: Icon(Icons.share),
@@ -71,6 +60,16 @@ class _ProductDetailState extends State<ProductDetail> {
                     ],
                   )),
             ]);
+  }
+
+  void getMarketplace() async {
+    var result = await ProductServices.getMarketPlace(widget.product.produkId);
+    print(result.value[0].img);
+  }
+
+  void initState(){
+    this.getMarketplace();
+    super.initState();
   }
 
   Widget marketPlaceButton() {
@@ -129,14 +128,6 @@ class _ProductDetailState extends State<ProductDetail> {
                   )),
             ]);
   }
-  
-  YoutubePlayerController _controller = YoutubePlayerController(
-    initialVideoId: ytUrl,
-    flags: YoutubePlayerFlags(
-      autoPlay: true,
-      mute: true,
-    ),
-  );
 
   @override
   Widget build(BuildContext context) {
@@ -153,30 +144,39 @@ class _ProductDetailState extends State<ProductDetail> {
                   },
                   title: "Produk",
                 ),
-                (widget.product.produkImg == null) ? 
-                Container(
-                  margin: EdgeInsets.fromLTRB(
-                      defaultMargin, 8, defaultMargin, defaultMargin),
-                  width: double.infinity,
-                  height: 200,
-                  child: YoutubePlayer(
-                    controller: _controller,
-                    liveUIColor: Colors.amber,
-                  ),
-                ) :
-                Container(
-                  margin: EdgeInsets.fromLTRB(
-                      defaultMargin, 8, defaultMargin, defaultMargin),
-                  width: double.infinity,
-                  height: 160,
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10),
-                      image: DecorationImage(
-                        image: NetworkImage(
-                            'https://images.bisnis-cdn.com/posts/2021/02/11/1355396/antarafoto-penerapan-psbb-di-bandung-raya-170420-agr-2a.jpg'),
-                        fit: BoxFit.cover,
-                      )),
-                ),
+                (widget.product.produkImg == null)
+                    ? Container(
+                        margin: EdgeInsets.fromLTRB(
+                            defaultMargin, 8, defaultMargin, defaultMargin),
+                        width: double.infinity,
+                        height: 200,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        child: YoutubePlayer(
+                          controller: YoutubePlayerController(
+                            initialVideoId: widget.product.produkUrl,
+                            flags: YoutubePlayerFlags(
+                              autoPlay: true,
+                              mute: true,
+                            ),
+                          ),
+                          liveUIColor: Colors.amber,
+                        ),
+                      )
+                    : Container(
+                        margin: EdgeInsets.fromLTRB(
+                            defaultMargin, 8, defaultMargin, defaultMargin),
+                        width: double.infinity,
+                        height: 200,
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10),
+                            image: DecorationImage(
+                              image: NetworkImage(
+                                  widget.product.produkImg),
+                              fit: BoxFit.cover,
+                            )),
+                      ),
                 Padding(
                   padding:
                       const EdgeInsets.symmetric(horizontal: defaultMargin),
@@ -353,6 +353,4 @@ class _ProductDetailState extends State<ProductDetail> {
       ),
     );
   }
-
 }
-

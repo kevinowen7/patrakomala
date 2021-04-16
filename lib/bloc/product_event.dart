@@ -18,4 +18,21 @@ class FilterProduct extends ProductEvent{
   List<Object> get props => [produkName,subsector];
 }
 
+class DetailProduct extends ProductEvent{
+  final productId;
+
+  DetailProduct(this.productId);
+  @override
+  List<Object> get props => [productId];
+}
+
+class MarketPlaceProduct extends ProductEvent{
+  final productId;
+
+  MarketPlaceProduct(this.productId);
+  @override
+  List<Object> get props => [productId];
+}
+
+
 
