@@ -75,6 +75,7 @@ class _ProductDetailState extends State<ProductDetail> {
         isBisnis = true;
         bisnisId = result.value.bisnisId;
       });
+      // print(bisnisId);
     }
   }
 
@@ -141,15 +142,18 @@ class _ProductDetailState extends State<ProductDetail> {
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(10),
                         ),
-                        child: YoutubePlayer(
-                          controller: YoutubePlayerController(
-                            initialVideoId: widget.product.produkUrl,
-                            flags: YoutubePlayerFlags(
-                              autoPlay: true,
-                              mute: true,
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(10),
+                          child: YoutubePlayer(
+                            controller: YoutubePlayerController(
+                              initialVideoId: widget.product.produkUrl,
+                              flags: YoutubePlayerFlags(
+                                autoPlay: true,
+                                mute: true,
+                              ),
                             ),
+                            liveUIColor: Colors.amber,
                           ),
-                          liveUIColor: Colors.amber,
                         ),
                       )
                     : Container(
@@ -160,9 +164,30 @@ class _ProductDetailState extends State<ProductDetail> {
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(10),
                             image: DecorationImage(
-                              image: NetworkImage(widget.product.produkImg),
+                              image: AssetImage(
+                                  'assets/images/skeleton_image.gif'),
                               fit: BoxFit.cover,
                             )),
+                        child: Container(
+                          width: double.infinity,
+                          height: 200,
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(10),
+                            child: CachedNetworkImage(
+                              fit: BoxFit.cover,
+                              imageUrl: widget.product.produkImg,
+                              progressIndicatorBuilder: (context, url,
+                                      downloadProgress) =>
+                                  SpinKitRipple(color: mainColorRed, size: 50),
+                              errorWidget: (context, url, error) =>
+                                  Icon(Icons.error),
+                            ),
+                          ),
+                        ),
                       ),
                 Padding(
                   padding:
@@ -263,41 +288,45 @@ class _ProductDetailState extends State<ProductDetail> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      (isBisnis) ?
-                      InkWell(
-                        onTap: () {
-                          Get.to(WorkshopDetail());
-                        },
-                        child: Container(
-                          margin:
-                              EdgeInsets.symmetric(horizontal: defaultMargin),
-                          height: 40,
-                          width: (MediaQuery.of(context).size.width) - 70,
-                          decoration: BoxDecoration(
-                            boxShadow: <BoxShadow>[
-                              BoxShadow(
-                                color: Color.fromRGBO(17, 18, 19, 0.3),
-                                offset: Offset(0.0, 0.0),
-                                blurRadius: 2.0,
+                      (isBisnis)
+                          ? InkWell(
+                              onTap: () {
+                                context
+                                    .bloc<BisnisBloc>()
+                                    .add(FetchBisnis(bisnisId));
+                                Get.to(WorkshopDetail(marketplace));
+                              },
+                              child: Container(
+                                margin: EdgeInsets.symmetric(
+                                    horizontal: defaultMargin),
+                                height: 40,
+                                width: (MediaQuery.of(context).size.width) - 70,
+                                decoration: BoxDecoration(
+                                  boxShadow: <BoxShadow>[
+                                    BoxShadow(
+                                      color: Color.fromRGBO(17, 18, 19, 0.3),
+                                      offset: Offset(0.0, 0.0),
+                                      blurRadius: 2.0,
+                                    ),
+                                  ],
+                                  gradient: RadialGradient(colors: [
+                                    "FEFEFE".toColor(),
+                                    "F8F8F8".toColor(),
+                                  ]),
+                                  borderRadius: BorderRadius.all(
+                                      const Radius.circular(5.0)),
+                                ),
+                                child: Center(
+                                    child: Text(
+                                  "Lihat Profil Usaha",
+                                  style: normalFontStyle.copyWith(
+                                      color: mainColorRed,
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.w600),
+                                )),
                               ),
-                            ],
-                            gradient: RadialGradient(colors: [
-                              "FEFEFE".toColor(),
-                              "F8F8F8".toColor(),
-                            ]),
-                            borderRadius:
-                                BorderRadius.all(const Radius.circular(5.0)),
-                          ),
-                          child: Center(
-                              child: Text(
-                            "Lihat Profil Usaha",
-                            style: normalFontStyle.copyWith(
-                                color: mainColorRed,
-                                fontSize: 14,
-                                fontWeight: FontWeight.w600),
-                          )),
-                        ),
-                      ) : SizedBox(),
+                            )
+                          : SizedBox(),
                       SizedBox(
                         height: 6,
                       ),

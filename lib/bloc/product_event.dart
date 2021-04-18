@@ -26,6 +26,14 @@ class DetailProduct extends ProductEvent{
   List<Object> get props => [productId];
 }
 
+class ProductBisnis extends ProductEvent{
+  final bisnisId;
+
+  ProductBisnis(this.bisnisId);
+  @override
+  List<Object> get props => [bisnisId];
+}
+
 
 
 

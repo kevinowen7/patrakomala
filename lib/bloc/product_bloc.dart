@@ -25,6 +25,10 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
           await ProductServices.filterProduct(
               1, event.produkName, event.subsector);
       yield(ProductFilterLoaded(products: products));
+    } else if(event is ProductBisnis){
+      ApiReturnValue<List<Product>> products =
+          await ProductServices.getProductBisnis(event.bisnisId);
+      yield(ProductLoaded(products: products));
     }
   }
 }

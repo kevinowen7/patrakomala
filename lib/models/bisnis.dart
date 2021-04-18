@@ -20,6 +20,7 @@ class Bisnis extends Equatable {
     this.perusahaanDesc,
     this.jamBuka,
     this.jamTutup,
+    this.perusahaanLogo,
   });
 
   final String perusahaanNm;
@@ -37,9 +38,10 @@ class Bisnis extends Equatable {
   final bool mushola;
   final bool showroom;
   final int bisnisId;
-  final dynamic perusahaanDesc;
-  final dynamic jamBuka;
-  final dynamic jamTutup;
+  final String perusahaanDesc;
+  final String jamBuka;
+  final String jamTutup;
+  final String perusahaanLogo;
 
   factory Bisnis.fromJson(Map<String, dynamic> data) => Bisnis(
         perusahaanNm: data['perusahaan_nm'],
@@ -60,6 +62,7 @@ class Bisnis extends Equatable {
         perusahaanDesc: data['perusahaan_desc'],
         jamBuka: data['jam_buka'],
         jamTutup: data['jam_tutup'],
+        perusahaanLogo: data['perusahaan_logo'],
       );
   @override
   List<Object> get props => [
@@ -80,6 +83,7 @@ class Bisnis extends Equatable {
         bisnisId,
         perusahaanDesc,
         jamBuka,
-        jamTutup
+        jamTutup,
+        perusahaanLogo,
       ];
 }

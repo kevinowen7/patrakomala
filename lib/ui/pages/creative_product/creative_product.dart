@@ -75,12 +75,57 @@ class _CreativeProductState extends State<CreativeProduct> {
                 ),
               ),
             ),
-            Container(
-              decoration: BoxDecoration(
-                color: mainColorRed,
-              ),
-              margin: EdgeInsets.fromLTRB(defaultMargin, 80, defaultMargin, 80),
-            ),
+            BlocBuilder<ProductBloc, ProductState>(builder: (_, productState) {
+              if (productState is ProductFilterLoaded) {
+                return Container(
+                  margin: EdgeInsets.fromLTRB(defaultMargin, 75, defaultMargin, 0),
+                  height: 30,
+                  child: Align(
+                    alignment: Alignment.centerRight,
+                    child: InkWell(
+                      onTap: (){
+                        context.bloc<ProductBloc>().add(FetchProduct());
+                      },
+                      child: Container(
+                        decoration: BoxDecoration(
+                              boxShadow: <BoxShadow>[
+                                BoxShadow(
+                                  color: Color(0xFFFFFFFF),
+                                  offset: Offset(0.0, -1.0),
+                                  blurRadius: 4.0,
+                                ),
+                                BoxShadow(
+                                  color: Color(0xFFDFDFDF),
+                                  offset: Offset(0.0, 1.0),
+                                  blurRadius: 4.0,
+                                ),
+                              ],
+                              color: Color(0xFFFEFEFE),
+                              borderRadius:
+                                  BorderRadius.all(const Radius.circular(6.0)),
+                            ),
+                            child: Padding(
+                              padding: const EdgeInsets.all(5),
+                              child: Container(
+                                width: 80,
+                                child: Center(
+                                  child: Text(
+                                    'Reset Filter',
+                                    style: normalFontStyle.copyWith(
+                                        fontWeight: FontWeight.w500,
+                                        color: mainColorRed),
+                                  ),
+                                ),
+                              ),
+                            )
+                      ),
+                    ),
+                  ),
+                );
+              }else{
+                return SizedBox();
+              }
+            }),
             Container(
               margin: EdgeInsets.fromLTRB(defaultMargin, 80, defaultMargin, 80),
               child: BlocBuilder<ProductBloc, ProductState>(
@@ -206,195 +251,135 @@ class _CreativeProductState extends State<CreativeProduct> {
                       });
                 } else if (productState is ProductFilterLoaded) {
                   ApiReturnValue<List<Product>> product = productState.products;
-                  return StaggeredGridView.countBuilder(
-                      crossAxisCount: 2,
-                      crossAxisSpacing: 12,
-                      mainAxisSpacing: 12,
-                      itemCount: product.value.length,
-                      itemBuilder: (context, index) {
-                        return InkWell(
-                          onTap: () {
-                            Get.to(ProductDetail(product.value[index]));
-                          },
-                          child: Container(
-                            decoration: BoxDecoration(
-                                image: DecorationImage(
-                                  image: NetworkImage(
-                                      (product.value[index].produkImg == null)
-                                          ? 'https://img.youtube.com/vi/' +
-                                              product.value[index].produkUrl +
-                                              '/0.jpg'
-                                          : product.value[index].produkImg),
-                                  fit: BoxFit.cover,
-                                ),
-                                color: Colors.transparent,
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(12))),
+                  return Padding(
+                    padding: const EdgeInsets.only(top: 40),
+                    child: StaggeredGridView.countBuilder(
+                        crossAxisCount: 2,
+                        crossAxisSpacing: 12,
+                        mainAxisSpacing: 12,
+                        itemCount: product.value.length,
+                        itemBuilder: (context, index) {
+                          return InkWell(
+                            onTap: () {
+                              Get.to(ProductDetail(product.value[index]));
+                            },
                             child: Container(
                               decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(15),
-                                gradient: LinearGradient(
-                                  colors: [
-                                    Colors.black.withOpacity(0.61),
-                                    Colors.blueAccent.withOpacity(0),
-                                  ],
-                                  begin: Alignment.bottomCenter,
-                                  end: Alignment.topCenter,
+                                  image: DecorationImage(
+                                    image: NetworkImage(
+                                        (product.value[index].produkImg == null)
+                                            ? 'https://img.youtube.com/vi/' +
+                                                product.value[index].produkUrl +
+                                                '/0.jpg'
+                                            : product.value[index].produkImg),
+                                    fit: BoxFit.cover,
+                                  ),
+                                  color: Colors.transparent,
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(12))),
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(15),
+                                  gradient: LinearGradient(
+                                    colors: [
+                                      Colors.black.withOpacity(0.61),
+                                      Colors.blueAccent.withOpacity(0),
+                                    ],
+                                    begin: Alignment.bottomCenter,
+                                    end: Alignment.topCenter,
+                                  ),
+                                ),
+                                child: Container(
+                                  child: Stack(children: [
+                                    (product.value[index].produkImg == null)
+                                        ? Center(
+                                            child: Image.asset(
+                                                'assets/images/play.png',
+                                                width: 50),
+                                          )
+                                        : SizedBox(),
+                                    Padding(
+                                      padding: const EdgeInsets.only(
+                                          left: 10, right: 10, bottom: 10),
+                                      child: Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.end,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.end,
+                                        children: [
+                                          // SizedBox(height: 80),
+                                          Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.end,
+                                            children: [
+                                              Row(
+                                                children: [
+                                                  Icon(
+                                                    Icons.remove_red_eye_sharp,
+                                                    size: 15,
+                                                    color: Colors.white,
+                                                  ),
+                                                  Text(
+                                                      product.value[index]
+                                                                  .counters ==
+                                                              null
+                                                          ? ' 0'
+                                                          : ' ${product.value[index].counters}',
+                                                      style: normalFontStyle
+                                                          .copyWith(
+                                                        color: Colors.white,
+                                                        fontWeight:
+                                                            FontWeight.w500,
+                                                        fontSize: 12,
+                                                      )),
+                                                ],
+                                              ),
+                                              Container(
+                                                // width: 74,
+                                                height: 18,
+                                                decoration: BoxDecoration(
+                                                  color: mainColorRed,
+                                                  borderRadius:
+                                                      BorderRadius.circular(6),
+                                                ),
+                                                child: Padding(
+                                                  padding:
+                                                      const EdgeInsets.all(2.0),
+                                                  child: Text(
+                                                      product.value[index]
+                                                          .subsector,
+                                                      style: normalFontStyle
+                                                          .copyWith(
+                                                              color:
+                                                                  Colors.white,
+                                                              fontSize: 11)),
+                                                ),
+                                              )
+                                            ],
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ]),
                                 ),
                               ),
-                              child: Container(
-                                child: Stack(children: [
-                                  (product.value[index].produkImg == null)
-                                      ? Center(
-                                          child: Image.asset(
-                                              'assets/images/play.png',
-                                              width: 50),
-                                        )
-                                      : SizedBox(),
-                                  Padding(
-                                    padding: const EdgeInsets.only(
-                                        left: 10, right: 10, bottom: 10),
-                                    child: Column(
-                                      mainAxisAlignment: MainAxisAlignment.end,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.end,
-                                      children: [
-                                        // SizedBox(height: 80),
-                                        Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.end,
-                                          children: [
-                                            Row(
-                                              children: [
-                                                Icon(
-                                                  Icons.remove_red_eye_sharp,
-                                                  size: 15,
-                                                  color: Colors.white,
-                                                ),
-                                                Text(
-                                                    product.value[index]
-                                                                .counters ==
-                                                            null
-                                                        ? ' 0'
-                                                        : ' ${product.value[index].counters}',
-                                                    style: normalFontStyle
-                                                        .copyWith(
-                                                      color: Colors.white,
-                                                      fontWeight:
-                                                          FontWeight.w500,
-                                                      fontSize: 12,
-                                                    )),
-                                              ],
-                                            ),
-                                            Container(
-                                              // width: 74,
-                                              height: 18,
-                                              decoration: BoxDecoration(
-                                                color: mainColorRed,
-                                                borderRadius:
-                                                    BorderRadius.circular(6),
-                                              ),
-                                              child: Padding(
-                                                padding:
-                                                    const EdgeInsets.all(2.0),
-                                                child: Text(
-                                                    product
-                                                        .value[index].subsector,
-                                                    style: normalFontStyle
-                                                        .copyWith(
-                                                            color: Colors.white,
-                                                            fontSize: 11)),
-                                              ),
-                                            )
-                                          ],
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ]),
-                              ),
                             ),
-                          ),
-                        );
-                      },
-                      staggeredTileBuilder: (index) {
-                        return new StaggeredTile.count(
-                            1, index.isEven ? 1.2 : 1.8);
-                      });
+                          );
+                        },
+                        staggeredTileBuilder: (index) {
+                          return new StaggeredTile.count(
+                              1, index.isEven ? 1.2 : 1.8);
+                        }),
+                  );
                 } else {
                   return SpinKitFadingCircle(
                     color: mainColorRed,
                     size: 50,
                   );
                 }
-              }
-                  //           child: StaggeredGridView.countBuilder(
-                  // crossAxisCount: 2,
-                  // crossAxisSpacing: 12,
-                  // mainAxisSpacing: 12,
-                  // itemCount: imageList.length,
-                  // itemBuilder: (context, index) {
-                  //   return InkWell(
-                  //     onTap: () {
-                  //       Get.to(ProductDetail());
-                  //     },
-                  //     child: Container(
-                  //       decoration: BoxDecoration(
-                  //           image: DecorationImage(
-                  //             image: NetworkImage(imageList[index]),
-                  //             fit: BoxFit.cover,
-                  //           ),
-                  //           color: Colors.transparent,
-                  //           borderRadius:
-                  //               BorderRadius.all(Radius.circular(12))),
-                  //       child: Padding(
-                  //         padding: const EdgeInsets.only(
-                  //             left: 10, right: 10, bottom: 10),
-                  //         child: Row(
-                  //           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  //           crossAxisAlignment: CrossAxisAlignment.end,
-                  //           children: [
-                  //             Row(
-                  //               children: [
-                  //                 Icon(
-                  //                   Icons.remove_red_eye_sharp,
-                  //                   size: 15,
-                  //                   color: Colors.white,
-                  //                 ),
-                  //                 Text(' 120',
-                  //                     style: normalFontStyle.copyWith(
-                  //                       color: Colors.white,
-                  //                       fontWeight: FontWeight.w500,
-                  //                       fontSize: 12,
-                  //                     )),
-                  //               ],
-                  //             ),
-                  //             Container(
-                  //               // width: 74,
-                  //               height: 18,
-                  //               decoration: BoxDecoration(
-                  //                 color: 'BD0085'.toColor(),
-                  //                 borderRadius: BorderRadius.circular(6),
-                  //               ),
-                  //               child: Padding(
-                  //                 padding: const EdgeInsets.all(2.0),
-                  //                 child: Text("Arsitektur",
-                  //                     style: normalFontStyle.copyWith(
-                  //                         color: Colors.white, fontSize: 11)),
-                  //               ),
-                  //             )
-                  //           ],
-                  //         ),
-                  //       ),
-                  //     ),
-                  //   );
-                  // },
-                  // staggeredTileBuilder: (index) {
-                  //   return new StaggeredTile.count(1, index.isEven ? 1.2 : 1.8);
-                  // }),
-                  ),
+              }),
             ),
           ],
         ),

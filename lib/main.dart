@@ -17,6 +17,9 @@ class MyApp extends StatelessWidget {
         BlocProvider(
           create: (_) => SubsectorBloc()..add(FetchSubsector()),
         ),
+        BlocProvider(
+          create: (_) => BisnisBloc(),
+        ),
       ],
       child: GetMaterialApp(
         home: TesPage(),

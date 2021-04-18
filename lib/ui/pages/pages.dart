@@ -24,6 +24,8 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 import 'package:slugify/slugify.dart';
+import 'package:cached_network_image/cached_network_image.dart';
+
 
 part 'login/pre_login_page.dart';
 part 'login/login_sso.dart';
