@@ -29,6 +29,8 @@ class _CreativeBeltPageState extends State<CreativeBeltPage> {
   /// Markers loading flag
   bool _areMarkersLoading = true;
 
+  bool isGetData = true;
+
   /// Url image used on normal markers
   final String _markerImageUrl =
       'https://img.icons8.com/office/80/000000/marker.png';
@@ -40,12 +42,30 @@ class _CreativeBeltPageState extends State<CreativeBeltPage> {
   final Color _clusterTextColor = Colors.white;
 
   /// Example marker coordinates
-  final List<LatLng> _markerLocations = [
-    LatLng(-6.9463964, 107.6018374),
-    LatLng(-6.9218518, 107.6048254),
-    LatLng(-6.9221981, 107.5996726),
-    LatLng(-6.9225159, 107.6006059),
-  ];
+  final List<LatLng> _markerLocations = [];
+
+  @override
+  void initState() {
+    this.getMarkers();
+    super.initState();
+  }
+
+  void getMarkers() async {
+    var result = await MapServices.getBelt();
+    var belts = result.value;
+    for (var i in belts) {
+      var lat = double.parse(i.latitude);
+      var long = double.parse(i.longitude);
+      setState(() {
+        _markerLocations.add(LatLng(lat, long));
+      });
+      print(lat);
+    }
+    // print(lat);
+    setState(() {
+      isGetData = false;
+    });
+  }
 
   /// Called when the Google Map widget is created. Updates the map loading state
   /// and inits the markers.
@@ -105,7 +125,7 @@ class _CreativeBeltPageState extends State<CreativeBeltPage> {
       _currentZoom,
       _clusterColor,
       _clusterTextColor,
-      80,
+      60,
     );
 
     _markers
@@ -122,8 +142,6 @@ class _CreativeBeltPageState extends State<CreativeBeltPage> {
       boxFit: BoxFit.cover,
       images: [AssetImage('assets/marketplace.png')],
       autoplay: true,
-      // dotSize: 4.0,
-      // indicatorBgPadding: 2.0,
     ),
   );
 
@@ -330,45 +348,56 @@ class _CreativeBeltPageState extends State<CreativeBeltPage> {
     return Stack(
       children: <Widget>[
         // Google Map widget
-        // Opacity(
-        //   opacity: _isMapLoading ? 0 : 1,
-        //   child: GoogleMap(
-        //     mapToolbarEnabled: false,
-        //     initialCameraPosition: CameraPosition(
-        //       target: LatLng(-6.9218518, 107.6048254),
-        //       zoom: _currentZoom,
-        //     ),
-        //     markers: _markers,
-        //     onMapCreated: (controller) => _onMapCreated(controller),
-        //     onCameraMove: (position) => _updateMarkers(position.zoom),
-        //   ),
-        // ),
+        (isGetData)
+            ? SizedBox()
+            : Opacity(
+                opacity: _isMapLoading ? 0 : 1,
+                child: GoogleMap(
+                  mapToolbarEnabled: false,
+                  initialCameraPosition: CameraPosition(
+                    target: LatLng(-6.9218518, 107.6048254),
+                    zoom: _currentZoom,
+                  ),
+                  markers: _markers,
+                  onMapCreated: (controller) => _onMapCreated(controller),
+                  onCameraMove: (position) => _updateMarkers(position.zoom),
+                ),
+              ),
 
         // Map loading indicator
-        // Opacity(
-        //   opacity: _isMapLoading ? 1 : 0,
-        //   child: Center(child: CircularProgressIndicator()),
-        // ),
+        Opacity(
+          opacity: _isMapLoading ? 1 : 0,
+          child: Center(child: CircularProgressIndicator()),
+        ),
 
         // Map markers loading indicator
-        // if (_areMarkersLoading)
-        //   Padding(`
-        //     padding: const EdgeInsets.all(8.0),
-        //     child: Align(
-        //       alignment: Alignment.topCenter,
-        //       child: Card(
-        //         elevation: 2,
-        //         color: Colors.grey.withOpacity(0.9),
-        //         child: Padding(
-        //           padding: const EdgeInsets.all(4),
-        //           child: Text(
-        //             'Loading',
-        //             style: TextStyle(color: Colors.white),
-        //           ),
-        //         ),
-        //       ),
-        //     ),
-        //   ),
+        if (_areMarkersLoading)
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Align(
+              alignment: Alignment.topCenter,
+              child: Card(
+                elevation: 2,
+                color: Colors.grey.withOpacity(0.9),
+                child: Padding(
+                  padding: const EdgeInsets.all(4),
+                  child: Text(
+                    'Loading',
+                    style: TextStyle(color: Colors.white),
+                  ),
+                ),
+              ),
+            ),
+          ),
+        (isGetData)
+            ? Positioned(
+                top: (MediaQuery.of(context).size.height) * 0.45,
+                left: (MediaQuery.of(context).size.width) * 0.45,
+                child: SpinKitRipple(
+                  color: mainColorRed,
+                  size: 70,
+                ))
+            : SizedBox(),
 
         Positioned(
           top: 20,

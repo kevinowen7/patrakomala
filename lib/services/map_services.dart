@@ -1,14 +1,27 @@
 part of 'services.dart';
 
 class MapServices {
-  /// If there is a cached file and it's not old returns the cached marker image file
-  /// else it will download the image and save it on the temp dir and return that file.
-  ///
-  /// This mechanism is possible using the [DefaultCacheManager] package and is useful
-  /// to improve load times on the next map loads, the first time will always take more
-  /// time to download the file and set the marker image.
-  ///
-  /// You can resize the marker image by providing a [targetWidth].
+  static Future<ApiReturnValue<List<Belt>>> getBelt({http.Client client}) async {
+    client ??= http.Client();
+
+    String url = baseURL2 + 'mobile/belts';
+    var response = await client.get(url,headers: {"Content-Type" : "application/json"});
+
+    print(response.statusCode.toString());
+
+    if(response.statusCode != 200){
+      return ApiReturnValue(message: "Gagal mengambil belts");
+    }
+
+    var data = aConvert.jsonDecode(response.body);
+    List<Belt> value = (data['response'] as Iterable)
+        .map((e) => Belt.fromJson(e))
+        .toList();
+
+    return ApiReturnValue(value: value);
+
+  }
+
   static Future<BitmapDescriptor> getMarkerImageFromUrl(
     String url, {
     int targetWidth,
@@ -122,7 +135,7 @@ class MapServices {
     return Fluster<MapMarker>(
       minZoom: minZoom,
       maxZoom: maxZoom,
-      radius: 150,
+      radius: 500,
       extent: 2048,
       nodeSize: 64,
       points: markers,

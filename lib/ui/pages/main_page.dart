@@ -29,11 +29,11 @@ class _MainPageState extends State<MainPage> {
       body: Stack(
         children: <Widget>[
           Container(
-            color: mainColorRed,
+            color: backgroundColorGrey,
           ),
           SafeArea(
             child: Container(
-              color: mainColorRed,
+              color: backgroundColorGrey,
             ),
           ),
           (selectedPage == 0)

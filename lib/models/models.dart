@@ -13,3 +13,4 @@ part 'product.dart';
 part 'subsector.dart';
 part 'marketplace.dart';
 part 'bisnis.dart';
+part 'belt.dart';
