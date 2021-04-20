@@ -31,10 +31,6 @@ class _CreativeBeltPageState extends State<CreativeBeltPage> {
 
   bool isGetData = true;
 
-  /// Url image used on normal markers
-  final List<String> _markerImageUrl = [];
-  // 'https://patrakomala.disbudpar.bandung.go.id/assets/img/marker/aplikasi_dan_games.png';
-
   /// Color of the cluster circle
   final Color _clusterColor = Colors.blue;
 
@@ -42,7 +38,6 @@ class _CreativeBeltPageState extends State<CreativeBeltPage> {
   final Color _clusterTextColor = Colors.white;
 
   /// Example marker coordinates
-  final List<LatLng> _markerLocations = [];
 
   @override
   void initState() {
@@ -50,36 +45,38 @@ class _CreativeBeltPageState extends State<CreativeBeltPage> {
     super.initState();
   }
 
-  void getMarkers() async {
-    var result = await MapServices.getBelt();
-    var belts = result.value.sublist(0, 100);
-    belts.asMap().forEach((index, value) {
-      var lat = double.parse(value.latitude);
-      var long = double.parse(value.longitude);
-      setState(() {
-        _markerLocations.add(LatLng(lat, long));
-        _markerImageUrl.add(value.marker);
-      });
-    });
-    setState(() {
-      isGetData = false;
-    });
-  }
+  // void getMarkers() async {
+  //   var result = await MapServices.getBelt();
+  //   var belts = result.value.sublist(0, 100);
+  //   belts.asMap().forEach((index, value) {
+  //     var lat = double.parse(value.latitude);
+  //     var long = double.parse(value.longitude);
+  //     setState(() {
+  //       _markerLocations.add(LatLng(lat, long));
+  //       _markerImageUrl.add(value.marker);
+  //     });
+  //   });
+  //   setState(() {
+  //     isGetData = false;
+  //   });
+  // }
 
   /// Called when the Google Map widget is created. Updates the map loading state
   /// and inits the markers.
-  void _onMapCreated(GoogleMapController controller) {
+  void _onMapCreated(GoogleMapController controller,
+      List<LatLng> _markerLocations, List<String> _markerImageUrl) {
     _mapController.complete(controller);
 
     setState(() {
       _isMapLoading = false;
     });
 
-    _initMarkers();
+    _initMarkers(_markerLocations, _markerImageUrl);
   }
 
   /// Inits [Fluster] and all the markers with network images and updates the loading state.
-  void _initMarkers() async {
+  void _initMarkers(
+      List<LatLng> _markerLocations, List<String> _markerImageUrl) async {
     final List<MapMarker> markers = [];
 
     for (LatLng markerLocation in _markerLocations) {
@@ -147,8 +144,6 @@ class _CreativeBeltPageState extends State<CreativeBeltPage> {
     ),
   );
 
-  
-
   void _settingModalBottomSheet(context) {
     showModalBottomSheet(
         context: context,
@@ -213,19 +208,23 @@ class _CreativeBeltPageState extends State<CreativeBeltPage> {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
-                                IconMap('assets/images/icon-toilet.png','Toilet'),
-                                IconMap('assets/images/icon-parkir.png','Parkir'),
-                                IconMap('assets/images/icon-mushola.png','Mushola'),
-                                IconMap('assets/images/icon-showroom.png','Showroom'),
+                                IconMap(
+                                    'assets/images/icon-toilet.png', 'Toilet'),
+                                IconMap(
+                                    'assets/images/icon-parkir.png', 'Parkir'),
+                                IconMap('assets/images/icon-mushola.png',
+                                    'Mushola'),
+                                IconMap('assets/images/icon-showroom.png',
+                                    'Showroom'),
                               ],
                             )),
-                       
+
                         IconWithText(
                           icon: FontAwesome.map_marker,
                           text:
                               'Jl. Gatot Subroto No.289, Cibangkong, Kec. Batununggal, Kota Bandung, Jawa Barat 40273',
                         ),
-                      
+
                         IconWithText(
                           icon: FontAwesome.phone,
                           text: '08XXXXXXXXXX',
@@ -234,9 +233,7 @@ class _CreativeBeltPageState extends State<CreativeBeltPage> {
                           height: 20,
                         ),
                         GestureDetector(
-                          onTap: () async {
-                            
-                          },
+                          onTap: () async {},
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.start,
                             children: [
@@ -317,7 +314,44 @@ class _CreativeBeltPageState extends State<CreativeBeltPage> {
         //           onCameraMove: (position) => _updateMarkers(position.zoom),
         //         ),
         //       ),
+        BlocBuilder<BeltBloc, BeltState>(
+          builder: (_, beltState) {
+            if (beltState is BeltLoaded) {
+              ApiReturnValue<List<Belt>> belts = beltState.belts;
+              final List<LatLng> _markerLocations = [];
+              final List<String> _markerImageUrl = [];
 
+              belts.value.asMap().forEach((key, value) {
+                var lat = double.parse(value.latitude);
+                var long = double.parse(value.longitude);
+                _markerLocations.add(LatLng(lat, long));
+                _markerImageUrl.add(value.marker);
+              });
+
+              return Opacity(
+                opacity: _isMapLoading ? 0 : 1,
+                child: GoogleMap(
+                  mapToolbarEnabled: false,
+                  initialCameraPosition: CameraPosition(
+                    target: LatLng(-6.9218518, 107.6048254),
+                    zoom: _currentZoom,
+                  ),
+                  markers: _markers,
+                  onMapCreated: (controller) => _onMapCreated(
+                      controller, _markerLocations, _markerImageUrl),
+                  onCameraMove: (position) => _updateMarkers(position.zoom),
+                ),
+              );
+            } else {
+              return Center(
+                child: SpinKitRipple(
+                  color: mainColorRed,
+                  size: 50,
+                ),
+              );
+            }
+          },
+        ),
         // Map loading indicator
         Opacity(
           opacity: _isMapLoading ? 1 : 0,

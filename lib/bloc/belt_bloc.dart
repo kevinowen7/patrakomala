@@ -1,8 +1,8 @@
 import 'dart:async';
-
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-
+import 'package:patrakomala_neumorphic/models/models.dart';
+import 'package:patrakomala_neumorphic/services/services.dart';
 part 'belt_event.dart';
 part 'belt_state.dart';
 
@@ -14,6 +14,9 @@ class BeltBloc extends Bloc<BeltEvent, BeltState> {
   Stream<BeltState> mapEventToState(
     BeltEvent event,
   ) async* {
-    // TODO: implement mapEventToState
+    if(event is FetchBelt){
+      ApiReturnValue<List<Belt>> belts = await MapServices.getBelt();
+      yield(BeltLoaded(belts));
+    }
   }
 }
