@@ -31,10 +31,6 @@ class _CreativeBeltPageState extends State<CreativeBeltPage> {
 
   bool isGetData = true;
 
-  /// Url image used on normal markers
-  final String _markerImageUrl =
-      'https://img.icons8.com/office/80/000000/marker.png';
-
   /// Color of the cluster circle
   final Color _clusterColor = Colors.blue;
 
@@ -42,50 +38,52 @@ class _CreativeBeltPageState extends State<CreativeBeltPage> {
   final Color _clusterTextColor = Colors.white;
 
   /// Example marker coordinates
-  final List<LatLng> _markerLocations = [];
 
   @override
   void initState() {
-    this.getMarkers();
+    // this.getMarkers();
     super.initState();
   }
 
-  void getMarkers() async {
-    var result = await MapServices.getBelt();
-    var belts = result.value;
-    for (var i in belts) {
-      var lat = double.parse(i.latitude);
-      var long = double.parse(i.longitude);
-      setState(() {
-        _markerLocations.add(LatLng(lat, long));
-      });
-      print(lat);
-    }
-    // print(lat);
-    setState(() {
-      isGetData = false;
-    });
-  }
+  // void getMarkers() async {
+  //   var result = await MapServices.getBelt();
+  //   var belts = result.value.sublist(0, 100);
+  //   belts.asMap().forEach((index, value) {
+  //     var lat = double.parse(value.latitude);
+  //     var long = double.parse(value.longitude);
+  //     setState(() {
+  //       _markerLocations.add(LatLng(lat, long));
+  //       _markerImageUrl.add(value.marker);
+  //     });
+  //   });
+  //   setState(() {
+  //     isGetData = false;
+  //   });
+  // }
 
   /// Called when the Google Map widget is created. Updates the map loading state
   /// and inits the markers.
-  void _onMapCreated(GoogleMapController controller) {
+  void _onMapCreated(GoogleMapController controller,
+      List<LatLng> _markerLocations, List<String> _markerImageUrl) {
     _mapController.complete(controller);
 
     setState(() {
       _isMapLoading = false;
     });
 
-    _initMarkers();
+    _initMarkers(_markerLocations, _markerImageUrl);
   }
 
   /// Inits [Fluster] and all the markers with network images and updates the loading state.
-  void _initMarkers() async {
+  void _initMarkers(
+      List<LatLng> _markerLocations, List<String> _markerImageUrl) async {
     final List<MapMarker> markers = [];
 
     for (LatLng markerLocation in _markerLocations) {
+      // _markerLocations.asMap().forEach((index, value) async {
       final BitmapDescriptor markerImage =
-          await MapServices.getMarkerImageFromUrl(_markerImageUrl);
+          await MapServices.getMarkerImageFromUrl(
+              _markerImageUrl[_markerLocations.indexOf(markerLocation)]);
 
       markers.add(
         MapMarker(
@@ -96,6 +94,7 @@ class _CreativeBeltPageState extends State<CreativeBeltPage> {
               _settingModalBottomSheet(context);
             }),
       );
+      // });
     }
 
     _clusterManager = await MapServices.initClusterManager(
@@ -149,62 +148,6 @@ class _CreativeBeltPageState extends State<CreativeBeltPage> {
       autoplay: true,
     ),
   );
-
-  Widget marketPlaceButton() {
-    return PopupMenuButton(
-        // color: Colors.transparent,
-        child: Text("MarketPlace",
-            style: normalFontStyle.copyWith(color: mainColorRed),
-            textAlign: TextAlign.center),
-        onSelected: (value) {
-          Fluttertoast.showToast(
-              msg: "You have selected " + value.toString(),
-              toastLength: Toast.LENGTH_SHORT,
-              gravity: ToastGravity.BOTTOM,
-              timeInSecForIosWeb: 1,
-              backgroundColor: Colors.black,
-              textColor: Colors.white,
-              fontSize: 16.0);
-        },
-        itemBuilder: (context) => [
-              PopupMenuItem(
-                  value: 1,
-                  child: Row(
-                    children: <Widget>[
-                      Padding(
-                        padding: const EdgeInsets.fromLTRB(2, 2, 8, 2),
-                        child: Image.asset('assets/images/lazada.jpg',
-                            width: 20, height: 20),
-                      ),
-                      Text('Lazada')
-                    ],
-                  )),
-              PopupMenuItem(
-                  value: 2,
-                  child: Row(
-                    children: <Widget>[
-                      Padding(
-                        padding: const EdgeInsets.fromLTRB(2, 2, 8, 2),
-                        child: Image.asset('assets/images/tokped.png',
-                            width: 20, height: 20),
-                      ),
-                      Text('Tokopedia')
-                    ],
-                  )),
-              PopupMenuItem(
-                  value: 3,
-                  child: Row(
-                    children: <Widget>[
-                      Padding(
-                        padding: const EdgeInsets.fromLTRB(2, 2, 8, 2),
-                        child: Image.asset('assets/images/shopee.png',
-                            width: 20, height: 20),
-                      ),
-                      Text('Shopee')
-                    ],
-                  )),
-            ]);
-  }
 
   void _settingModalBottomSheet(context) {
     showModalBottomSheet(
@@ -263,19 +206,30 @@ class _CreativeBeltPageState extends State<CreativeBeltPage> {
                         SizedBox(
                           height: 10,
                         ),
-                        IconWithText(
-                          icon: FontAwesome.building,
-                          text: 'Tolet, Parkir',
-                        ),
+
+                        Container(
+                            margin: EdgeInsets.all(defaultMargin),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                IconMap(
+                                    'assets/images/icon-toilet.png', 'Toilet'),
+                                IconMap(
+                                    'assets/images/icon-parkir.png', 'Parkir'),
+                                IconMap('assets/images/icon-mushola.png',
+                                    'Mushola'),
+                                IconMap('assets/images/icon-showroom.png',
+                                    'Showroom'),
+                              ],
+                            )),
+
                         IconWithText(
                           icon: FontAwesome.map_marker,
                           text:
                               'Jl. Gatot Subroto No.289, Cibangkong, Kec. Batununggal, Kota Bandung, Jawa Barat 40273',
                         ),
-                        IconWithText(
-                          icon: FontAwesome.clock_o,
-                          text: '08:00 - 17:00',
-                        ),
+
                         IconWithText(
                           icon: FontAwesome.phone,
                           text: '08XXXXXXXXXX',
@@ -284,15 +238,12 @@ class _CreativeBeltPageState extends State<CreativeBeltPage> {
                           height: 20,
                         ),
                         GestureDetector(
-                          onTap: () async {
-                            await launch(
-                                'https://www.figma.com/file/6n3L6wYhcbhRsHy6Bx4cPi/Patrakomala-v2?node-id=116%3A579');
-                          },
+                          onTap: () async {},
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.start,
                             children: [
                               Text(
-                                "Website ",
+                                "Lihat Produk ",
                                 style: normalFontStyle.copyWith(
                                     decoration: TextDecoration.underline,
                                     color: mainColorRed),
@@ -306,35 +257,35 @@ class _CreativeBeltPageState extends State<CreativeBeltPage> {
                           ),
                         ),
                         SizedBox(height: 20),
-                        Container(
-                          height: 40,
-                          width: (MediaQuery.of(context).size.width) - 70,
-                          decoration: BoxDecoration(
-                            boxShadow: <BoxShadow>[
-                              BoxShadow(
-                                color: Color.fromRGBO(17, 18, 19, 0.3),
-                                offset: Offset(0.0, 0.0),
-                                blurRadius: 2.0,
-                              ),
-                            ],
-                            gradient: RadialGradient(colors: [
-                              "FEFEFE".toColor(),
-                              "F8F8F8".toColor(),
-                            ]),
-                            borderRadius:
-                                BorderRadius.all(const Radius.circular(5.0)),
-                          ),
-                          child: Center(
-                            child: FlatButton(
-                              color: Colors.transparent,
-                              onPressed: null,
-                              child: Container(
-                                width: double.infinity,
-                                child: marketPlaceButton(),
-                              ),
-                            ),
-                          ),
-                        ),
+                        // Container(
+                        //   height: 40,
+                        //   width: (MediaQuery.of(context).size.width) - 70,
+                        //   decoration: BoxDecoration(
+                        //     boxShadow: <BoxShadow>[
+                        //       BoxShadow(
+                        //         color: Color.fromRGBO(17, 18, 19, 0.3),
+                        //         offset: Offset(0.0, 0.0),
+                        //         blurRadius: 2.0,
+                        //       ),
+                        //     ],
+                        //     gradient: RadialGradient(colors: [
+                        //       "FEFEFE".toColor(),
+                        //       "F8F8F8".toColor(),
+                        //     ]),
+                        //     borderRadius:
+                        //         BorderRadius.all(const Radius.circular(5.0)),
+                        //   ),
+                        //   child: Center(
+                        //     child: FlatButton(
+                        //       color: Colors.transparent,
+                        //       onPressed: null,
+                        //       child: Container(
+                        //         width: double.infinity,
+                        //         child: marketPlaceButton(),
+                        //       ),
+                        //     ),
+                        //   ),
+                        // ),
                       ],
                     ),
                   ),
@@ -353,9 +304,36 @@ class _CreativeBeltPageState extends State<CreativeBeltPage> {
     return Stack(
       children: <Widget>[
         // Google Map widget
-        (isGetData)
-            ? SizedBox()
-            : Opacity(
+        // (isGetData)
+        //     ? SizedBox()
+        //     : Opacity(
+        //         opacity: _isMapLoading ? 0 : 1,
+        //         child: GoogleMap(
+        //           mapToolbarEnabled: false,
+        //           initialCameraPosition: CameraPosition(
+        //             target: LatLng(-6.9218518, 107.6048254),
+        //             zoom: _currentZoom,
+        //           ),
+        //           markers: _markers,
+        //           onMapCreated: (controller) => _onMapCreated(controller),
+        //           onCameraMove: (position) => _updateMarkers(position.zoom),
+        //         ),
+        //       ),
+        BlocBuilder<BeltBloc, BeltState>(
+          builder: (_, beltState) {
+            if (beltState is BeltLoaded) {
+              ApiReturnValue<List<Belt>> belts = beltState.belts;
+              final List<LatLng> _markerLocations = [];
+              final List<String> _markerImageUrl = [];
+
+              belts.value.asMap().forEach((key, value) {
+                var lat = double.parse(value.latitude);
+                var long = double.parse(value.longitude);
+                _markerLocations.add(LatLng(lat, long));
+                _markerImageUrl.add(value.marker);
+              });
+
+              return Opacity(
                 opacity: _isMapLoading ? 0 : 1,
                 child: GoogleMap(
                   mapToolbarEnabled: false,
@@ -364,45 +342,47 @@ class _CreativeBeltPageState extends State<CreativeBeltPage> {
                     zoom: _currentZoom,
                   ),
                   markers: _markers,
-                  onMapCreated: (controller) => _onMapCreated(controller),
+                  onMapCreated: (controller) => _onMapCreated(
+                      controller, _markerLocations, _markerImageUrl),
                   onCameraMove: (position) => _updateMarkers(position.zoom),
                 ),
-              ),
-
+              );
+            } else {
+              return Center(
+                child: SpinKitRipple(
+                  color: mainColorRed,
+                  size: 50,
+                ),
+              );
+            }
+          },
+        ),
         // Map loading indicator
         Opacity(
           opacity: _isMapLoading ? 1 : 0,
-          child: Center(child: CircularProgressIndicator()),
+          child: Center(
+              child: SpinKitRipple(
+            color: mainColorRed,
+            size: 50,
+          )),
         ),
 
         // Map markers loading indicator
         if (_areMarkersLoading)
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Align(
-              alignment: Alignment.topCenter,
-              child: Card(
-                elevation: 2,
-                color: Colors.grey.withOpacity(0.9),
-                child: Padding(
-                  padding: const EdgeInsets.all(4),
-                  child: Text(
-                    'Loading',
-                    style: TextStyle(color: Colors.white),
-                  ),
-                ),
-              ),
-            ),
-          ),
-        (isGetData)
-            ? Positioned(
-                top: (MediaQuery.of(context).size.height) * 0.45,
-                left: (MediaQuery.of(context).size.width) * 0.45,
-                child: SpinKitRipple(
-                  color: mainColorRed,
-                  size: 70,
-                ))
-            : SizedBox(),
+          Center(
+              child: SpinKitRipple(
+            color: mainColorRed,
+            size: 50,
+          )),
+        // (isGetData)
+        //     ? Positioned(
+        //         top: (MediaQuery.of(context).size.height) * 0.45,
+        //         left: (MediaQuery.of(context).size.width) * 0.45,
+        //         child: SpinKitRipple(
+        //           color: mainColorRed,
+        //           size: 70,
+        //         ))
+        //     : SizedBox(),
 
         Positioned(
           top: 20,
@@ -411,14 +391,12 @@ class _CreativeBeltPageState extends State<CreativeBeltPage> {
           child: SafeArea(
             child: InkWell(
               onTap: () async {
-                // Get.to(SearchBoxBelt());
-                final SharedPreferences sharedPreference =
-                    await SharedPreferences.getInstance();
-                sharedPreference.remove('email');
-                sharedPreference.remove('telp');
-                sharedPreference.remove('userID');
-
-                Get.to(PreLoginPage());
+                _settingModalBottomSheet(context);
+                // Get.to(SearchBoxBelt())m
+                // final SharedPreferences sharedPreference =
+                //     await SharedPreferences.getInstance();
+                // sharedPreference.remove('identifier');
+                // Get.to(PreLoginPage());
               },
               child: NeuBorder(
                 mTop: 0,

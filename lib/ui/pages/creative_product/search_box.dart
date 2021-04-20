@@ -25,7 +25,7 @@ class _SearchBoxProductState extends State<SearchBoxProduct> {
 
   void getSlug() async {
     for (var i in selectedSubsektor) {
-      var slugy = Slugify(itemsSubsektor[i]);
+      var slugy = Slugify(itemsSubsektor[i],delimiter: '_');
       setState(() {
         selectedSlug.add(slugy);
       });
@@ -135,12 +135,13 @@ class _SearchBoxProductState extends State<SearchBoxProduct> {
                           )..show(context);
                         } else {
                           getSlug();
+                          print(selectedSlug);
                           context.bloc<ProductBloc>().add(FilterProduct(
                               produkName: produk.text,
                               subsector: selectedSlug));
                          
                           Get.back();
-                          // print(selectedSlug);
+                          print(selectedSlug);
                         }
                          setState(() {
                             isLoading = false;

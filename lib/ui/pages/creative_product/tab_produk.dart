@@ -35,7 +35,7 @@ class TabProduct extends StatelessWidget {
                           image: NetworkImage(
                               (product.value[index].produkImg == null)
                                   ? 'https://img.youtube.com/vi/' +
-                                      '2cKapqou5l0' +
+                                      product.value[index].produkUrl +
                                       '/0.jpg'
                                   : product.value[index].produkImg),
                           fit: BoxFit.cover,

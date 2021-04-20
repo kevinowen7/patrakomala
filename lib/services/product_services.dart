@@ -5,11 +5,12 @@ class ProductServices {
       {http.Client client}) async {
     client ??= http.Client();
 
-    String url = baseURL2 + 'mobile/produk?page=$page';
-    var response = await client.get(
-      url,
-      headers: {"Content-Type": "application/json"},
-    );
+    String url = baseURL2 + 'mobile/produk';
+    var response = await client.post(url,
+        headers: {"Content-Type": "application/json"},
+        body: aConvert.jsonEncode({
+          "page": page,
+        }));
 
     if (response.statusCode != 200) {
       return ApiReturnValue(message: 'Gagal mengambil data');
@@ -27,12 +28,14 @@ class ProductServices {
       {http.Client client}) async {
     client ??= http.Client();
 
-    String url = baseURL2 +
-        'mobile/produk?page=$page&product_name=$produkName&subsektor=$subsector';
-    var response = await client.get(
-      url,
-      headers: {"Content-Type": "application/json"},
-    );
+    String url = baseURL2 + 'mobile/produk';
+    var response = await client.post(url,
+        headers: {"Content-Type": "application/json"},
+        body: aConvert.jsonEncode({
+          "page": page,
+          "product_name" : produkName,
+          "subsector" : subsector,
+        }));
 
     if (response.statusCode != 200) {
       return ApiReturnValue(message: 'Gagal mengambil data');
