@@ -107,6 +107,11 @@ class _CreativeBeltPageState extends State<CreativeBeltPage> {
     await _updateMarkers();
   }
 
+
+
+  Future<String> getJsonFile() async {
+    return await rootBundle.loadString('assets/masSetting.json');
+  }
   /// Gets the markers and clusters to be displayed on the map for the current zoom level and
   /// updates state.
   Future<void> _updateMarkers([double updatedZoom]) async {
