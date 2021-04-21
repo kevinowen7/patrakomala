@@ -23,6 +23,12 @@ class MyApp extends StatelessWidget {
         BlocProvider(
           create: (_) => BeltBloc()..add(FetchBelt()),
         ),
+        BlocProvider(
+          create: (_) => NewsBloc()..add(FetchNews()),
+        ),
+        BlocProvider(
+          create: (_) => PublikasiBloc()..add(FetchPublikasi()),
+        ),
       ],
       child: GetMaterialApp(
         home: TesPage(),

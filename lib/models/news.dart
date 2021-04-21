@@ -55,7 +55,7 @@ class News extends Equatable{
     final String takePlaceEng;
     final String documents;
     final String banner;
-    final String imgEvent;
+    final List imgEvent;
 
     News copyWith({
         int id,
@@ -83,7 +83,7 @@ class News extends Equatable{
         String takePlaceEng,
         String documents,
         String banner,
-        String imgEvent,
+        List imgEvent,
     }) => 
         News(
             id: id ?? this.id,
@@ -114,7 +114,7 @@ class News extends Equatable{
             imgEvent: imgEvent ?? this.imgEvent,
         );
 
-    factory News.fromMap(Map<String, dynamic> json) => News(
+    factory News.fromMap(json) => News(
         id: json["id"],
         title: json["title"],
         description: json["description"],
@@ -140,7 +140,7 @@ class News extends Equatable{
         takePlaceEng: json["take_place_eng"],
         documents: json["documents"],
         banner: json["banner"] == null ? null : json["banner"],
-        imgEvent: json["img_event"],
+        imgEvent: (json["img_event"] as List).toList(),
     );
 
 

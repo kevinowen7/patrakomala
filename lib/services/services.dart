@@ -20,6 +20,9 @@ part 'provinsi_services.dart';
 part 'subsector_services.dart';
 part 'perusahaan_services.dart';
 part 'news_services.dart';
+part 'publikasi_services.dart';
+part 'pcc_services.dart';
+part 'event_services.dart';
 
 String baseURL = 'http://103.108.201.44:8080/api/';
 String baseURL2 = 'http://patrakomala.id:8080/api/';

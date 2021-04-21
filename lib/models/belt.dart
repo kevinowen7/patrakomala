@@ -14,6 +14,10 @@ class Belt {
         this.subsector,
         this.kecamatan,
         this.kelurahan,
+        this.toilet,
+        this.parkir,
+        this.mushola,
+        this.showroom,
     });
 
     final int id;
@@ -28,6 +32,11 @@ class Belt {
     final String subsector;
     final int kecamatan;
     final int kelurahan;
+    final bool toilet;
+    final bool parkir;
+    final bool mushola;
+    final bool showroom;
+
 
     factory Belt.fromJson(Map<String, dynamic> json) => Belt(
         id: json["id"],
@@ -42,6 +51,10 @@ class Belt {
         subsector: json["subsector"],
         kecamatan: json["kecamatan"],
         kelurahan: json["kelurahan"] == null ? null : json["kelurahan"],
+        toilet: json['toilet'],
+        parkir: json['parkir'],
+        mushola: json['mushola'],
+        showroom: json['showroom'],
     );
 
 }

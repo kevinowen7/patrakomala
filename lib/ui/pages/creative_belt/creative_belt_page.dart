@@ -63,20 +63,23 @@ class _CreativeBeltPageState extends State<CreativeBeltPage> {
 
   /// Called when the Google Map widget is created. Updates the map loading state
   /// and inits the markers.
-  void _onMapCreated(GoogleMapController controller,
-      List<LatLng> _markerLocations, List<String> _markerImageUrl) {
+  void _onMapCreated(
+      GoogleMapController controller,
+      List<LatLng> _markerLocations,
+      List<String> _markerImageUrl,
+      List<Belt> belt) {
     _mapController.complete(controller);
 
     setState(() {
       _isMapLoading = false;
     });
 
-    _initMarkers(_markerLocations, _markerImageUrl);
+    _initMarkers(_markerLocations, _markerImageUrl, belt);
   }
 
   /// Inits [Fluster] and all the markers with network images and updates the loading state.
-  void _initMarkers(
-      List<LatLng> _markerLocations, List<String> _markerImageUrl) async {
+  void _initMarkers(List<LatLng> _markerLocations, List<String> _markerImageUrl,
+      List<Belt> belt) async {
     final List<MapMarker> markers = [];
 
     for (LatLng markerLocation in _markerLocations) {
@@ -91,7 +94,8 @@ class _CreativeBeltPageState extends State<CreativeBeltPage> {
             position: markerLocation,
             icon: markerImage,
             onTap: () {
-              _settingModalBottomSheet(context);
+              _settingModalBottomSheet(
+                  context, belt[_markerLocations.indexOf(markerLocation)]);
             }),
       );
       // });
@@ -106,11 +110,10 @@ class _CreativeBeltPageState extends State<CreativeBeltPage> {
     await _updateMarkers();
   }
 
-
-
   Future<String> getJsonFile() async {
     return await rootBundle.loadString('assets/masSetting.json');
   }
+
   /// Gets the markers and clusters to be displayed on the map for the current zoom level and
   /// updates state.
   Future<void> _updateMarkers([double updatedZoom]) async {
@@ -149,7 +152,7 @@ class _CreativeBeltPageState extends State<CreativeBeltPage> {
     ),
   );
 
-  void _settingModalBottomSheet(context) {
+  void _settingModalBottomSheet(context, Belt belt) {
     showModalBottomSheet(
         context: context,
         builder: (BuildContext bc) {
@@ -175,12 +178,13 @@ class _CreativeBeltPageState extends State<CreativeBeltPage> {
                   ),
                   Container(
                     height: 150,
-                    decoration: const BoxDecoration(
-                      image: DecorationImage(
-                          alignment: Alignment(-.2, 0),
-                          image: NetworkImage(
-                              'http://www.naturerights.com/blog/wp-content/uploads/2017/12/Taranaki-NR-post-1170x550.png'),
-                          fit: BoxFit.cover),
+                    child: CachedNetworkImage(
+                      fit: BoxFit.cover,
+                      imageUrl: belt.tenantLogo,
+                      progressIndicatorBuilder:
+                          (context, url, downloadProgress) =>
+                              SpinKitRipple(color: mainColorRed, size: 50),
+                      errorWidget: (context, url, error) => Icon(Icons.error),
                     ),
                     alignment: Alignment.bottomCenter,
                     padding: EdgeInsets.only(bottom: 20),
@@ -196,7 +200,7 @@ class _CreativeBeltPageState extends State<CreativeBeltPage> {
                             Column(
                               children: [
                                 Text(
-                                  "Sample Workshop",
+                                  belt.tenantName,
                                   style: titleStyle,
                                 ),
                               ],
@@ -213,32 +217,53 @@ class _CreativeBeltPageState extends State<CreativeBeltPage> {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
-                                IconMap(
-                                    'assets/images/icon-toilet.png', 'Toilet'),
-                                IconMap(
-                                    'assets/images/icon-parkir.png', 'Parkir'),
-                                IconMap('assets/images/icon-mushola.png',
-                                    'Mushola'),
-                                IconMap('assets/images/icon-showroom.png',
-                                    'Showroom'),
+                                (belt.toilet)
+                                    ? IconMap('assets/images/icon-toilet.png',
+                                        'Toilet')
+                                    : SizedBox(),
+                                (belt.parkir)
+                                    ? IconMap('assets/images/icon-parkir.png',
+                                        'Parkir')
+                                    : SizedBox(),
+                                (belt.mushola)
+                                    ? IconMap('assets/images/icon-mushola.png',
+                                        'Mushola')
+                                    : SizedBox(),
+                                (belt.showroom)
+                                    ? IconMap('assets/images/icon-showroom.png',
+                                        'Showroom')
+                                    : SizedBox(),
                               ],
                             )),
 
                         IconWithText(
                           icon: FontAwesome.map_marker,
-                          text:
-                              'Jl. Gatot Subroto No.289, Cibangkong, Kec. Batununggal, Kota Bandung, Jawa Barat 40273',
+                          text: belt.alamat,
                         ),
 
                         IconWithText(
                           icon: FontAwesome.phone,
-                          text: '08XXXXXXXXXX',
+                          text: belt.noTelp,
                         ),
                         SizedBox(
                           height: 20,
                         ),
                         GestureDetector(
-                          onTap: () async {},
+                          onTap: () async {
+                            // var result = await ProductServices.getMarketPlace(
+                            //     widget.product.produkId);
+                            // for (final i in result.value) {
+                            //   var productMap = {
+                            //     'id': i.urlNm,
+                            //     'imageUrl': i.img,
+                            //   };
+                            //   marketplace.add(productMap);
+                            // }
+                            // context
+                            //     .bloc<BisnisBloc>()
+                            //     .add(FetchBisnis(belt.id));
+                            // Get.to(WorkshopDetail('jj'));
+                          },
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.start,
                             children: [
@@ -303,22 +328,6 @@ class _CreativeBeltPageState extends State<CreativeBeltPage> {
   Widget build(BuildContext context) {
     return Stack(
       children: <Widget>[
-        // Google Map widget
-        // (isGetData)
-        //     ? SizedBox()
-        //     : Opacity(
-        //         opacity: _isMapLoading ? 0 : 1,
-        //         child: GoogleMap(
-        //           mapToolbarEnabled: false,
-        //           initialCameraPosition: CameraPosition(
-        //             target: LatLng(-6.9218518, 107.6048254),
-        //             zoom: _currentZoom,
-        //           ),
-        //           markers: _markers,
-        //           onMapCreated: (controller) => _onMapCreated(controller),
-        //           onCameraMove: (position) => _updateMarkers(position.zoom),
-        //         ),
-        //       ),
         BlocBuilder<BeltBloc, BeltState>(
           builder: (_, beltState) {
             if (beltState is BeltLoaded) {
@@ -342,8 +351,8 @@ class _CreativeBeltPageState extends State<CreativeBeltPage> {
                     zoom: _currentZoom,
                   ),
                   markers: _markers,
-                  onMapCreated: (controller) => _onMapCreated(
-                      controller, _markerLocations, _markerImageUrl),
+                  onMapCreated: (controller) => _onMapCreated(controller,
+                      _markerLocations, _markerImageUrl, belts.value),
                   onCameraMove: (position) => _updateMarkers(position.zoom),
                 ),
               );
@@ -374,16 +383,6 @@ class _CreativeBeltPageState extends State<CreativeBeltPage> {
             color: mainColorRed,
             size: 50,
           )),
-        // (isGetData)
-        //     ? Positioned(
-        //         top: (MediaQuery.of(context).size.height) * 0.45,
-        //         left: (MediaQuery.of(context).size.width) * 0.45,
-        //         child: SpinKitRipple(
-        //           color: mainColorRed,
-        //           size: 70,
-        //         ))
-        //     : SizedBox(),
-
         Positioned(
           top: 20,
           right: defaultMargin,
@@ -391,7 +390,7 @@ class _CreativeBeltPageState extends State<CreativeBeltPage> {
           child: SafeArea(
             child: InkWell(
               onTap: () async {
-                _settingModalBottomSheet(context);
+                // _settingModalBottomSheet(context);
                 // Get.to(SearchBoxBelt())m
                 // final SharedPreferences sharedPreference =
                 //     await SharedPreferences.getInstance();

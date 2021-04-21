@@ -1,6 +1,13 @@
 part of '../pages.dart';
 
-class PublicDetails extends StatelessWidget {
+class PublicDetail extends StatefulWidget {
+  final Publikasi publikasi;
+  PublicDetail(this.publikasi);
+  @override
+  _PublicDetailState createState() => _PublicDetailState();
+}
+
+class _PublicDetailState extends State<PublicDetail> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -20,7 +27,8 @@ class PublicDetails extends StatelessWidget {
                   height: 20,
                 ),
                 Center(
-                    child: Text("PERDA No. 1 Tahun 2019", style: titleStyle)),
+                    child: Text(widget.publikasi.title,
+                        style: titleStyle.copyWith(fontSize: 18))),
                 SizedBox(
                   height: 10,
                 ),
@@ -30,17 +38,51 @@ class PublicDetails extends StatelessWidget {
                   padding:
                       const EdgeInsets.symmetric(horizontal: defaultMargin),
                   child: Text(
-                    "Contoh Artikel",
+                    "Deskripsi",
                     style: blackfontStyle1.copyWith(
                         color: "333333".toColor(),
                         fontWeight: FontWeight.w500,
                         fontSize: 17),
                   ),
                 ),
+                SizedBox(height:20),
+                GestureDetector(
+                  onTap: () async {
+                    print('https://patrakomala.disbudpar.bandung.go.id/uploads/event_news/documents/' + widget.publikasi.documents);
+                    Get.to(PdfView('https://patrakomala.disbudpar.bandung.go.id/uploads/event_news/documents/' + widget.publikasi.documents));
+                  },
+                  child: Container(
+                    margin: EdgeInsets.symmetric(horizontal: defaultMargin),
+                    height: 40,
+                    decoration: BoxDecoration(
+                      boxShadow: <BoxShadow>[
+                        BoxShadow(
+                          color: Color.fromRGBO(17, 18, 19, 0.3),
+                          offset: Offset(0.0, 0.0),
+                          blurRadius: 2.0,
+                        ),
+                      ],
+                      gradient: RadialGradient(colors: [
+                        "FEFEFE".toColor(),
+                        "F8F8F8".toColor(),
+                      ]),
+                      borderRadius:
+                          BorderRadius.all(const Radius.circular(5.0)),
+                    ),
+                    child: Center(
+                        child: Text(
+                      "Lihat Dokumen",
+                      style: normalFontStyle.copyWith(
+                          color: mainColorRed,
+                          fontSize: 14,
+                          fontWeight: FontWeight.w600),
+                    )),
+                  ),
+                ),
                 Container(
                     margin: EdgeInsets.all(defaultMargin),
                     child: Text(
-                      "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.\n\n when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker \n\n when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker\n\n when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker\n\n when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker ",
+                      parse(widget.publikasi.description).documentElement.text,
                       style:
                           normalFontStyle.copyWith(color: "333333".toColor()),
                       textAlign: TextAlign.left,

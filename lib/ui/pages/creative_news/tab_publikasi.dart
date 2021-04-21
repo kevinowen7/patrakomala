@@ -35,62 +35,142 @@ class TabPublikasi extends StatelessWidget {
 
       // List Publikasi
       SizedBox(height: 20),
-      InkWell(
-        onTap: () {
-          Get.to(PublicDetails());
+      BlocBuilder<PublikasiBloc, PublikasiState>(
+        builder: (_, pState) {
+          if (pState is PublikasiFilterLoaded) {
+            return Container(
+              margin: EdgeInsets.fromLTRB(defaultMargin, 0, defaultMargin, 0),
+              height: 30,
+              child: Align(
+                alignment: Alignment.centerRight,
+                child: InkWell(
+                  onTap: () {
+                    context.bloc<PublikasiBloc>().add(FetchPublikasi());
+                  },
+                  child: Container(
+                      decoration: BoxDecoration(
+                        boxShadow: <BoxShadow>[
+                          BoxShadow(
+                            color: Color(0xFFFFFFFF),
+                            offset: Offset(0.0, -1.0),
+                            blurRadius: 4.0,
+                          ),
+                          BoxShadow(
+                            color: Color(0xFFDFDFDF),
+                            offset: Offset(0.0, 1.0),
+                            blurRadius: 4.0,
+                          ),
+                        ],
+                        color: Color(0xFFFEFEFE),
+                        borderRadius:
+                            BorderRadius.all(const Radius.circular(6.0)),
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.all(5),
+                        child: Container(
+                          width: 80,
+                          child: Center(
+                            child: Text(
+                              'Reset Filter',
+                              style: normalFontStyle.copyWith(
+                                  fontWeight: FontWeight.w500,
+                                  color: mainColorRed),
+                            ),
+                          ),
+                        ),
+                      )),
+                ),
+              ),
+            );
+          }else{
+            return SizedBox();
+          }
         },
-        child: Container(
-          width: double.infinity,
-          margin: EdgeInsets.symmetric(horizontal: defaultMargin),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              Text("PERDA No. 1 Tahun 2019", style: titleStyle),
-              SizedBox(height: 5),
-              Text("Tahun Terbit 2019",
-                  style: normalFontStyle.copyWith(
-                      color: "777777".toColor(), fontSize: 12)),
-              SizedBox(height: 10),
-            ],
-          ),
-        ),
       ),
-      LineBorder(),
-      SizedBox(height: 20),
-      Container(
-        margin: EdgeInsets.symmetric(horizontal: defaultMargin),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            Text("PERDA No. 1 Tahun 2019", style: titleStyle),
-            SizedBox(height: 5),
-            Text("Tahun Terbit 2019",
-                style: normalFontStyle.copyWith(
-                    color: "777777".toColor(), fontSize: 12)),
-            SizedBox(height: 10),
-          ],
-        ),
+
+      BlocBuilder<PublikasiBloc, PublikasiState>(
+        builder: (_, pState) {
+          if (pState is PublikasiLoaded) {
+            ApiReturnValue<List<Publikasi>> publikasi = pState.publikasi;
+
+            return Column(
+              children: publikasi.value
+                  .map(
+                    (e) => Column(
+                      children: [
+                        InkWell(
+                          onTap: () {
+                            Get.to(PublicDetail(e));
+                          },
+                          child: Container(
+                            width: double.infinity,
+                            margin:
+                                EdgeInsets.symmetric(horizontal: defaultMargin),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                Text(e.title, style: titleStyle),
+                                SizedBox(height: 5),
+                                Text("Tahun Terbit 2019",
+                                    style: normalFontStyle.copyWith(
+                                        color: "777777".toColor(),
+                                        fontSize: 12)),
+                                SizedBox(height: 10),
+                              ],
+                            ),
+                          ),
+                        ),
+                        LineBorder(),
+                        SizedBox(height: 20),
+                      ],
+                    ),
+                  )
+                  .toList(),
+            );
+          } else if (pState is PublikasiFilterLoaded) {
+            ApiReturnValue<List<Publikasi>> publikasi = pState.publikasi;
+
+            return Column(
+              children: publikasi.value
+                  .map(
+                    (e) => Column(
+                      children: [
+                        InkWell(
+                          onTap: () {
+                            Get.to(PublicDetail(e));
+                          },
+                          child: Container(
+                            width: double.infinity,
+                            margin:
+                                EdgeInsets.symmetric(horizontal: defaultMargin),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                Text(e.title, style: titleStyle),
+                                SizedBox(height: 5),
+                                Text("Tahun Terbit 2019",
+                                    style: normalFontStyle.copyWith(
+                                        color: "777777".toColor(),
+                                        fontSize: 12)),
+                                SizedBox(height: 10),
+                              ],
+                            ),
+                          ),
+                        ),
+                        LineBorder(),
+                        SizedBox(height: 20),
+                      ],
+                    ),
+                  )
+                  .toList(),
+            );
+          } else {
+            return SpinKitFadingCircle(color: backgroundColorGrey, size: 50);
+          }
+        },
       ),
-      LineBorder(),
-      SizedBox(height: 20),
-      Container(
-        margin: EdgeInsets.symmetric(horizontal: defaultMargin),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            Text("PERDA No. 1 Tahun 2019", style: titleStyle),
-            SizedBox(height: 5),
-            Text("Tahun Terbit 2019",
-                style: normalFontStyle.copyWith(
-                    color: "777777".toColor(), fontSize: 12)),
-            SizedBox(height: 10),
-          ],
-        ),
-      ),
-      LineBorder(),
     ]);
   }
 }

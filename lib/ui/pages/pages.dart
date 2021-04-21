@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:carousel_pro/carousel_pro.dart';
 import 'package:email_validator/email_validator.dart';
@@ -8,9 +9,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_icons/flutter_icons.dart';
+import 'package:flutter_pdfview/flutter_pdfview.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:patrakomala_neumorphic/bloc/bloc.dart';
 import 'package:patrakomala_neumorphic/models/models.dart';
@@ -26,6 +27,12 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 import 'package:slugify/slugify.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:html/parser.dart';
+import 'package:carousel_slider/carousel_slider.dart';
+import 'package:flutter_pdfview/flutter_pdfview.dart';
+import 'package:http/http.dart' as http;
+import 'package:path_provider/path_provider.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 
 part 'login/pre_login_page.dart';
@@ -49,6 +56,7 @@ part 'creative_news/public_details.dart';
 part 'creative_news/tab_publikasi.dart';
 part 'creative_news/search_box_news.dart';
 part 'creative_news/search_box_public.dart';
+part 'creative_news/pdf_viewer.dart';
 part 'creative_event/creative_event.dart';
 part 'creative_event/event_detail.dart';
 part 'creative_event/search_box.dart';

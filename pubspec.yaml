@@ -50,6 +50,9 @@ dependencies:
   youtube_player_flutter: ^7.0.0+7
   slugify: ^1.0.0
   cached_network_image: ^2.2.0
+  html: ^0.14.0+4
+  flutter_pdfview: ^1.0.1
+  permission_handler: ^4.4.0
 
 dev_dependencies:
   flutter_test:

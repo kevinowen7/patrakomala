@@ -15,3 +15,6 @@ part 'marketplace.dart';
 part 'bisnis.dart';
 part 'belt.dart';
 part 'news.dart';
+part 'publikasi.dart';
+part 'event.dart';
+part 'pcc.dart';
