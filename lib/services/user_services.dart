@@ -73,18 +73,19 @@ class UserServices {
       client = http.Client();
     }
 
-    final SharedPreferences sharedPreferences =
-        await SharedPreferences.getInstance();
-    var phoneIdentifier = sharedPreferences.getString('identifier');
+    ApiReturnValue<String> phoneIdentifier = await getDeviceDetails();
+
     String url = baseURL2 + 'mobile/identifier';
     var response = await client.post(url,
         headers: {"Content-Type": "application/json"},
         body: aConvert.jsonEncode(<String, String>{
-          'identifier': phoneIdentifier,
+          'identifier': phoneIdentifier.message,
         }));
 
+    
+
     var data = aConvert.jsonDecode(response.body);
-    var cloudIdentifier = (data['response']) ? phoneIdentifier : 'no-data';
+    var cloudIdentifier = (data['response']  == true) ? phoneIdentifier.message : 'no-data';
 
     return ApiReturnValue(value: cloudIdentifier);
 

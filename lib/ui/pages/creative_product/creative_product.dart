@@ -382,9 +382,11 @@ class _CreativeProductState extends State<CreativeProduct> {
                         }),
                   );
                 } else {
-                  return SpinKitFadingCircle(
-                    color: mainColorRed,
-                    size: 50,
+                  return Center(
+                    child: SpinKitFadingCircle(
+                      color: backgroundColorGrey,
+                      size: 50,
+                    ),
                   );
                 }
               }),

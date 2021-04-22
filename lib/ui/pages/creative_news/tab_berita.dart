@@ -173,7 +173,7 @@ class TabBerita extends StatelessWidget {
               ),
             );
           } else {
-            return SpinKitFadingCircle(color: mainColorRed, size: 50);
+            return Center(child: SpinKitFadingCircle(color: backgroundColorGrey,size: 50));
           }
         }),
         SizedBox(
@@ -503,7 +503,7 @@ class TabBerita extends StatelessWidget {
                   .toList(),
             );
           } else {
-            return SpinKitFadingCircle(color: backgroundColorGrey, size: 50);
+            return Center(child: SpinKitFadingCircle(color: backgroundColorGrey, size: 50));
           }
         }),
         SizedBox(height: 100),

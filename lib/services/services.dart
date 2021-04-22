@@ -11,7 +11,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:patrakomala_neumorphic/models/models.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 part 'map_services.dart';
 part 'user_services.dart';

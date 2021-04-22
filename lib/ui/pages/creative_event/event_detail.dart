@@ -1,6 +1,8 @@
 part of '../pages.dart';
 
 class EventDetail extends StatelessWidget {
+  final Acara acara;
+  EventDetail(this.acara);
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -20,12 +22,12 @@ class EventDetail extends StatelessWidget {
                   margin: EdgeInsets.fromLTRB(
                       defaultMargin, 8, defaultMargin, defaultMargin),
                   width: double.infinity,
-                  height: 160,
+                  height: 200,
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(10),
                       image: DecorationImage(
                         image: NetworkImage(
-                            'https://assets.pikiran-rakyat.com/crop/0x0:0x0/x/photo/2020/03/29/1571813690.png'),
+                            acara.imgEvent[0]),
                         fit: BoxFit.cover,
                       )),
                 ),
@@ -33,7 +35,7 @@ class EventDetail extends StatelessWidget {
                   padding:
                       const EdgeInsets.symmetric(horizontal: defaultMargin),
                   child: Text(
-                    "Contoh Event",
+                    acara.title,
                     style: blackfontStyle1.copyWith(
                         color: "333333".toColor(),
                         fontWeight: FontWeight.w600,
@@ -55,19 +57,23 @@ class EventDetail extends StatelessWidget {
                           IconWithText(
                             isRow: 'yes',
                             icon: Icons.calendar_today_rounded,
-                            text: "7 Mei 2019",
+                            text: DateFormat(" d MMMM yyyy", "id_ID")
+                                .format(acara.startDate),
                           ),
                           IconWithText(
                             isRow: 'yes',
                             icon: Icons.more_time,
-                            text: "03.00 - 10.00",
+                            text:
+                                "${acara.startTime.substring(0, 5)} - ${acara.endTime.substring(0, 5)}",
                           ),
                         ],
                       ),
-                      SizedBox(height: 10,),
+                      SizedBox(
+                        height: 10,
+                      ),
                       IconWithText(
                         icon: Icons.location_pin,
-                        text: "Siliwangi 8 Simpang Dago",
+                        text: acara.takePlace,
                       ),
                     ],
                   ),
@@ -79,7 +85,7 @@ class EventDetail extends StatelessWidget {
                   padding:
                       const EdgeInsets.symmetric(horizontal: defaultMargin),
                   child: Text(
-                    "Contoh Artikel",
+                    "Keterangan",
                     style: blackfontStyle1.copyWith(
                         color: "333333".toColor(),
                         fontWeight: FontWeight.w500,
@@ -89,11 +95,12 @@ class EventDetail extends StatelessWidget {
                 Container(
                     margin: EdgeInsets.all(defaultMargin),
                     child: Text(
-                      "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.\n\n when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker \n\n when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker\n\n when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker\n\n when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker ",
+                      parse(acara.description).documentElement.text,
                       style:
                           normalFontStyle.copyWith(color: "333333".toColor()),
                       textAlign: TextAlign.left,
                     )),
+                    SizedBox(height:100),
               ],
             ),
             Positioned(
@@ -147,7 +154,6 @@ class EventDetail extends StatelessWidget {
                       SizedBox(
                         height: 6,
                       ),
-                    
                     ],
                   ),
                 ),

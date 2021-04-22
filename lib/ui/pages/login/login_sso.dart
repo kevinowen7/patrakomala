@@ -90,15 +90,17 @@ class _LoginEmailState extends State<LoginEmail> {
                       message: "Format Email salah",
                     )..show(context);
                   } else {
+                    // print(identifier);
                     var result = await UserServices.signInSSO(
                         emailController.text,
                         passwordController.text,
                         identifier);
                     try {
+                      var email = result.value.email;
                       final SharedPreferences sharedPreferences =
                           await SharedPreferences.getInstance();
                       sharedPreferences.setString(
-                          'identifier', result.value.email);
+                          'identifier', identifier);
                       Get.to(MainPage());
                     } catch (e) {
                       Flushbar(

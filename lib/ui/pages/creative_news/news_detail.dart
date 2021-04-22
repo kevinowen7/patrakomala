@@ -56,38 +56,6 @@ class NewsDetail extends StatelessWidget {
                   enlargeCenterPage: true,
                   aspectRatio: 2.0,
                 ),
-                // Container(
-                //   margin: EdgeInsets.fromLTRB(
-                //       defaultMargin, 8, defaultMargin, defaultMargin),
-                //   width: double.infinity,
-                //   height: 200,
-                //   decoration: BoxDecoration(
-                //     borderRadius: BorderRadius.circular(10),
-                //   ),
-                //   child: ClipRRect(
-                //     borderRadius: BorderRadius.circular(10),
-                //     child: CachedNetworkImage(
-                //       fit: BoxFit.cover,
-                //       imageUrl: news.imgEvent[0],
-                //       progressIndicatorBuilder:
-                //           (context, url, downloadProgress) => Container(
-                //               decoration: BoxDecoration(
-                //                 borderRadius: BorderRadius.circular(15),
-                //                 gradient: LinearGradient(
-                //                   colors: [
-                //                     Colors.black.withOpacity(0.61),
-                //                     Colors.blueAccent.withOpacity(0),
-                //                   ],
-                //                   begin: Alignment.bottomCenter,
-                //                   end: Alignment.topCenter,
-                //                 ),
-                //               ),
-                //               child: SpinKitFadingCircle(
-                //                   color: backgroundColorGrey, size: 50)),
-                //       errorWidget: (context, url, error) => Icon(Icons.error),
-                //     ),
-                //   ),
-                // ),
                 SizedBox(
                   height: 20,
                 ),

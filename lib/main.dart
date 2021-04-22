@@ -29,6 +29,9 @@ class MyApp extends StatelessWidget {
         BlocProvider(
           create: (_) => PublikasiBloc()..add(FetchPublikasi()),
         ),
+        BlocProvider(
+          create: (_) => AcaraBloc()..add(FetchAcara()),
+        ),
       ],
       child: GetMaterialApp(
         home: TesPage(),

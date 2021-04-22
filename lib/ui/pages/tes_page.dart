@@ -9,13 +9,13 @@ class _TesPageState extends State<TesPage> {
   String userIdentifier;
 
   Future getValidationData() async {
-    final SharedPreferences sharedPreferences =
-        await SharedPreferences.getInstance();
     var identifier = await UserServices.getIdentifier();
-    var obtainedEmail = sharedPreferences.getString('identifier');
+    ApiReturnValue<String> obtainedEmail = await UserServices.getDeviceDetails();
+    print(identifier.value.toString()+ 'iden 1');
+    print(obtainedEmail.message.toString() + 'iden 2');
     setState(() {
       userIdentifier =
-          (identifier.value == obtainedEmail) ? identifier.value : 'no-data';
+          (identifier.value.toString() == obtainedEmail.message.toString()) ? identifier.value : 'no-data';
     });
   }
 
