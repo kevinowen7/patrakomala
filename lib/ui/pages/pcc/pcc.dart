@@ -1,6 +1,12 @@
 part of '../pages.dart';
 
-class Pcc extends StatelessWidget {
+class Pcc extends StatefulWidget {
+  @override
+  _PccState createState() => _PccState();
+}
+
+class _PccState extends State<Pcc> {
+  int _current = 0;
   final List<int> beritaItems = [1, 2, 3, 4, 5];
   @override
   Widget build(BuildContext context) {
@@ -60,110 +66,230 @@ class Pcc extends StatelessWidget {
                   ),
                 ),
                 LineBorder(),
-                SizedBox(
-                  height: 20,
-                ),
-                Container(
-                  height: 125,
-                  margin: EdgeInsets.symmetric(horizontal: defaultMargin),
-                  child: ListView.builder(
-                    scrollDirection: Axis.horizontal,
-                    itemCount: beritaItems.length,
-                    itemBuilder: (BuildContext context, int index) => InkWell(
-                      onTap: () {
-                        Get.to(PccDetail());
-                      },
-                      child: Row(
-                        children: [
-                          Container(
-                            height: 122,
-                            width: 140,
-                            decoration: BoxDecoration(
-                              image: DecorationImage(
-                                image: NetworkImage(
-                                    "https://assets.pikiran-rakyat.com/crop/0x0:0x0/x/photo/2020/03/29/1571813690.png"),
-                                fit: BoxFit.cover,
-                              ),
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                          ),
-                          Container(
-                            margin:
-                                EdgeInsets.only(left: 15, right: defaultMargin),
-                            child: Column(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    "Contoh PCC",
-                                    style: titleStyle,
-                                  ),
-                                  Text(
-                                    "Event - 12 April 2021",
-                                    style: normalFontStyle,
-                                  ),
-                                  SizedBox(height: 10),
-                                  Container(
-                                    width: (MediaQuery.of(context).size.width) -
-                                        192,
-                                    child: Text(
-                                      "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the ",
-                                      style: normalFontStyle.copyWith(
-                                          color: "333333".toColor(),
-                                          fontSize: 12),
-                                      textAlign: TextAlign.left,
+                BlocBuilder<PccBloc, PccState>(
+                  builder: (_, pState) {
+                    if (pState is PccLoaded) {
+                      initializeDateFormatting();
+                      ApiReturnValue<List<PccModel>> pcc = pState.pcc;
+                      List<PccModel> pccVal = pcc.value.sublist(0, 5);
+                      return CarouselSlider(
+                        options: CarouselOptions(
+                          aspectRatio: 16 / 9,
+                          viewportFraction: 1,
+                          initialPage: 0,
+                          height: 150,
+                          onPageChanged: (index, reason) {
+                            setState(() {
+                              _current = index;
+                              print("${_current}");
+                            });
+                          },
+                        ),
+                        items: pccVal
+                            .map((item) => InkWell(
+                                  onTap: () {},
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Stack(
+                                      children: [
+                                        Container(
+                                          height: 140,
+                                          width: (MediaQuery.of(context)
+                                                  .size
+                                                  .width) -
+                                              40,
+                                          child: Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.start,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.center,
+                                            children: [
+                                              Container(
+                                                height: 122,
+                                                width: 140,
+                                                decoration: BoxDecoration(
+                                                  borderRadius:
+                                                      BorderRadius.circular(10),
+                                                ),
+                                                child: ClipRRect(
+                                                  borderRadius:
+                                                      BorderRadius.circular(10),
+                                                  child: CachedNetworkImage(
+                                                    fit: BoxFit.cover,
+                                                    imageUrl: item.gambar,
+                                                    progressIndicatorBuilder: (context,
+                                                            url,
+                                                            downloadProgress) =>
+                                                        Container(
+                                                            decoration:
+                                                                BoxDecoration(
+                                                              borderRadius:
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                          15),
+                                                              gradient:
+                                                                  LinearGradient(
+                                                                colors: [
+                                                                  Colors.black
+                                                                      .withOpacity(
+                                                                          0.61),
+                                                                  Colors
+                                                                      .blueAccent
+                                                                      .withOpacity(
+                                                                          0),
+                                                                ],
+                                                                begin: Alignment
+                                                                    .bottomCenter,
+                                                                end: Alignment
+                                                                    .topCenter,
+                                                              ),
+                                                            ),
+                                                            child: SpinKitFadingCircle(
+                                                                color:
+                                                                    backgroundColorGrey,
+                                                                size: 50)),
+                                                    errorWidget:
+                                                        (context, url, error) =>
+                                                            Icon(Icons.error),
+                                                  ),
+                                                ),
+                                              ),
+                                              Container(
+                                                margin: EdgeInsets.only(
+                                                    left: 15,
+                                                    right: defaultMargin),
+                                                child: Column(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .center,
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .start,
+                                                    children: [
+                                                      Container(
+                                                        width: (MediaQuery.of(
+                                                                    context)
+                                                                .size
+                                                                .width) -
+                                                            215,
+                                                        child: Text(
+                                                          item.namaEvent,
+                                                          style: titleStyle,
+                                                          maxLines: 2,
+                                                        ),
+                                                      ),
+                                                      Text(
+                                                        "Event - " +
+                                                            DateFormat(
+                                                                    " d MMMM yyyy",
+                                                                    "id_ID")
+                                                                .format(item
+                                                                    .tanggal),
+                                                        style: normalFontStyle,
+                                                      ),
+                                                      SizedBox(height: 10),
+                                                      Container(
+                                                        width: (MediaQuery.of(
+                                                                    context)
+                                                                .size
+                                                                .width) -
+                                                            220,
+                                                        child: Text(
+                                                          (item.eventDesc ==
+                                                                  null)
+                                                              ? '-'
+                                                              : parse(item.eventDesc)
+                                                                      .documentElement
+                                                                      .text
+                                                                      .substring(
+                                                                          0,
+                                                                          90) +
+                                                                  '...',
+                                                          style: normalFontStyle
+                                                              .copyWith(
+                                                                  color: "333333"
+                                                                      .toColor(),
+                                                                  fontSize: 12),
+                                                          textAlign:
+                                                              TextAlign.left,
+                                                        ),
+                                                      ),
+                                                    ]),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ],
                                     ),
                                   ),
-                                ]),
-                          )
-                        ],
-                      ),
-                    ),
-                  ),
+                                ))
+                            .toList(),
+                      );
+                    } else {
+                      return Center(
+                          child: SpinKitFadingCircle(
+                        color: backgroundColorGrey,
+                        size: 50,
+                      ));
+                    }
+                  },
                 ),
-                SizedBox(
-                  height: 15,
+                SizedBox(),
+                BlocBuilder<PccBloc, PccState>(
+                  builder: (_, pState) {
+                    if (pState is PccLoaded) {
+                      ApiReturnValue<List<PccModel>> pcc = pState.pcc;
+                      List<PccModel> pccVal = pcc.value;
+                      return Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: pccVal
+                            .map(
+                              (val) => Container(
+                                height: 10,
+                                width: 10,
+                                margin: EdgeInsets.symmetric(horizontal: 3),
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(10),
+                                  boxShadow: <BoxShadow>[
+                                    BoxShadow(
+                                      color: Color(0xFFFFFFFF),
+                                      offset: Offset(0.0, -1.0),
+                                      blurRadius: 2.0,
+                                    ),
+                                    BoxShadow(
+                                      color: Color(0xFFCACACA),
+                                      offset: Offset(0.0, 1.0),
+                                      blurRadius: 2.0,
+                                    ),
+                                    BoxShadow(
+                                      color: Color.fromRGBO(51, 51, 51, 0.16),
+                                      offset: Offset(0, 0.0),
+                                      blurRadius: 0.0,
+                                    ),
+                                  ],
+                                  gradient: LinearGradient(
+                                    begin: Alignment(0.0, 0.0),
+                                    end: Alignment(0.996, 0.092),
+                                    colors: [
+                                      (pccVal.indexOf(val) == _current)
+                                          ? mainColorRed
+                                          : "DFDFDF".toColor(),
+                                      (pccVal.indexOf(val) == _current)
+                                          ? mainColorRed
+                                          : "FEFEFE".toColor(),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            )
+                            .toList(),
+                      );
+                    } else {
+                      return SizedBox();
+                    }
+                  },
                 ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: beritaItems
-                      .map(
-                        (val) => Container(
-                          height: 10,
-                          width: 10,
-                          margin: EdgeInsets.symmetric(horizontal: 3),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10),
-                            boxShadow: <BoxShadow>[
-                              BoxShadow(
-                                color: Color(0xFFFFFFFF),
-                                offset: Offset(0.0, -1.0),
-                                blurRadius: 2.0,
-                              ),
-                              BoxShadow(
-                                color: Color(0xFFCACACA),
-                                offset: Offset(0.0, 1.0),
-                                blurRadius: 2.0,
-                              ),
-                              BoxShadow(
-                                color: Color.fromRGBO(51, 51, 51, 0.16),
-                                offset: Offset(0, 0.0),
-                                blurRadius: 0.0,
-                              ),
-                            ],
-                            gradient: LinearGradient(
-                              begin: Alignment(0.0, 0.0),
-                              end: Alignment(0.996, 0.092),
-                              colors: [
-                                "DFDFDF".toColor(),
-                                "FEFEFE".toColor(),
-                              ],
-                            ),
-                          ),
-                        ),
-                      )
-                      .toList(),
-                ),
+
                 SizedBox(
                   height: 15,
                 ),
@@ -171,9 +297,25 @@ class Pcc extends StatelessWidget {
                 LineBorder(),
 
                 // LIST PCC
-                ListPcc(),
-                ListPcc(),
-                ListPcc(),
+                BlocBuilder<PccBloc, PccState>(
+                  builder: (_, pState) {
+                    if (pState is PccLoaded) {
+                      ApiReturnValue<List<PccModel>> pcc = pState.pcc;
+                      List<PccModel> pccVal = pcc.value;
+                      return Column(
+                        children: pccVal
+                            .map(
+                              (e) => ListPcc(e),
+                            )
+                            .toList(),
+                      );
+                    } else {
+                      return Center(
+                          child: SpinKitFadingCircle(
+                              color: backgroundColorGrey, size: 50));
+                    }
+                  },
+                ),
 
                 SizedBox(
                   height: 100,

@@ -5,3 +5,4 @@ export 'news_bloc.dart';
 export 'belt_bloc.dart';
 export 'publikasi_bloc.dart';
 export 'acara_bloc.dart';
+export 'pcc_bloc.dart';

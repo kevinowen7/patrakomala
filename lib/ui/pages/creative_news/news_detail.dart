@@ -51,10 +51,12 @@ class NewsDetail extends StatelessWidget {
                       ),
                     );
                   }).toList(),
-                  height: 200,
-                  autoPlay: true,
-                  enlargeCenterPage: true,
-                  aspectRatio: 2.0,
+                  options: CarouselOptions(
+                    height: 200,
+                    autoPlay: true,
+                    enlargeCenterPage: true,
+                    aspectRatio: 2.0,
+                  ),
                 ),
                 SizedBox(
                   height: 20,

@@ -1,6 +1,8 @@
 part of '../pages.dart';
 
 class ListPcc extends StatelessWidget {
+  final PccModel pcc;
+  ListPcc(this.pcc);
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -14,12 +16,30 @@ class ListPcc extends StatelessWidget {
                 height: 77,
                 width: 91,
                 decoration: BoxDecoration(
-                  image: DecorationImage(
-                    image: NetworkImage(
-                        "https://awsimages.detik.net.id/community/media/visual/2021/04/06/teror-pelemparan-batu-di-bandung_169.jpeg?w=620"),
-                    fit: BoxFit.cover,
-                  ),
                   borderRadius: BorderRadius.circular(10),
+                ),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(10),
+                  child: CachedNetworkImage(
+                    fit: BoxFit.cover,
+                    imageUrl: pcc.gambar,
+                    progressIndicatorBuilder:
+                        (context, url, downloadProgress) => Container(
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(15),
+                              gradient: LinearGradient(
+                                colors: [
+                                  Colors.black.withOpacity(0.61),
+                                  Colors.blueAccent.withOpacity(0),
+                                ],
+                                begin: Alignment.bottomCenter,
+                                end: Alignment.topCenter,
+                              ),
+                            ),
+                            child: SpinKitFadingCircle(
+                                color: backgroundColorGrey, size: 50)),
+                    errorWidget: (context, url, error) => Icon(Icons.error),
+                  ),
                 ),
               ),
               Container(
@@ -28,15 +48,25 @@ class ListPcc extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
-                      "Contoh Arikel",
-                      style: titleStyle,
+                    Container(
+                      width: (MediaQuery.of(context).size.width) - 170,
+                      child: Text(
+                        pcc.namaEvent,
+                        style: titleStyle,
+                        maxLines: 2,
+                      ),
                     ),
                     SizedBox(height: 10),
                     Container(
                       width: (MediaQuery.of(context).size.width) - 172,
                       child: Text(
-                        "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the ",
+                        (pcc.eventDesc == null)
+                            ? '-'
+                            : parse(pcc.eventDesc)
+                                    .documentElement
+                                    .text
+                                    .substring(0, 60) +
+                                '...',
                         style: normalFontStyle.copyWith(
                             fontSize: 12, color: "333333".toColor()),
                         textAlign: TextAlign.left,

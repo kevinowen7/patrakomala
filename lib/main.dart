@@ -32,6 +32,9 @@ class MyApp extends StatelessWidget {
         BlocProvider(
           create: (_) => AcaraBloc()..add(FetchAcara()),
         ),
+        BlocProvider(
+          create: (_) => PccBloc()..add(FetchPcc()),
+        ),
       ],
       child: GetMaterialApp(
         home: TesPage(),

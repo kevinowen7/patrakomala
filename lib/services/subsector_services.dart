@@ -9,10 +9,6 @@ class SubsectorServices {
       "Content-Type" : "application/json"
     });
 
-    // if(response.statusCode != 200){
-    //   // return 'gagal';
-    // }
-
     var data = aConvert.jsonDecode(response.body);
     List<Subsector> subsectors = (data['data'] as Iterable).map((e) => Subsector.fromJson(e)).toList();
 
