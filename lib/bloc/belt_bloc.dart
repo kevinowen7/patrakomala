@@ -9,14 +9,18 @@ part 'belt_state.dart';
 class BeltBloc extends Bloc<BeltEvent, BeltState> {
   @override
   BeltState get initialState => BeltInitial();
-  
+
   @override
   Stream<BeltState> mapEventToState(
     BeltEvent event,
   ) async* {
-    if(event is FetchBelt){
+    if (event is FetchBelt) {
       ApiReturnValue<List<Belt>> belts = await MapServices.getBelt();
-      yield(BeltLoaded(belts));
+      yield (BeltLoaded(belts));
+    } else if (event is BeltBySubsector) {
+      ApiReturnValue<List<Belt>> belts =
+          await MapServices.beltBySubsector(event.subsector);
+      yield (BeltSubsectorLoaded(belts));
     }
   }
 }

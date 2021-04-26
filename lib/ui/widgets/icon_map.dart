@@ -11,15 +11,15 @@ class IconMap extends StatelessWidget {
     return Column(
       children: [
         Container(
-          width: 50,
-          height: 50,
+          width: 35,
+          height: 35,
           decoration: BoxDecoration(
             // color: Colors.red,
             border: Border.all(color: mainColorRed, width: 1),
-            borderRadius: BorderRadius.circular(25),
+            borderRadius: BorderRadius.circular(17),
           ),
           child: Center(
-            child: Image.asset(image, fit: BoxFit.cover, width: 24),
+            child: Image.asset(image, fit: BoxFit.cover, width: 20),
           ),
         ),
         SizedBox(

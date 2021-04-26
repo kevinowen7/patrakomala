@@ -6,3 +6,7 @@ export 'belt_bloc.dart';
 export 'publikasi_bloc.dart';
 export 'acara_bloc.dart';
 export 'pcc_bloc.dart';
+export 'kecamatan_bloc.dart';
+export 'kelurahan_bloc.dart';
+export 'travel_package_bloc.dart';
+export 'tour_package_bloc.dart';

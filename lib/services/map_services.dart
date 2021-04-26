@@ -1,25 +1,47 @@
 part of 'services.dart';
 
 class MapServices {
-  static Future<ApiReturnValue<List<Belt>>> getBelt({http.Client client}) async {
+  static Future<ApiReturnValue<List<Belt>>> getBelt(
+      {http.Client client}) async {
     client ??= http.Client();
 
     String url = baseURL2 + 'mobile/belts';
-    var response = await client.get(url,headers: {"Content-Type" : "application/json"});
+    var response =
+        await client.get(url, headers: {"Content-Type": "application/json"});
 
-    print(response.statusCode.toString());
-
-    if(response.statusCode != 200){
+    if (response.statusCode != 200) {
       return ApiReturnValue(message: "Gagal mengambil belts");
     }
 
     var data = aConvert.jsonDecode(response.body);
-    List<Belt> value = (data['response'] as Iterable)
-        .map((e) => Belt.fromJson(e))
-        .toList();
+    print(data['response'].length.toString());
+    List<Belt> value =
+        (data['response'] as Iterable).map((e) => Belt.fromJson(e)).toList();
 
     return ApiReturnValue(value: value);
+  }
 
+  static Future<ApiReturnValue<List<Belt>>> beltBySubsector(List<int> subsector,
+      {http.Client client}) async {
+    client ??= http.Client();
+
+    String url = baseURL2 + 'mobile/belts/subsector';
+    var response = await client.post(url,
+        headers: {"Content-Type": "application/json"},
+        body: aConvert.jsonEncode({
+          'subsector': subsector,
+        }));
+
+    if (response.statusCode != 200) {
+      return ApiReturnValue(message: "Gagal mengambil belts");
+    }
+
+    var data = aConvert.jsonDecode(response.body);
+    print(data['response'].length.toString());
+    List<Belt> value =
+        (data['response'] as Iterable).map((e) => Belt.fromJson(e)).toList();
+
+    return ApiReturnValue(value: value);
   }
 
   static Future<BitmapDescriptor> getMarkerImageFromUrl(

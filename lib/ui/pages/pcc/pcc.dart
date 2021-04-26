@@ -69,7 +69,6 @@ class _PccState extends State<Pcc> {
                 BlocBuilder<PccBloc, PccState>(
                   builder: (_, pState) {
                     if (pState is PccLoaded) {
-                      
                       initializeDateFormatting();
                       ApiReturnValue<List<PccModel>> pcc = pState.pcc;
                       List<PccModel> pccVal = pcc.value.sublist(0, 5);
@@ -231,7 +230,7 @@ class _PccState extends State<Pcc> {
                     } else if (pState is PccFilterLoaded) {
                       return Container(
                         margin: EdgeInsets.fromLTRB(
-                            defaultMargin, defaultMargin,defaultMargin, 0),
+                            defaultMargin, defaultMargin, defaultMargin, 0),
                         height: 30,
                         child: Align(
                           alignment: Alignment.centerRight,
@@ -369,7 +368,11 @@ class _PccState extends State<Pcc> {
                       return Column(
                         children: pccVal
                             .map(
-                              (e) => ListPcc(e),
+                              (e) => InkWell(
+                                  onTap: () {
+                                    Get.to(PccDetail(e));
+                                  },
+                                  child: ListPcc(e)),
                             )
                             .toList(),
                       );
@@ -379,7 +382,11 @@ class _PccState extends State<Pcc> {
                       return Column(
                         children: pccVal
                             .map(
-                              (e) => ListPcc(e),
+                              (e) => InkWell(
+                                  onTap: () {
+                                    Get.to(PccDetail(e));
+                                  },
+                                  child: ListPcc(e)),
                             )
                             .toList(),
                       );

@@ -63,7 +63,6 @@ class _CreativeEventState extends State<CreativeEvent> {
                     onPageChanged: (index, reason) {
                       setState(() {
                         _current = index;
-                        print("${_current}");
                       });
                     },
                     aspectRatio: 16 / 9,

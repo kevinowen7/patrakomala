@@ -6,9 +6,23 @@ class SearchBoxBelt extends StatefulWidget {
 }
 
 class _SearchBoxBeltState extends State<SearchBoxBelt> {
-  List<String> itemsSubsektor = ['Subsektor 1', 'Subsektor 2', 'Subsektor 3'];
-  List<String> itemsBelt = ['Belt 1', 'Belt 2', 'Belt 3'];
-  TextEditingController subsektorController = TextEditingController();
+  bool isLoading = false;
+  List<int> selectedSubsector;
+  int selectedKecamatan;
+  int selectedKelurahan;
+  int selecteTravelPackage;
+  int selectedBeltPackage;
+  bool isLoadingSubsector = false;
+  TextEditingController judul = TextEditingController();
+
+  // void getIdSubsector(List<) async {
+  //   for (var i in selectedSubsektor) {
+  //     var slugy = Slugify(itemsSubsektor[i],delimiter: '_');
+  //     setState(() {
+  //       selectedSlug.add(slugy);
+  //     });
+  //   }
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -27,90 +41,416 @@ class _SearchBoxBeltState extends State<SearchBoxBelt> {
           ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              NeuBorder(
-                mTop: 20,
-                mBot: 20,
-                child: Padding(
-                  padding: EdgeInsets.only(left: defaultMargin),
-                  child: TextField(
-                    style: normalFontStyle.copyWith(
-                        color: Colors.grey, fontSize: 18),
-                    decoration: InputDecoration(
-                      prefixIcon: GestureDetector(
-                          onTap: () {
-                            Get.back();
+              InkWell(
+                onTap: () {
+                  Get.back();
+                },
+                child: Container(
+                    height: 20,
+                    width: double.infinity,
+                    margin: EdgeInsets.fromLTRB(
+                        defaultMargin, 20, defaultMargin, 20),
+                    decoration: BoxDecoration(
+                        image: DecorationImage(
+                      alignment: Alignment.centerLeft,
+                      image: AssetImage('assets/images/back.png'),
+                      // fit : BoxFit.cover,
+                    ))),
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  NeuBorder3(
+                    mTop: 0,
+                    mBot: 0,
+                    child: BlocBuilder<SubsectorBloc, SubsectorState>(
+                        builder: (_, subsectorState) {
+                      if (subsectorState is SubsectorLoaded) {
+                        List<Subsector> subsectors = subsectorState.subsector;
+                        List<String> subsectorItem = [];
+                        subsectors.asMap().forEach((key, value) {
+                          subsectorItem.add(value.subSectorName);
+                        });
+                        return SelectNeuBorder(
+                          hintText: "Pilih Subsektor",
+                          items: subsectorItem,
+                          onChanged: (value) {
+                            subsectors.asMap().forEach((key, values) {
+                              if (value == values.subSectorName) {
+                                setState(() {
+                                  selectedSubsector = [];
+                                  selectedSubsector.add(values.id);
+                                });
+                                // print(selectedSubsector);
+                              }
+                            });
                           },
-                          child: Icon(Icons.arrow_back, color: Colors.grey)),
-                      border: InputBorder.none,
-                      hintText: "Cari Lokasi, Produk ...",
-                      hintStyle: normalFontStyle.copyWith(
-                          color: Colors.grey, fontSize: 18),
-                    ),
+                        );
+                      } else {
+                        return SizedBox();
+                      }
+                    }),
                   ),
-                ),
+                  InkWell(
+                      onTap: () {
+                        setState(() {
+                          isLoading = true;
+                        });
+                        if (selectedSubsector == null) {
+                          Flushbar(
+                            icon: Icon(
+                              Icons.info_outline,
+                              size: 28.0,
+                              color: Colors.yellow[300],
+                            ),
+                            duration: Duration(milliseconds: 2000),
+                            flushbarPosition: FlushbarPosition.TOP,
+                            flushbarStyle: FlushbarStyle.FLOATING,
+                            // backgroundColor: Color(0xFFFF5C83),
+                            borderRadius: 8,
+                            margin: EdgeInsets.all(defaultMargin),
+                            message: "Subsektor Belum dipilih !",
+                          )..show(context);
+                        } else {
+                          context
+                              .bloc<BeltBloc>()
+                              .add(BeltBySubsector(selectedSubsector));
+
+                          new Future.delayed(Duration(seconds: 3), () {
+                            // deleayed code here
+                            setState(() {
+                              isLoading = false;
+                            });
+                            print('delayed execution');
+                            Get.to(MainPage());
+                          });
+                        }
+                      },
+                      child: Container(
+                        margin: EdgeInsets.symmetric(horizontal: defaultMargin),
+                        height: 40,
+                        width: 50,
+                        decoration: BoxDecoration(
+                          boxShadow: <BoxShadow>[
+                            BoxShadow(
+                              color: Color.fromRGBO(17, 18, 19, 0.3),
+                              offset: Offset(0.0, 0.0),
+                              blurRadius: 2.0,
+                            ),
+                          ],
+                          gradient: RadialGradient(colors: [
+                            mainColorRed,
+                            mainColorRed,
+                          ]),
+                          borderRadius:
+                              BorderRadius.all(const Radius.circular(5.0)),
+                        ),
+                        child: Center(
+                            child: Text(
+                          "Cari",
+                          style: normalFontStyle.copyWith(
+                              color: Colors.white,
+                              fontSize: 14,
+                              fontWeight: FontWeight.w600),
+                        )),
+                      )),
+                ],
               ),
-              Center(
-                child: Text("Atau cari berdasarkan kategori",
-                    style: normalFontStyle.copyWith(
-                      fontWeight: FontWeight.w500,
-                      fontSize: 14,
-                      color: Color.fromRGBO(119, 119, 119, 0.5),
-                    )),
-              ),
-              NeuBorder2(
-                mTop: 20,
-                mBot: 0,
-                child: SearchMultipleCustom(
-                  hintText: "Subsektor",
-                  items: itemsSubsektor,
-                  selectEditingController: subsektorController,
-                ),
-              ),
-              NeuBorder2(
-                mTop: 16,
-                mBot: 0,
-                child: SearchMultipleCustom(
-                  hintText: "Belt",
-                  items: itemsBelt,
-                  selectEditingController: subsektorController,
-                ),
-              ),
-              NeuBorder2(
-                mTop: 16,
-                mBot: 16,
-                child: SearchMultipleCustom(
-                  hintText: "Creative Tourism",
-                  items: itemsSubsektor,
-                  selectEditingController: subsektorController,
-                ),
-              ),
-              Container(
-                margin: EdgeInsets.symmetric(horizontal: defaultMargin),
-                height: 40,
-                decoration: BoxDecoration(
-                  boxShadow: <BoxShadow>[
-                    BoxShadow(
-                      color: Color.fromRGBO(17, 18, 19, 0.3),
-                      offset: Offset(0.0, 0.0),
-                      blurRadius: 2.0,
+              SizedBox(height: 10),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  NeuBorder3(
+                    mTop: 0,
+                    mBot: 0,
+                    child: BlocBuilder<KecamatanBloc, KecamatanState>(
+                        builder: (_, kecamatanState) {
+                      if (kecamatanState is KecamatanLoaded) {
+                        ApiReturnValue<List<Kecamatan>> kecamatan =
+                            kecamatanState.kecamatan;
+                        List<Kecamatan> kecamatanVal = kecamatan.value;
+                        List<String> kecamatanItem = [];
+                        kecamatanVal.asMap().forEach((key, value) {
+                          kecamatanItem.add(value.kecamatan);
+                        });
+                        return SelectNeuBorder(
+                          hintText: "Pilih Kecamatan",
+                          items: kecamatanItem,
+                          onChanged: (value) {},
+                        );
+                      } else {
+                        return SizedBox();
+                      }
+                    }),
+                  ),
+                  Container(
+                    margin: EdgeInsets.symmetric(horizontal: defaultMargin),
+                    height: 40,
+                    width: 50,
+                    decoration: BoxDecoration(
+                      boxShadow: <BoxShadow>[
+                        BoxShadow(
+                          color: Color.fromRGBO(17, 18, 19, 0.3),
+                          offset: Offset(0.0, 0.0),
+                          blurRadius: 2.0,
+                        ),
+                      ],
+                      gradient: RadialGradient(colors: [
+                        mainColorRed,
+                        mainColorRed,
+                      ]),
+                      borderRadius:
+                          BorderRadius.all(const Radius.circular(5.0)),
                     ),
-                  ],
-                  gradient: RadialGradient(colors: [
-                    "FEFEFE".toColor(),
-                    "F8F8F8".toColor(),
-                  ]),
-                  borderRadius: BorderRadius.all(const Radius.circular(5.0)),
-                ),
-                child: Center(
-                    child: Text(
-                  "Cari",
-                  style: normalFontStyle.copyWith(
-                      color: mainColorRed,
-                      fontSize: 14,
-                      fontWeight: FontWeight.w600),
-                )),
+                    child: Center(
+                        child: Text(
+                      "Cari",
+                      style: normalFontStyle.copyWith(
+                          color: Colors.white,
+                          fontSize: 14,
+                          fontWeight: FontWeight.w600),
+                    )),
+                  ),
+                ],
               ),
+              SizedBox(height: 10),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  NeuBorder3(
+                    mTop: 0,
+                    mBot: 0,
+                    child: BlocBuilder<KelurahanBloc, KelurahanState>(
+                        builder: (_, kelurahanState) {
+                      if (kelurahanState is KelurahanLoaded) {
+                        ApiReturnValue<List<Kelurahan>> kelurahan =
+                            kelurahanState.kelurahan;
+                        List<Kelurahan> kelurahanVal = kelurahan.value;
+                        List<String> kecamatanItem = [];
+                        kelurahanVal.asMap().forEach((key, value) {
+                          kecamatanItem.add(value.villageName);
+                        });
+                        return SelectNeuBorder(
+                          hintText: "Pilih Kelurahan",
+                          items: kecamatanItem,
+                          onChanged: (value) {},
+                        );
+                      } else {
+                        return SizedBox();
+                      }
+                    }),
+                  ),
+                  Container(
+                    margin: EdgeInsets.symmetric(horizontal: defaultMargin),
+                    height: 40,
+                    width: 50,
+                    decoration: BoxDecoration(
+                      boxShadow: <BoxShadow>[
+                        BoxShadow(
+                          color: Color.fromRGBO(17, 18, 19, 0.3),
+                          offset: Offset(0.0, 0.0),
+                          blurRadius: 2.0,
+                        ),
+                      ],
+                      gradient: RadialGradient(colors: [
+                        mainColorRed,
+                        mainColorRed,
+                      ]),
+                      borderRadius:
+                          BorderRadius.all(const Radius.circular(5.0)),
+                    ),
+                    child: Center(
+                        child: Text(
+                      "Cari",
+                      style: normalFontStyle.copyWith(
+                          color: Colors.white,
+                          fontSize: 14,
+                          fontWeight: FontWeight.w600),
+                    )),
+                  ),
+                ],
+              ),
+              // TODO: TravelPackage
+              SizedBox(height: 10),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  NeuBorder3(
+                    mTop: 0,
+                    mBot: 0,
+                    child: BlocBuilder<TravelPackageBloc, TravelPackageState>(
+                        builder: (_, tpState) {
+                      if (tpState is TravelPackageLoaded) {
+                        ApiReturnValue<List<TravelPackage>> travelPackage =
+                            tpState.travelPackage;
+                        List<TravelPackage> tpVal = travelPackage.value;
+                        List<String> travelPackageItem = [];
+                        tpVal.asMap().forEach((key, value) {
+                          travelPackageItem.add(value.packageName);
+                        });
+                        return SelectNeuBorder(
+                          hintText: "Travel Package",
+                          items: travelPackageItem,
+                          onChanged: (value) {},
+                        );
+                      } else {
+                        return SizedBox();
+                      }
+                    }),
+                  ),
+                  Container(
+                    margin: EdgeInsets.symmetric(horizontal: defaultMargin),
+                    height: 40,
+                    width: 50,
+                    decoration: BoxDecoration(
+                      boxShadow: <BoxShadow>[
+                        BoxShadow(
+                          color: Color.fromRGBO(17, 18, 19, 0.3),
+                          offset: Offset(0.0, 0.0),
+                          blurRadius: 2.0,
+                        ),
+                      ],
+                      gradient: RadialGradient(colors: [
+                        mainColorRed,
+                        mainColorRed,
+                      ]),
+                      borderRadius:
+                          BorderRadius.all(const Radius.circular(5.0)),
+                    ),
+                    child: Center(
+                        child: Text(
+                      "Cari",
+                      style: normalFontStyle.copyWith(
+                          color: Colors.white,
+                          fontSize: 14,
+                          fontWeight: FontWeight.w600),
+                    )),
+                  ),
+                ],
+              ),
+
+              // TODO:: BeltPackage
+              SizedBox(height: 10),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  NeuBorder3(
+                    mTop: 0,
+                    mBot: 0,
+                    child: BlocBuilder<TourPackageBloc, TourPackageState>(
+                        builder: (_, tpbState) {
+                      if (tpbState is TourPackageLoaded) {
+                        ApiReturnValue<List<BeltPackage>> tourPackage =
+                            tpbState.beltPackage;
+                        List<BeltPackage> tourPackageVal = tourPackage.value;
+                        List<String> tourPackageItem = [];
+                        tourPackageVal.asMap().forEach((key, value) {
+                          tourPackageItem.add(value.beltTitle);
+                        });
+                        return SelectNeuBorder(
+                          hintText: "Belt Package",
+                          items: tourPackageItem,
+                          onChanged: (value) {},
+                        );
+                      } else {
+                        return SizedBox();
+                      }
+                    }),
+                  ),
+                  Container(
+                    margin: EdgeInsets.symmetric(horizontal: defaultMargin),
+                    height: 40,
+                    width: 50,
+                    decoration: BoxDecoration(
+                      boxShadow: <BoxShadow>[
+                        BoxShadow(
+                          color: Color.fromRGBO(17, 18, 19, 0.3),
+                          offset: Offset(0.0, 0.0),
+                          blurRadius: 2.0,
+                        ),
+                      ],
+                      gradient: RadialGradient(colors: [
+                        mainColorRed,
+                        mainColorRed,
+                      ]),
+                      borderRadius:
+                          BorderRadius.all(const Radius.circular(5.0)),
+                    ),
+                    child: Center(
+                        child: Text(
+                      "Cari",
+                      style: normalFontStyle.copyWith(
+                          color: Colors.white,
+                          fontSize: 14,
+                          fontWeight: FontWeight.w600),
+                    )),
+                  ),
+                ],
+              ),
+              SizedBox(height: 16),
+              (!isLoading)
+                  ? GestureDetector(
+                      onTap: () async {
+                        setState(() {
+                          isLoading = true;
+                        });
+                        if (judul.text.trim() == "") {
+                          Flushbar(
+                            icon: Icon(
+                              Icons.info_outline,
+                              size: 28.0,
+                              color: Colors.yellow[300],
+                            ),
+                            duration: Duration(milliseconds: 2000),
+                            flushbarPosition: FlushbarPosition.TOP,
+                            flushbarStyle: FlushbarStyle.FLOATING,
+                            // backgroundColor: Color(0xFFFF5C83),
+                            borderRadius: 8,
+                            margin: EdgeInsets.all(defaultMargin),
+                            message: "Mohon isi salah satu kolom",
+                          )..show(context);
+                        } else {
+                          context.bloc<NewsBloc>().add(FilterNews(judul.text));
+                          Get.back();
+                        }
+                        setState(() {
+                          isLoading = false;
+                        });
+                      },
+                      child: Container(
+                        margin: EdgeInsets.symmetric(horizontal: defaultMargin),
+                        height: 40,
+                        decoration: BoxDecoration(
+                          boxShadow: <BoxShadow>[
+                            BoxShadow(
+                              color: Color.fromRGBO(17, 18, 19, 0.3),
+                              offset: Offset(0.0, 0.0),
+                              blurRadius: 2.0,
+                            ),
+                          ],
+                          gradient: RadialGradient(colors: [
+                            "FEFEFE".toColor(),
+                            "F8F8F8".toColor(),
+                          ]),
+                          borderRadius:
+                              BorderRadius.all(const Radius.circular(5.0)),
+                        ),
+                        child: Center(
+                            child: Text(
+                          "Tampilkan Semua",
+                          style: normalFontStyle.copyWith(
+                              color: mainColorRed,
+                              fontSize: 14,
+                              fontWeight: FontWeight.w600),
+                        )),
+                      ),
+                    )
+                  : SpinKitFadingCircle(
+                      size: 50,
+                      color: mainColorRed,
+                    )
             ],
           ),
         ),

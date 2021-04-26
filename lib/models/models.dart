@@ -19,3 +19,8 @@ part 'news.dart';
 part 'publikasi.dart';
 part 'event.dart';
 part 'pcc.dart';
+part 'pentahelix.dart';
+part 'kecamatan.dart';
+part 'kelurahan.dart';
+part 'travel_package.dart';
+part 'belt_package.dart';

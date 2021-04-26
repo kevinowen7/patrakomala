@@ -57,7 +57,6 @@ class _TabBeritaState extends State<TabBerita> {
                 onPageChanged: (index, reason) {
                   setState(() {
                     _current = index;
-                    print("${_current}");
                   });
                 },
               ),

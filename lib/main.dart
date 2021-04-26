@@ -35,6 +35,21 @@ class MyApp extends StatelessWidget {
         BlocProvider(
           create: (_) => PccBloc()..add(FetchPcc()),
         ),
+        BlocProvider(
+          create: (_) => SubsectorBloc()..add(FetchSubsector()),
+        ),
+        BlocProvider(
+          create: (_) => KecamatanBloc()..add(FetchKecamatan()),
+        ),
+        BlocProvider(
+          create: (_) => KelurahanBloc()..add(FetchKelurahan()),
+        ),
+        BlocProvider(
+          create: (_) => TravelPackageBloc()..add(FetchTravelPackage()),
+        ),
+        BlocProvider(
+          create: (_) => TourPackageBloc()..add(FetchTourPackage()),
+        ),
       ],
       child: GetMaterialApp(
         home: TesPage(),

@@ -45,24 +45,6 @@ class _CreativeBeltPageState extends State<CreativeBeltPage> {
     super.initState();
   }
 
-  // void getMarkers() async {
-  //   var result = await MapServices.getBelt();
-  //   var belts = result.value.sublist(0, 100);
-  //   belts.asMap().forEach((index, value) {
-  //     var lat = double.parse(value.latitude);
-  //     var long = double.parse(value.longitude);
-  //     setState(() {
-  //       _markerLocations.add(LatLng(lat, long));
-  //       _markerImageUrl.add(value.marker);
-  //     });
-  //   });
-  //   setState(() {
-  //     isGetData = false;
-  //   });
-  // }
-
-  /// Called when the Google Map widget is created. Updates the map loading state
-  /// and inits the markers.
   void _onMapCreated(
       GoogleMapController controller,
       List<LatLng> _markerLocations,
@@ -177,7 +159,7 @@ class _CreativeBeltPageState extends State<CreativeBeltPage> {
                     height: 5,
                   ),
                   Container(
-                    height: 150,
+                    height: 140,
                     child: CachedNetworkImage(
                       fit: BoxFit.cover,
                       imageUrl: belt.tenantLogo,
@@ -210,7 +192,6 @@ class _CreativeBeltPageState extends State<CreativeBeltPage> {
                         SizedBox(
                           height: 10,
                         ),
-
                         Container(
                             margin: EdgeInsets.all(defaultMargin),
                             child: Row(
@@ -235,12 +216,10 @@ class _CreativeBeltPageState extends State<CreativeBeltPage> {
                                     : SizedBox(),
                               ],
                             )),
-
                         IconWithText(
                           icon: FontAwesome.map_marker,
                           text: belt.alamat,
                         ),
-
                         IconWithText(
                           icon: FontAwesome.phone,
                           text: belt.noTelp,
@@ -282,35 +261,6 @@ class _CreativeBeltPageState extends State<CreativeBeltPage> {
                           ),
                         ),
                         SizedBox(height: 20),
-                        // Container(
-                        //   height: 40,
-                        //   width: (MediaQuery.of(context).size.width) - 70,
-                        //   decoration: BoxDecoration(
-                        //     boxShadow: <BoxShadow>[
-                        //       BoxShadow(
-                        //         color: Color.fromRGBO(17, 18, 19, 0.3),
-                        //         offset: Offset(0.0, 0.0),
-                        //         blurRadius: 2.0,
-                        //       ),
-                        //     ],
-                        //     gradient: RadialGradient(colors: [
-                        //       "FEFEFE".toColor(),
-                        //       "F8F8F8".toColor(),
-                        //     ]),
-                        //     borderRadius:
-                        //         BorderRadius.all(const Radius.circular(5.0)),
-                        //   ),
-                        //   child: Center(
-                        //     child: FlatButton(
-                        //       color: Colors.transparent,
-                        //       onPressed: null,
-                        //       child: Container(
-                        //         width: double.infinity,
-                        //         child: marketPlaceButton(),
-                        //       ),
-                        //     ),
-                        //   ),
-                        // ),
                       ],
                     ),
                   ),
@@ -344,7 +294,33 @@ class _CreativeBeltPageState extends State<CreativeBeltPage> {
 
               return Opacity(
                 opacity: _isMapLoading ? 0 : 1,
-                child: GoogleMap(
+                child: new GoogleMap(
+                  mapToolbarEnabled: false,
+                  initialCameraPosition: CameraPosition(
+                    target: LatLng(-6.9218518, 107.6048254),
+                    zoom: _currentZoom,
+                  ),
+                  markers: _markers,
+                  onMapCreated: (controller) => _onMapCreated(controller,
+                      _markerLocations, _markerImageUrl, belts.value),
+                  onCameraMove: (position) => _updateMarkers(position.zoom),
+                ),
+              );
+            } else if (beltState is BeltSubsectorLoaded) {
+              ApiReturnValue<List<Belt>> belts = beltState.belts;
+              final List<LatLng> _markerLocations = [];
+              final List<String> _markerImageUrl = [];
+
+              belts.value.asMap().forEach((key, value) {
+                var lat = double.parse(value.latitude);
+                var long = double.parse(value.longitude);
+                _markerLocations.add(LatLng(lat, long));
+                _markerImageUrl.add(value.marker);
+              });
+
+              return Opacity(
+                opacity: _isMapLoading ? 0 : 1,
+                child: new GoogleMap(
                   mapToolbarEnabled: false,
                   initialCameraPosition: CameraPosition(
                     target: LatLng(-6.9218518, 107.6048254),
@@ -389,13 +365,8 @@ class _CreativeBeltPageState extends State<CreativeBeltPage> {
           left: defaultMargin,
           child: SafeArea(
             child: InkWell(
-              onTap: () async {
-                // _settingModalBottomSheet(context);
-                // Get.to(SearchBoxBelt())m
-                // final SharedPreferences sharedPreference =
-                //     await SharedPreferences.getInstance();
-                // sharedPreference.remove('identifier');
-                // Get.to(PreLoginPage());
+              onTap: () {
+                Get.to(SearchBoxBelt());
               },
               child: NeuBorder(
                 mTop: 0,
@@ -407,7 +378,7 @@ class _CreativeBeltPageState extends State<CreativeBeltPage> {
                     Padding(
                       padding: EdgeInsets.symmetric(horizontal: defaultMargin),
                       child: Text(
-                        "Cari Lokasi, Produk ...",
+                        "Cari ...",
                         style: normalFontStyle.copyWith(
                             color: Colors.grey, fontSize: 18),
                       ),

@@ -17,3 +17,10 @@ class BeltLoaded extends BeltState {
     @override
   List<Object> get props => [belts];
 }
+
+class BeltSubsectorLoaded extends BeltState {
+  final ApiReturnValue<List<Belt>> belts;
+  BeltSubsectorLoaded(this.belts);
+    @override
+  List<Object> get props => [belts];
+}
