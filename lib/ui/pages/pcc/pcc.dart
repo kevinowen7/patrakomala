@@ -22,7 +22,7 @@ class _PccState extends State<Pcc> {
                 ),
                 InkWell(
                   onTap: () {
-                    Get.to(SearchBoxPCC());
+                    Get.to(SearchBoxPcc());
                   },
                   child: NeuBorder(
                     mBot: 0,
@@ -35,7 +35,7 @@ class _PccState extends State<Pcc> {
                           padding:
                               EdgeInsets.symmetric(horizontal: defaultMargin),
                           child: Text(
-                            "Cari Artikel ...",
+                            "Cari Pcc ...",
                             style: normalFontStyle.copyWith(
                                 color: Colors.grey, fontSize: 18),
                           ),
@@ -69,6 +69,7 @@ class _PccState extends State<Pcc> {
                 BlocBuilder<PccBloc, PccState>(
                   builder: (_, pState) {
                     if (pState is PccLoaded) {
+                      
                       initializeDateFormatting();
                       ApiReturnValue<List<PccModel>> pcc = pState.pcc;
                       List<PccModel> pccVal = pcc.value.sublist(0, 5);
@@ -87,7 +88,9 @@ class _PccState extends State<Pcc> {
                         ),
                         items: pccVal
                             .map((item) => InkWell(
-                                  onTap: () {},
+                                  onTap: () {
+                                    Get.to(PccDetail(item));
+                                  },
                                   child: Padding(
                                     padding: const EdgeInsets.all(8.0),
                                     child: Stack(
@@ -225,6 +228,52 @@ class _PccState extends State<Pcc> {
                                 ))
                             .toList(),
                       );
+                    } else if (pState is PccFilterLoaded) {
+                      return Container(
+                        margin: EdgeInsets.fromLTRB(
+                            defaultMargin, defaultMargin,defaultMargin, 0),
+                        height: 30,
+                        child: Align(
+                          alignment: Alignment.centerRight,
+                          child: InkWell(
+                            onTap: () {
+                              context.bloc<PccBloc>().add(FetchPcc());
+                            },
+                            child: Container(
+                                decoration: BoxDecoration(
+                                  boxShadow: <BoxShadow>[
+                                    BoxShadow(
+                                      color: Color(0xFFFFFFFF),
+                                      offset: Offset(0.0, -1.0),
+                                      blurRadius: 4.0,
+                                    ),
+                                    BoxShadow(
+                                      color: Color(0xFFDFDFDF),
+                                      offset: Offset(0.0, 1.0),
+                                      blurRadius: 4.0,
+                                    ),
+                                  ],
+                                  color: Color(0xFFFEFEFE),
+                                  borderRadius: BorderRadius.all(
+                                      const Radius.circular(6.0)),
+                                ),
+                                child: Padding(
+                                  padding: const EdgeInsets.all(5),
+                                  child: Container(
+                                    width: 80,
+                                    child: Center(
+                                      child: Text(
+                                        'Reset Filter',
+                                        style: normalFontStyle.copyWith(
+                                            fontWeight: FontWeight.w500,
+                                            color: mainColorRed),
+                                      ),
+                                    ),
+                                  ),
+                                )),
+                          ),
+                        ),
+                      );
                     } else {
                       return Center(
                           child: SpinKitFadingCircle(
@@ -235,6 +284,8 @@ class _PccState extends State<Pcc> {
                   },
                 ),
                 SizedBox(),
+
+                // INDICATOR
                 BlocBuilder<PccBloc, PccState>(
                   builder: (_, pState) {
                     if (pState is PccLoaded) {
@@ -284,6 +335,8 @@ class _PccState extends State<Pcc> {
                             )
                             .toList(),
                       );
+                    } else if (pState is PccFilterLoaded) {
+                      return SizedBox();
                     } else {
                       return SizedBox();
                     }
@@ -293,13 +346,34 @@ class _PccState extends State<Pcc> {
                 SizedBox(
                   height: 15,
                 ),
-                LineBorder(),
-                LineBorder(),
+
+                BlocBuilder<PccBloc, PccState>(builder: (_, pState) {
+                  if (pState is PccLoaded) {
+                    return Column(
+                      children: [
+                        LineBorder(),
+                        LineBorder(),
+                      ],
+                    );
+                  } else {
+                    return SizedBox();
+                  }
+                }),
 
                 // LIST PCC
                 BlocBuilder<PccBloc, PccState>(
                   builder: (_, pState) {
                     if (pState is PccLoaded) {
+                      ApiReturnValue<List<PccModel>> pcc = pState.pcc;
+                      List<PccModel> pccVal = pcc.value;
+                      return Column(
+                        children: pccVal
+                            .map(
+                              (e) => ListPcc(e),
+                            )
+                            .toList(),
+                      );
+                    } else if (pState is PccFilterLoaded) {
                       ApiReturnValue<List<PccModel>> pcc = pState.pcc;
                       List<PccModel> pccVal = pcc.value;
                       return Column(

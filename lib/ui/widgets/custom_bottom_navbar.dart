@@ -340,7 +340,7 @@ class CustomBottomNavbar extends StatelessWidget {
                     ),
                     Expanded(
                         child: Text(
-                      "PCC",
+                      "PCC Corner",
                       textAlign: TextAlign.center,
                       style: normalFontStyle.copyWith(
                           color: '777777'.toColor(), fontSize: 10),

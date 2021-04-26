@@ -9,13 +9,35 @@ class PccServices {
     var response =
         await client.get(url, headers: {"Content-Type": "application/json"});
 
-    print('pcc === ' + response.statusCode.toString());
+    if (response.statusCode != 200) {
+      return ApiReturnValue(message: "Gagal mengambil data");
+    }
+
+    var data = aConvert.jsonDecode(response.body);
+    List<PccModel> pcc =
+        (data['response']['data'] as Iterable).map((e) => PccModel.fromJson(e)).toList();
+
+    return ApiReturnValue(value: pcc);
+  }
+
+  static Future<ApiReturnValue<List<PccModel>>> filterPcc(String title,
+      {http.Client client}) async {
+    client ??= http.Client();
+
+    String url = baseURL2 + 'mobile/pcc/filter';
+    var response = await client.post(url,
+        headers: {"Content-Type": "application/json"},
+        body: aConvert.jsonEncode({
+          'title': title,
+        }));
+
 
     if (response.statusCode != 200) {
       return ApiReturnValue(message: "Gagal mengambil data");
     }
 
     var data = aConvert.jsonDecode(response.body);
+    // print(data['response']['data'].length.toString());
     List<PccModel> pcc =
         (data['response']['data'] as Iterable).map((e) => PccModel.fromJson(e)).toList();
 

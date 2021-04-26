@@ -22,7 +22,7 @@ class NewsDetail extends StatelessWidget {
                 CarouselSlider(
                   items: news.imgEvent.map((fileImage) {
                     return Container(
-                      margin: EdgeInsets.symmetric(horizontal: 5),
+                      margin: EdgeInsets.symmetric(horizontal: defaultMargin),
                       child: ClipRRect(
                         borderRadius: BorderRadius.all(Radius.circular(10)),
                         child: Container(
@@ -54,8 +54,9 @@ class NewsDetail extends StatelessWidget {
                   options: CarouselOptions(
                     height: 200,
                     autoPlay: true,
-                    enlargeCenterPage: true,
-                    aspectRatio: 2.0,
+                    aspectRatio: 16 / 9,
+                    viewportFraction: 1,
+                    initialPage: 0,
                   ),
                 ),
                 SizedBox(

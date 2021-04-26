@@ -63,6 +63,7 @@ class _ProductDetailState extends State<ProductDetail> {
       var productMap = {
         'id': i.urlNm,
         'imageUrl': i.img,
+        'name' : i.name,
       };
       marketplace.add(productMap);
     }
@@ -108,7 +109,7 @@ class _ProductDetailState extends State<ProductDetail> {
                         padding: const EdgeInsets.fromLTRB(2, 2, 8, 2),
                         child: Image.network(i['imageUrl'], height: 40),
                       ),
-                      Text('MarketPlace Name'),
+                      Text(i['name'].toString(),style:normalFontStyle),
                     ],
                   )),
             );

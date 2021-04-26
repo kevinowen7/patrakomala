@@ -16,3 +16,10 @@ class AcaraLoaded extends AcaraState {
   @override
   List<Object> get props => [acara];
 }
+
+class AcaraFilterLoaded extends AcaraState {
+  final ApiReturnValue<List<Acara>> acara;
+  AcaraFilterLoaded(this.acara);
+  @override
+  List<Object> get props => [acara];
+}

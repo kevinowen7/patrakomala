@@ -27,7 +27,7 @@ class _CreativeEventState extends State<CreativeEvent> {
             ),
             InkWell(
               onTap: () {
-                Get.to(SearchBoxCreativeEvent());
+                Get.to(SearchBoxAcara());
               },
               child: NeuBorder(
                 mTop: 0,
@@ -60,7 +60,7 @@ class _CreativeEventState extends State<CreativeEvent> {
                 return CarouselSlider(
                   options: CarouselOptions(
                     height: (MediaQuery.of(context).size.height) - 350,
-                    onPageChanged: (index,reason) {
+                    onPageChanged: (index, reason) {
                       setState(() {
                         _current = index;
                         print("${_current}");
@@ -197,6 +197,52 @@ class _CreativeEventState extends State<CreativeEvent> {
                             ),
                           ))
                       .toList(),
+                );
+              } else if (aState is AcaraFilterLoaded) {
+                return Container(
+                  margin:
+                      EdgeInsets.fromLTRB(defaultMargin, 0, defaultMargin, 0),
+                  height: 30,
+                  child: Align(
+                    alignment: Alignment.centerRight,
+                    child: InkWell(
+                      onTap: () {
+                        context.bloc<AcaraBloc>().add(FetchAcara());
+                      },
+                      child: Container(
+                          decoration: BoxDecoration(
+                            boxShadow: <BoxShadow>[
+                              BoxShadow(
+                                color: Color(0xFFFFFFFF),
+                                offset: Offset(0.0, -1.0),
+                                blurRadius: 4.0,
+                              ),
+                              BoxShadow(
+                                color: Color(0xFFDFDFDF),
+                                offset: Offset(0.0, 1.0),
+                                blurRadius: 4.0,
+                              ),
+                            ],
+                            color: Color(0xFFFEFEFE),
+                            borderRadius:
+                                BorderRadius.all(const Radius.circular(6.0)),
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsets.all(5),
+                            child: Container(
+                              width: 80,
+                              child: Center(
+                                child: Text(
+                                  'Reset Filter',
+                                  style: normalFontStyle.copyWith(
+                                      fontWeight: FontWeight.w500,
+                                      color: mainColorRed),
+                                ),
+                              ),
+                            ),
+                          )),
+                    ),
+                  ),
                 );
               } else {
                 return Center(

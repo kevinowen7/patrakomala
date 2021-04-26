@@ -6,7 +6,7 @@ class TabBerita extends StatefulWidget {
 }
 
 class _TabBeritaState extends State<TabBerita> {
- final List<int> beritaItems = [1, 2, 3, 4, 5];
+  final List<int> beritaItems = [1, 2, 3, 4, 5];
   int _current = 0;
 
   @override
@@ -136,7 +136,6 @@ class _TabBeritaState extends State<TabBerita> {
                                                 maxLines: 2,
                                               ),
                                             ),
-                                           
                                             SizedBox(height: 10),
                                             Container(
                                               width: (MediaQuery.of(context)
@@ -224,53 +223,55 @@ class _TabBeritaState extends State<TabBerita> {
         ),
 
         // DOT
-        BlocBuilder<NewsBloc, NewsState>(builder: (_, newsState) {
+       BlocBuilder<NewsBloc, NewsState>(builder: (_, newsState) {
           if (newsState is NewsLoaded) {
             ApiReturnValue<List<News>> news = newsState.news;
             List<News> newsValue = news.value;
-            
+
             return Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: newsValue
-                            .map(
-                              (item) => Container(
-                                height: 10,
-                                width: 10,
-                                margin: EdgeInsets.symmetric(horizontal: 3),
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(10),
-                                  boxShadow: <BoxShadow>[
-                                    BoxShadow(
-                                      color: Color(0xFFFFFFFF),
-                                      offset: Offset(0.0, -1.0),
-                                      blurRadius: 2.0,
-                                    ),
-                                    BoxShadow(
-                                      color: Color(0xFFCACACA),
-                                      offset: Offset(0.0, 1.0),
-                                      blurRadius: 2.0,
-                                    ),
-                                    BoxShadow(
-                                      color: Color.fromRGBO(51, 51, 51, 0.16),
-                                      offset: Offset(0, 0.0),
-                                      blurRadius: 0.0,
-                                    ),
-                                  ],
-                                  gradient: LinearGradient(
-                                    begin: Alignment(0.0, 0.0),
-                                    end: Alignment(0.996, 0.092),
-                                    colors: [
-                                      // "DFDFDF".toColor(),
-                                      // (_current == newsValue.indexOf(item))
-                                      //     ? mainColorRed
-                                      //     : "FEFEFE".toColor(),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                            )
-                            .toList(),
-                      );
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: newsValue
+                  .map(
+                    (item) => Container(
+                      height: 10,
+                      width: 10,
+                      margin: EdgeInsets.symmetric(horizontal: 3),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10),
+                        boxShadow: <BoxShadow>[
+                          BoxShadow(
+                            color: Color(0xFFFFFFFF),
+                            offset: Offset(0.0, -1.0),
+                            blurRadius: 2.0,
+                          ),
+                          BoxShadow(
+                            color: Color(0xFFCACACA),
+                            offset: Offset(0.0, 1.0),
+                            blurRadius: 2.0,
+                          ),
+                          BoxShadow(
+                            color: Color.fromRGBO(51, 51, 51, 0.16),
+                            offset: Offset(0, 0.0),
+                            blurRadius: 0.0,
+                          ),
+                        ],
+                        gradient: LinearGradient(
+                          begin: Alignment(0.0, 0.0),
+                          end: Alignment(0.996, 0.092),
+                          colors: [
+                            (newsValue.indexOf(item) == _current)
+                                          ? mainColorRed
+                                          : "DFDFDF".toColor(),
+                                      (newsValue.indexOf(item) == _current)
+                                          ? mainColorRed
+                                          : "FEFEFE".toColor(),
+                          ],
+                        ),
+                      ),
+                    ),
+                  )
+                  .toList(),
+            );
           } else {
             return SizedBox();
           }

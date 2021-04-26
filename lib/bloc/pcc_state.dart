@@ -15,3 +15,10 @@ class PccLoaded extends PccState {
   @override
   List<Object> get props => [pcc];
 }
+
+class PccFilterLoaded extends PccState {
+  final ApiReturnValue<List<PccModel>> pcc;
+  PccFilterLoaded(this.pcc);
+  @override
+  List<Object> get props => [pcc];
+}

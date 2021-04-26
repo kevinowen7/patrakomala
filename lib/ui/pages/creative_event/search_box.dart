@@ -1,15 +1,13 @@
 part of '../pages.dart';
 
-class SearchBoxPCC extends StatefulWidget {
+class SearchBoxAcara extends StatefulWidget {
   @override
-  _SearchBoxPCCState createState() => _SearchBoxPCCState();
+  _SearchBoxAcaraState createState() => _SearchBoxAcaraState();
 }
 
-class _SearchBoxPCCState extends State<SearchBoxPCC> {
-  List<String> itemsSubsektor = ['Subsektor 1', 'Subsektor 2', 'Subsektor 3'];
-  List<String> itemsBelt = ['Belt 1', 'Belt 2', 'Belt 3'];
-  TextEditingController judul = TextEditingController();
+class _SearchBoxAcaraState extends State<SearchBoxAcara> {
   bool isLoading = false;
+  TextEditingController judul = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -57,7 +55,7 @@ class _SearchBoxPCCState extends State<SearchBoxPCC> {
                     controller: judul,
                     decoration: InputDecoration(
                       border: InputBorder.none,
-                      hintText: "Cari Berita ...",
+                      hintText: "Cari Event ...",
                       hintStyle: normalFontStyle.copyWith(
                           color: Colors.grey, fontSize: 18),
                     ),
@@ -68,6 +66,7 @@ class _SearchBoxPCCState extends State<SearchBoxPCC> {
               (!isLoading)
                   ? GestureDetector(
                       onTap: () async {
+                        print(judul.text);
                         setState(() {
                           isLoading = true;
                         });
@@ -87,7 +86,7 @@ class _SearchBoxPCCState extends State<SearchBoxPCC> {
                             message: "Mohon isi salah satu kolom",
                           )..show(context);
                         } else {
-                          context.bloc<NewsBloc>().add(FilterNews(judul.text));
+                          context.bloc<AcaraBloc>().add(FilterAcara(title : judul.text));
                           Get.back();
                         }
                         setState(() {

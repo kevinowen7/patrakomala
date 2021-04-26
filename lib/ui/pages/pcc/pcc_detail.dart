@@ -1,33 +1,35 @@
 part of '../pages.dart';
 
 class PccDetail extends StatefulWidget {
+  final PccModel pcc;
+  PccDetail(this.pcc);
   @override
   _PccDetailState createState() => _PccDetailState();
 }
 
 class _PccDetailState extends State<PccDetail> {
   @override
-  Widget imageCarousel = new Container(
-    height: 200,
-    child: Container(
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(10),
-      ),
-      margin: EdgeInsets.symmetric(horizontal: defaultMargin),
-      child: Carousel(
-        boxFit: BoxFit.cover,
-        images: [
-          NetworkImage(
-              'https://www.seva.id/wp-content/uploads/2019/07/ARS09649.jpg'),
-          NetworkImage('https://pbs.twimg.com/media/DgThe9gXUAIeAkk.jpg'),
-        ],
-        autoplay: true,
-        dotSize: 4.0,
-        borderRadius: true,
-        indicatorBgPadding: 2.0,
-      ),
-    ),
-  );
+  // Widget imageCarousel = new Container(
+  //   height: 200,
+  //   child: Container(
+  //     decoration: BoxDecoration(
+  //       borderRadius: BorderRadius.circular(10),
+  //     ),
+  //     margin: EdgeInsets.symmetric(horizontal: defaultMargin),
+  //     child: Carousel(
+  //       boxFit: BoxFit.cover,
+  //       images: [
+  //         NetworkImage(
+  //             'https://www.seva.id/wp-content/uploads/2019/07/ARS09649.jpg'),
+  //         NetworkImage('https://pbs.twimg.com/media/DgThe9gXUAIeAkk.jpg'),
+  //       ],
+  //       autoplay: true,
+  //       dotSize: 4.0,
+  //       borderRadius: true,
+  //       indicatorBgPadding: 2.0,
+  //     ),
+  //   ),
+  // );
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -48,19 +50,37 @@ class _PccDetailState extends State<PccDetail> {
                       defaultMargin, 8, defaultMargin, defaultMargin),
                   width: double.infinity,
                   height: 160,
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10),
-                      image: DecorationImage(
-                        image: NetworkImage(
-                            'https://assets.pikiran-rakyat.com/crop/0x0:0x0/x/photo/2020/03/29/1571813690.png'),
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.all(Radius.circular(10)),
+                    child: Container(
+                      child: CachedNetworkImage(
                         fit: BoxFit.cover,
-                      )),
+                        imageUrl: widget.pcc.gambar,
+                        progressIndicatorBuilder:
+                            (context, url, downloadProgress) => Container(
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(15),
+                                  gradient: LinearGradient(
+                                    colors: [
+                                      Colors.black.withOpacity(0.61),
+                                      Colors.blueAccent.withOpacity(0),
+                                    ],
+                                    begin: Alignment.bottomCenter,
+                                    end: Alignment.topCenter,
+                                  ),
+                                ),
+                                child: SpinKitFadingCircle(
+                                    color: backgroundColorGrey, size: 50)),
+                        errorWidget: (context, url, error) => Icon(Icons.error),
+                      ),
+                    ),
+                  ),
                 ),
                 Padding(
                   padding:
                       const EdgeInsets.symmetric(horizontal: defaultMargin),
                   child: Text(
-                    "Ngabuburinding 2019",
+                    widget.pcc.namaEvent,
                     style: blackfontStyle1.copyWith(
                         color: "333333".toColor(),
                         fontWeight: FontWeight.w600,
@@ -82,13 +102,14 @@ class _PccDetailState extends State<PccDetail> {
                           IconWithText(
                             isRow: 'yes',
                             icon: Icons.calendar_today_rounded,
-                            text: "7 Mei 2019",
+                            text: DateFormat(" d MMMM yyyy", "id_ID")
+                                .format(widget.pcc.tanggal),
                           ),
-                          IconWithText(
-                            isRow: 'yes',
-                            icon: Icons.more_time,
-                            text: "03.00 - 10.00",
-                          ),
+                          // IconWithText(
+                          //   isRow: 'yes',
+                          //   icon: Icons.more_time,
+                          //   text: "03.00 - 10.00",
+                          // ),
                         ],
                       ),
                       SizedBox(
@@ -96,7 +117,7 @@ class _PccDetailState extends State<PccDetail> {
                       ),
                       IconWithText(
                         icon: Icons.location_pin,
-                        text: "JL Siliwangi 8 Simpang Dago",
+                        text: widget.pcc.tempat,
                       ),
                     ],
                   ),
@@ -108,7 +129,7 @@ class _PccDetailState extends State<PccDetail> {
                   padding:
                       const EdgeInsets.symmetric(horizontal: defaultMargin),
                   child: Text(
-                    "Contoh Artikel",
+                    "Keterangan",
                     style: blackfontStyle1.copyWith(
                         color: "333333".toColor(),
                         fontWeight: FontWeight.w500,
@@ -118,31 +139,31 @@ class _PccDetailState extends State<PccDetail> {
                 Container(
                     margin: EdgeInsets.all(defaultMargin),
                     child: Text(
-                      "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.\n\n when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker \n\n when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker\n\n when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker\n\n when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker ",
+                      parse(widget.pcc.eventDesc).documentElement.text,
                       style:
                           normalFontStyle.copyWith(color: "333333".toColor()),
                       textAlign: TextAlign.left,
                     )),
-                Padding(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: defaultMargin),
-                  child: Text(
-                    "Arsip Kegiatan",
-                    style: blackfontStyle1.copyWith(
-                        color: "333333".toColor(),
-                        fontWeight: FontWeight.w600,
-                        fontSize: 20),
-                  ),
-                ),
-                SizedBox(
-                  height: 15,
-                ),
-                LineBorder(),
-                SizedBox(
-                  height: 15,
-                ),
-                imageCarousel,
-                SizedBox(height: 120),
+                // Padding(
+                //   padding:
+                //       const EdgeInsets.symmetric(horizontal: defaultMargin),
+                //   child: Text(
+                //     "Arsip Kegiatan",
+                //     style: blackfontStyle1.copyWith(
+                //         color: "333333".toColor(),
+                //         fontWeight: FontWeight.w600,
+                //         fontSize: 20),
+                //   ),
+                // ),
+                // SizedBox(
+                //   height: 15,
+                // ),
+                // LineBorder(),
+                // SizedBox(
+                //   height: 15,
+                // ),
+                // // imageCarousel,
+                // SizedBox(height: 120),
               ],
             ),
 

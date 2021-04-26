@@ -20,6 +20,9 @@ class PccBloc extends Bloc<PccEvent, PccState> {
     if(event is FetchPcc){
       ApiReturnValue<List<PccModel>> pcc = await PccServices.getPcc();
       yield(PccLoaded(pcc));
+    }else if(event is FilterPcc){
+      ApiReturnValue<List<PccModel>> pcc = await PccServices.filterPcc(event.title);
+      yield(PccFilterLoaded(pcc));
     }
   }
 

@@ -19,6 +19,9 @@ class AcaraBloc extends Bloc<AcaraEvent, AcaraState> {
     if(event is FetchAcara){
       ApiReturnValue<List<Acara>> acara = await AcaraServices.getEvent();
       yield(AcaraLoaded(acara));
+    }else if (event is FilterAcara){
+      ApiReturnValue<List<Acara>> acara = await AcaraServices.eventFilter(event.title);
+      yield(AcaraFilterLoaded(acara));
     }
   }  
 }

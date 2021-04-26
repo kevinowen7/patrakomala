@@ -18,18 +18,45 @@ class EventDetail extends StatelessWidget {
                   },
                   title: "Events",
                 ),
-                Container(
-                  margin: EdgeInsets.fromLTRB(
-                      defaultMargin, 8, defaultMargin, defaultMargin),
-                  width: double.infinity,
-                  height: 200,
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10),
-                      image: DecorationImage(
-                        image: NetworkImage(
-                            acara.imgEvent[0]),
-                        fit: BoxFit.cover,
-                      )),
+                CarouselSlider(
+                  items: acara.imgEvent.map((fileImage) {
+                    return Container(
+                      margin: EdgeInsets.symmetric(horizontal: defaultMargin),
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.all(Radius.circular(10)),
+                        child: Container(
+                          child: CachedNetworkImage(
+                            fit: BoxFit.cover,
+                            imageUrl: fileImage,
+                            progressIndicatorBuilder:
+                                (context, url, downloadProgress) => Container(
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(15),
+                                      gradient: LinearGradient(
+                                        colors: [
+                                          Colors.black.withOpacity(0.61),
+                                          Colors.blueAccent.withOpacity(0),
+                                        ],
+                                        begin: Alignment.bottomCenter,
+                                        end: Alignment.topCenter,
+                                      ),
+                                    ),
+                                    child: SpinKitFadingCircle(
+                                        color: backgroundColorGrey, size: 50)),
+                            errorWidget: (context, url, error) =>
+                                Icon(Icons.error),
+                          ),
+                        ),
+                      ),
+                    );
+                  }).toList(),
+                  options: CarouselOptions(
+                    height: 200,
+                    autoPlay: true,
+                    aspectRatio: 16 / 9,
+                    viewportFraction: 1,
+                    initialPage: 0,
+                  ),
                 ),
                 Padding(
                   padding:
@@ -64,7 +91,7 @@ class EventDetail extends StatelessWidget {
                             isRow: 'yes',
                             icon: Icons.more_time,
                             text:
-                                "${acara.startTime.substring(0, 5)} - ${acara.endTime.substring(0, 5)}",
+                                "${(acara.startTime == null) ? ' ' : acara.startTime.substring(0, 5)} - ${(acara.endTime == null) ? ' Selesai ' : acara.endTime.substring(0, 5)}",
                           ),
                         ],
                       ),
@@ -94,7 +121,7 @@ class EventDetail extends StatelessWidget {
                 ),
                 Container(
                     margin: EdgeInsets.all(defaultMargin),
-                    child: Text(
+                    child: Text((acara.description == null) ? '-' :
                       parse(acara.description).documentElement.text,
                       style:
                           normalFontStyle.copyWith(color: "333333".toColor()),
@@ -144,7 +171,7 @@ class EventDetail extends StatelessWidget {
                         ),
                         child: Center(
                             child: Text(
-                          "Join",
+                          "Reminder Me",
                           style: normalFontStyle.copyWith(
                               color: mainColorRed,
                               fontSize: 14,
