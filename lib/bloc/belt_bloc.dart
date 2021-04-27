@@ -20,7 +20,19 @@ class BeltBloc extends Bloc<BeltEvent, BeltState> {
     } else if (event is BeltBySubsector) {
       ApiReturnValue<List<Belt>> belts =
           await MapServices.beltBySubsector(event.subsector);
-      yield (BeltSubsectorLoaded(belts));
+      yield (BeltLoaded(belts));
+    } else if (event is BeltByKecamatan) {
+      ApiReturnValue<List<Belt>> belts =
+          await MapServices.beltByKecamatan(event.kecamatanId);
+      yield (BeltLoaded(belts));
+    } else if (event is BeltByKelurahan) {
+      ApiReturnValue<List<Belt>> belts =
+          await MapServices.beltByKelurahan(event.kelurahanId);
+      yield (BeltLoaded(belts));
+    } else if (event is BeltPackages) {
+      ApiReturnValue<List<Belt>> belts =
+          await MapServices.beltPackages(event.belt);
+      yield (BeltLoaded(belts));
     }
   }
 }

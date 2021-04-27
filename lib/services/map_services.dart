@@ -14,7 +14,6 @@ class MapServices {
     }
 
     var data = aConvert.jsonDecode(response.body);
-    print(data['response'].length.toString());
     List<Belt> value =
         (data['response'] as Iterable).map((e) => Belt.fromJson(e)).toList();
 
@@ -37,9 +36,81 @@ class MapServices {
     }
 
     var data = aConvert.jsonDecode(response.body);
-    print(data['response'].length.toString());
+
     List<Belt> value =
         (data['response'] as Iterable).map((e) => Belt.fromJson(e)).toList();
+
+    return ApiReturnValue(value: value);
+  }
+
+  static Future<ApiReturnValue<List<Belt>>> beltByKecamatan(int kecamatanId,
+      {http.Client client}) async {
+    client ??= http.Client();
+
+    String url = baseURL2 + 'mobile/belts/kecamatan';
+    var response = await client.post(url,
+        headers: {"Content-Type": "application/json"},
+        body: aConvert.jsonEncode({
+          'kecamatan': kecamatanId,
+        }));
+
+    // print(res);
+
+    if (response.statusCode != 200) {
+      return ApiReturnValue(message: "Gagal mengambil belts");
+    }
+
+    var data = aConvert.jsonDecode(response.body);
+    List<Belt> value =
+        (data['response'] as Iterable).map((e) => Belt.fromJson(e)).toList();
+
+    return ApiReturnValue(value: value);
+  }
+
+  static Future<ApiReturnValue<List<Belt>>> beltByKelurahan(int kelurahanId,
+      {http.Client client}) async {
+    client ??= http.Client();
+
+    String url = baseURL2 + 'mobile/belts/kelurahan';
+    var response = await client.post(url,
+        headers: {"Content-Type": "application/json"},
+        body: aConvert.jsonEncode({
+          'kelurahan': kelurahanId,
+        }));
+
+    // print(res);
+
+    if (response.statusCode != 200) {
+      return ApiReturnValue(message: "Gagal mengambil belts");
+    }
+
+    var data = aConvert.jsonDecode(response.body);
+    List<Belt> value =
+        (data['response'] as Iterable).map((e) => Belt.fromJson(e)).toList();
+
+    return ApiReturnValue(value: value);
+  }
+
+  static Future<ApiReturnValue<List<Belt>>> beltPackages(List<int> belts,
+      {http.Client client}) async {
+    client ??= http.Client();
+
+    String url = baseURL2 + 'v1/tour-package/filter-package';
+    var response = await client.post(url,
+        headers: {"Content-Type": "application/json"},
+        body: aConvert.jsonEncode({
+          'filter': {
+            'belt': belts,
+          },
+        }));
+
+    if (response.statusCode != 200) {
+      return ApiReturnValue(message: "Gagal mengambil belts");
+    }
+
+    var data = aConvert.jsonDecode(response.body);
+    List<Belt> value =
+        (data['data'] as Iterable).map((e) => Belt.fromJson(e)).toList();
 
     return ApiReturnValue(value: value);
   }

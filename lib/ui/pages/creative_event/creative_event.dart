@@ -66,7 +66,7 @@ class _CreativeEventState extends State<CreativeEvent> {
                       });
                     },
                     aspectRatio: 16 / 9,
-                    viewportFraction: 0.8,
+                    viewportFraction: 0.9,
                     initialPage: 0,
                   ),
                   items: valAcara
@@ -75,17 +75,15 @@ class _CreativeEventState extends State<CreativeEvent> {
                               Get.to(EventDetail(item));
                             },
                             child: Padding(
-                              padding: const EdgeInsets.all(8.0),
+                              padding: const EdgeInsets.all(10),
                               child: Stack(
                                 children: [
                                   Container(
-                                    margin:
-                                        EdgeInsets.only(right: defaultMargin),
+                                    // margin:
+                                    // EdgeInsets.only(right: defaultMargin),
                                     height:
                                         (MediaQuery.of(context).size.height) -
                                             350,
-                                    width: (MediaQuery.of(context).size.width) -
-                                        40,
                                     decoration: BoxDecoration(
                                       borderRadius: BorderRadius.circular(10),
                                     ),
@@ -105,8 +103,8 @@ class _CreativeEventState extends State<CreativeEvent> {
                                     ),
                                   ),
                                   Container(
-                                    margin:
-                                        EdgeInsets.only(right: defaultMargin),
+                                    // margin:
+                                    //     EdgeInsets.only(right: defaultMargin),
                                     height:
                                         (MediaQuery.of(context).size.height) -
                                             350,
@@ -174,11 +172,15 @@ class _CreativeEventState extends State<CreativeEvent> {
                                             horizontal: defaultMargin,
                                           ),
                                           child: Text(
-                                            parse(item.description)
+                                            (item.description.length < 100)
+                                                ? parse(item.description)
                                                     .documentElement
                                                     .text
-                                                    .substring(0, 100) +
-                                                '...',
+                                                : parse(item.description)
+                                                        .documentElement
+                                                        .text
+                                                        .substring(0, 100) +
+                                                    '...',
                                             style: normalFontStyle.copyWith(
                                               color: "FEFEFE".toColor(),
                                               fontSize: 10,

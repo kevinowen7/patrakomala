@@ -11,18 +11,9 @@ class _SearchBoxBeltState extends State<SearchBoxBelt> {
   int selectedKecamatan;
   int selectedKelurahan;
   int selecteTravelPackage;
-  int selectedBeltPackage;
+  List<int> selectedBeltPackage;
   bool isLoadingSubsector = false;
   TextEditingController judul = TextEditingController();
-
-  // void getIdSubsector(List<) async {
-  //   for (var i in selectedSubsektor) {
-  //     var slugy = Slugify(itemsSubsektor[i],delimiter: '_');
-  //     setState(() {
-  //       selectedSlug.add(slugy);
-  //     });
-  //   }
-  // }
 
   @override
   Widget build(BuildContext context) {
@@ -83,7 +74,6 @@ class _SearchBoxBeltState extends State<SearchBoxBelt> {
                                   selectedSubsector = [];
                                   selectedSubsector.add(values.id);
                                 });
-                                // print(selectedSubsector);
                               }
                             });
                           },
@@ -99,6 +89,9 @@ class _SearchBoxBeltState extends State<SearchBoxBelt> {
                           isLoading = true;
                         });
                         if (selectedSubsector == null) {
+                          setState(() {
+                            isLoading = false;
+                          });
                           Flushbar(
                             icon: Icon(
                               Icons.info_outline,
@@ -123,7 +116,6 @@ class _SearchBoxBeltState extends State<SearchBoxBelt> {
                             setState(() {
                               isLoading = false;
                             });
-                            print('delayed execution');
                             Get.to(MainPage());
                           });
                         }
@@ -178,40 +170,82 @@ class _SearchBoxBeltState extends State<SearchBoxBelt> {
                         return SelectNeuBorder(
                           hintText: "Pilih Kecamatan",
                           items: kecamatanItem,
-                          onChanged: (value) {},
+                          onChanged: (value) {
+                            kecamatanVal.asMap().forEach((key, values) {
+                              if (value == values.kecamatan) {
+                                setState(() {
+                                  selectedKecamatan = values.id;
+                                });
+                              }
+                            });
+                          },
                         );
                       } else {
                         return SizedBox();
                       }
                     }),
                   ),
-                  Container(
-                    margin: EdgeInsets.symmetric(horizontal: defaultMargin),
-                    height: 40,
-                    width: 50,
-                    decoration: BoxDecoration(
-                      boxShadow: <BoxShadow>[
-                        BoxShadow(
-                          color: Color.fromRGBO(17, 18, 19, 0.3),
-                          offset: Offset(0.0, 0.0),
-                          blurRadius: 2.0,
-                        ),
-                      ],
-                      gradient: RadialGradient(colors: [
-                        mainColorRed,
-                        mainColorRed,
-                      ]),
-                      borderRadius:
-                          BorderRadius.all(const Radius.circular(5.0)),
+                  InkWell(
+                    onTap: () {
+                      if (selectedKecamatan == null) {
+                        Flushbar(
+                          icon: Icon(
+                            Icons.info_outline,
+                            size: 28.0,
+                            color: Colors.yellow[300],
+                          ),
+                          duration: Duration(milliseconds: 2000),
+                          flushbarPosition: FlushbarPosition.TOP,
+                          flushbarStyle: FlushbarStyle.FLOATING,
+                          // backgroundColor: Color(0xFFFF5C83),
+                          borderRadius: 8,
+                          margin: EdgeInsets.all(defaultMargin),
+                          message: "Kecamatan Belum dipilih !",
+                        )..show(context);
+                      } else {
+                        setState(() {
+                          isLoading = true;
+                        });
+                        context
+                            .bloc<BeltBloc>()
+                            .add(BeltByKecamatan(selectedKecamatan));
+
+                        new Future.delayed(Duration(seconds: 3), () {
+                          setState(() {
+                            isLoading = false;
+                          });
+                          Get.to(MainPage());
+                        });
+                      }
+                    },
+                    child: Container(
+                      margin: EdgeInsets.symmetric(horizontal: defaultMargin),
+                      height: 40,
+                      width: 50,
+                      decoration: BoxDecoration(
+                        boxShadow: <BoxShadow>[
+                          BoxShadow(
+                            color: Color.fromRGBO(17, 18, 19, 0.3),
+                            offset: Offset(0.0, 0.0),
+                            blurRadius: 2.0,
+                          ),
+                        ],
+                        gradient: RadialGradient(colors: [
+                          mainColorRed,
+                          mainColorRed,
+                        ]),
+                        borderRadius:
+                            BorderRadius.all(const Radius.circular(5.0)),
+                      ),
+                      child: Center(
+                          child: Text(
+                        "Cari",
+                        style: normalFontStyle.copyWith(
+                            color: Colors.white,
+                            fontSize: 14,
+                            fontWeight: FontWeight.w600),
+                      )),
                     ),
-                    child: Center(
-                        child: Text(
-                      "Cari",
-                      style: normalFontStyle.copyWith(
-                          color: Colors.white,
-                          fontSize: 14,
-                          fontWeight: FontWeight.w600),
-                    )),
                   ),
                 ],
               ),
@@ -235,40 +269,88 @@ class _SearchBoxBeltState extends State<SearchBoxBelt> {
                         return SelectNeuBorder(
                           hintText: "Pilih Kelurahan",
                           items: kecamatanItem,
-                          onChanged: (value) {},
+                          onChanged: (value) {
+                            kelurahanVal.asMap().forEach((key, values) {
+                              if (value == values.villageName) {
+                                setState(() {
+                                  selectedKelurahan = values.id;
+                                });
+                              }
+                            });
+                            // print(selectedKelurahan);
+                          },
                         );
                       } else {
-                        return SizedBox();
+                        return SelectNeuBorder(
+                          hintText: "Pilih Kelurahan",
+                          items: [],
+                        );
                       }
                     }),
                   ),
-                  Container(
-                    margin: EdgeInsets.symmetric(horizontal: defaultMargin),
-                    height: 40,
-                    width: 50,
-                    decoration: BoxDecoration(
-                      boxShadow: <BoxShadow>[
-                        BoxShadow(
-                          color: Color.fromRGBO(17, 18, 19, 0.3),
-                          offset: Offset(0.0, 0.0),
-                          blurRadius: 2.0,
-                        ),
-                      ],
-                      gradient: RadialGradient(colors: [
-                        mainColorRed,
-                        mainColorRed,
-                      ]),
-                      borderRadius:
-                          BorderRadius.all(const Radius.circular(5.0)),
+                  InkWell(
+                    onTap: () {
+                      if (selectedKelurahan == null) {
+                        Flushbar(
+                          icon: Icon(
+                            Icons.info_outline,
+                            size: 28.0,
+                            color: Colors.yellow[300],
+                          ),
+                          duration: Duration(milliseconds: 2000),
+                          flushbarPosition: FlushbarPosition.TOP,
+                          flushbarStyle: FlushbarStyle.FLOATING,
+                          // backgroundColor: Color(0xFFFF5C83),
+                          borderRadius: 8,
+                          margin: EdgeInsets.all(defaultMargin),
+                          message: "Kelurahan Belum dipilih !",
+                        )..show(context);
+                        setState(() {
+                          isLoading = false;
+                        });
+                      } else {
+                        setState(() {
+                          isLoading = true;
+                        });
+                        context
+                            .bloc<BeltBloc>()
+                            .add(BeltByKelurahan(selectedKelurahan));
+                        new Future.delayed(Duration(seconds: 3), () {
+                          setState(() {
+                            isLoading = false;
+                          });
+                          Get.to(MainPage());
+                        });
+                      }
+                    },
+                    child: Container(
+                      margin: EdgeInsets.symmetric(horizontal: defaultMargin),
+                      height: 40,
+                      width: 50,
+                      decoration: BoxDecoration(
+                        boxShadow: <BoxShadow>[
+                          BoxShadow(
+                            color: Color.fromRGBO(17, 18, 19, 0.3),
+                            offset: Offset(0.0, 0.0),
+                            blurRadius: 2.0,
+                          ),
+                        ],
+                        gradient: RadialGradient(colors: [
+                          mainColorRed,
+                          mainColorRed,
+                        ]),
+                        borderRadius:
+                            BorderRadius.all(const Radius.circular(5.0)),
+                      ),
+                      child: Center(
+                          child: Text(
+                        "Cari",
+                        style: normalFontStyle.copyWith(
+                            color: Colors.white,
+                            fontSize: 14,
+                            fontWeight: FontWeight.w600),
+                      )),
                     ),
-                    child: Center(
-                        child: Text(
-                      "Cari",
-                      style: normalFontStyle.copyWith(
-                          color: Colors.white,
-                          fontSize: 14,
-                          fontWeight: FontWeight.w600),
-                    )),
                   ),
                 ],
               ),
@@ -352,40 +434,84 @@ class _SearchBoxBeltState extends State<SearchBoxBelt> {
                         return SelectNeuBorder(
                           hintText: "Belt Package",
                           items: tourPackageItem,
-                          onChanged: (value) {},
+                          onChanged: (value) {
+                            tourPackageVal.asMap().forEach((key, values) {
+                              if (value == values.beltTitle) {
+                                setState(() {
+                                  selectedBeltPackage = [];
+                                  selectedBeltPackage.add(values.id);
+                                });
+                              }
+                            });
+                            // print(selectedBeltPackage);
+                          },
                         );
                       } else {
                         return SizedBox();
                       }
                     }),
                   ),
-                  Container(
-                    margin: EdgeInsets.symmetric(horizontal: defaultMargin),
-                    height: 40,
-                    width: 50,
-                    decoration: BoxDecoration(
-                      boxShadow: <BoxShadow>[
-                        BoxShadow(
-                          color: Color.fromRGBO(17, 18, 19, 0.3),
-                          offset: Offset(0.0, 0.0),
-                          blurRadius: 2.0,
-                        ),
-                      ],
-                      gradient: RadialGradient(colors: [
-                        mainColorRed,
-                        mainColorRed,
-                      ]),
-                      borderRadius:
-                          BorderRadius.all(const Radius.circular(5.0)),
+                  InkWell(
+                    onTap: () {
+                      setState(() {
+                        isLoading = true;
+                      });
+                      if (selectedBeltPackage == null) {
+                        setState(() {
+                          isLoading = false;
+                        });
+                        Flushbar(
+                          icon: Icon(
+                            Icons.info_outline,
+                            size: 28.0,
+                            color: Colors.yellow[300],
+                          ),
+                          duration: Duration(milliseconds: 2000),
+                          flushbarPosition: FlushbarPosition.TOP,
+                          flushbarStyle: FlushbarStyle.FLOATING,
+                          // backgroundColor: Color(0xFFFF5C83),
+                          borderRadius: 8,
+                          margin: EdgeInsets.all(defaultMargin),
+                          message: "Paket Belt Belum dipilih !",
+                        )..show(context);
+                      } else {
+                        context
+                            .bloc<BeltBloc>()
+                            .add(BeltPackages(selectedBeltPackage));
+
+                        new Future.delayed(Duration(seconds: 3), () {
+                          Get.to(MainPage());
+                        });
+                      }
+                    },
+                    child: Container(
+                      margin: EdgeInsets.symmetric(horizontal: defaultMargin),
+                      height: 40,
+                      width: 50,
+                      decoration: BoxDecoration(
+                        boxShadow: <BoxShadow>[
+                          BoxShadow(
+                            color: Color.fromRGBO(17, 18, 19, 0.3),
+                            offset: Offset(0.0, 0.0),
+                            blurRadius: 2.0,
+                          ),
+                        ],
+                        gradient: RadialGradient(colors: [
+                          mainColorRed,
+                          mainColorRed,
+                        ]),
+                        borderRadius:
+                            BorderRadius.all(const Radius.circular(5.0)),
+                      ),
+                      child: Center(
+                          child: Text(
+                        "Cari",
+                        style: normalFontStyle.copyWith(
+                            color: Colors.white,
+                            fontSize: 14,
+                            fontWeight: FontWeight.w600),
+                      )),
                     ),
-                    child: Center(
-                        child: Text(
-                      "Cari",
-                      style: normalFontStyle.copyWith(
-                          color: Colors.white,
-                          fontSize: 14,
-                          fontWeight: FontWeight.w600),
-                    )),
                   ),
                 ],
               ),

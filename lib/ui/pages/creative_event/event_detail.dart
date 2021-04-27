@@ -1,8 +1,13 @@
 part of '../pages.dart';
 
-class EventDetail extends StatelessWidget {
+class EventDetail extends StatefulWidget {
   final Acara acara;
   EventDetail(this.acara);
+  @override
+  _EventDetailState createState() => _EventDetailState();
+}
+
+class _EventDetailState extends State<EventDetail> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -19,7 +24,7 @@ class EventDetail extends StatelessWidget {
                   title: "Events",
                 ),
                 CarouselSlider(
-                  items: acara.imgEvent.map((fileImage) {
+                  items: widget.acara.imgEvent.map((fileImage) {
                     return Container(
                       margin: EdgeInsets.symmetric(horizontal: defaultMargin),
                       child: ClipRRect(
@@ -62,7 +67,7 @@ class EventDetail extends StatelessWidget {
                   padding:
                       const EdgeInsets.symmetric(horizontal: defaultMargin),
                   child: Text(
-                    acara.title,
+                    widget.acara.title,
                     style: blackfontStyle1.copyWith(
                         color: "333333".toColor(),
                         fontWeight: FontWeight.w600,
@@ -85,13 +90,13 @@ class EventDetail extends StatelessWidget {
                             isRow: 'yes',
                             icon: Icons.calendar_today_rounded,
                             text: DateFormat(" d MMMM yyyy", "id_ID")
-                                .format(acara.startDate),
+                                .format(widget.acara.startDate),
                           ),
                           IconWithText(
                             isRow: 'yes',
                             icon: Icons.more_time,
                             text:
-                                "${(acara.startTime == null) ? ' ' : acara.startTime.substring(0, 5)} - ${(acara.endTime == null) ? ' Selesai ' : acara.endTime.substring(0, 5)}",
+                                "${(widget.acara.startTime == null) ? ' ' : widget.acara.startTime.substring(0, 5)} - ${(widget.acara.endTime == null) ? ' Selesai ' : widget.acara.endTime.substring(0, 5)}",
                           ),
                         ],
                       ),
@@ -100,7 +105,7 @@ class EventDetail extends StatelessWidget {
                       ),
                       IconWithText(
                         icon: Icons.location_pin,
-                        text: acara.takePlace,
+                        text: widget.acara.takePlace,
                       ),
                     ],
                   ),
@@ -121,13 +126,17 @@ class EventDetail extends StatelessWidget {
                 ),
                 Container(
                     margin: EdgeInsets.all(defaultMargin),
-                    child: Text((acara.description == null) ? '-' :
-                      parse(acara.description).documentElement.text,
+                    child: Text(
+                      (widget.acara.description == null)
+                          ? '-'
+                          : parse(widget.acara.description)
+                              .documentElement
+                              .text,
                       style:
                           normalFontStyle.copyWith(color: "333333".toColor()),
                       textAlign: TextAlign.left,
                     )),
-                    SizedBox(height:100),
+                SizedBox(height: 100),
               ],
             ),
             Positioned(
@@ -150,33 +159,49 @@ class EventDetail extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Container(
-                        margin: EdgeInsets.symmetric(horizontal: defaultMargin),
-                        height: 40,
-                        width: (MediaQuery.of(context).size.width) - 70,
-                        decoration: BoxDecoration(
-                          boxShadow: <BoxShadow>[
-                            BoxShadow(
-                              color: Color.fromRGBO(17, 18, 19, 0.3),
-                              offset: Offset(0.0, 0.0),
-                              blurRadius: 2.0,
-                            ),
-                          ],
-                          gradient: RadialGradient(colors: [
-                            "FEFEFE".toColor(),
-                            "F8F8F8".toColor(),
-                          ]),
-                          borderRadius:
-                              BorderRadius.all(const Radius.circular(5.0)),
+                      InkWell(
+                        onTap: () {
+                          Add2Calendar.addEvent2Cal(Event(
+                            title: widget.acara.title,
+                            description: widget.acara.description,
+                            location: (widget.acara.takePlace == null)
+                                ? '-'
+                                : widget.acara.takePlace,
+                            startDate: widget.acara.startDate,
+                            endDate: widget.acara.endDate,
+                          )).then((success) {
+                            print('event added!');
+                          });
+                        },
+                        child: Container(
+                          margin:
+                              EdgeInsets.symmetric(horizontal: defaultMargin),
+                          height: 40,
+                          width: (MediaQuery.of(context).size.width) - 70,
+                          decoration: BoxDecoration(
+                            boxShadow: <BoxShadow>[
+                              BoxShadow(
+                                color: Color.fromRGBO(17, 18, 19, 0.3),
+                                offset: Offset(0.0, 0.0),
+                                blurRadius: 2.0,
+                              ),
+                            ],
+                            gradient: RadialGradient(colors: [
+                              "FEFEFE".toColor(),
+                              "F8F8F8".toColor(),
+                            ]),
+                            borderRadius:
+                                BorderRadius.all(const Radius.circular(5.0)),
+                          ),
+                          child: Center(
+                              child: Text(
+                            "Reminder Me",
+                            style: normalFontStyle.copyWith(
+                                color: mainColorRed,
+                                fontSize: 14,
+                                fontWeight: FontWeight.w600),
+                          )),
                         ),
-                        child: Center(
-                            child: Text(
-                          "Reminder Me",
-                          style: normalFontStyle.copyWith(
-                              color: mainColorRed,
-                              fontSize: 14,
-                              fontWeight: FontWeight.w600),
-                        )),
                       ),
                       SizedBox(
                         height: 6,

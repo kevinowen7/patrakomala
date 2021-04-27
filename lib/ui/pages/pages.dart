@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'dart:io';
-import 'dart:math';
 
 import 'package:carousel_pro/carousel_pro.dart';
 import 'package:email_validator/email_validator.dart';
@@ -11,6 +10,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:flutter_pdfview/flutter_pdfview.dart';
+import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:get/get.dart';
@@ -31,11 +31,10 @@ import 'package:slugify/slugify.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:html/parser.dart';
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:flutter_pdfview/flutter_pdfview.dart';
 import 'package:http/http.dart' as http;
 import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
-
+import 'package:add_2_calendar/add_2_calendar.dart';
 
 part 'login/pre_login_page.dart';
 part 'login/login_sso.dart';
