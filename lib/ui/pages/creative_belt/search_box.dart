@@ -79,7 +79,10 @@ class _SearchBoxBeltState extends State<SearchBoxBelt> {
                           },
                         );
                       } else {
-                        return SizedBox();
+                        return SelectNeuBorder(
+                          hintText: "Pilih Subsektor",
+                          items: [],
+                        );
                       }
                     }),
                   ),
@@ -181,7 +184,10 @@ class _SearchBoxBeltState extends State<SearchBoxBelt> {
                           },
                         );
                       } else {
-                        return SizedBox();
+                        return SelectNeuBorder(
+                          hintText: "Pilih Kecamatan",
+                          items: [],
+                        );
                       }
                     }),
                   ),
@@ -378,7 +384,10 @@ class _SearchBoxBeltState extends State<SearchBoxBelt> {
                           onChanged: (value) {},
                         );
                       } else {
-                        return SizedBox();
+                        return SelectNeuBorder(
+                          hintText: "Travel Package",
+                          items: [],
+                        );
                       }
                     }),
                   ),
@@ -447,7 +456,10 @@ class _SearchBoxBeltState extends State<SearchBoxBelt> {
                           },
                         );
                       } else {
-                        return SizedBox();
+                        return SelectNeuBorder(
+                          hintText: "Belt Package",
+                          items: [],
+                        );
                       }
                     }),
                   ),
@@ -519,30 +531,9 @@ class _SearchBoxBeltState extends State<SearchBoxBelt> {
               (!isLoading)
                   ? GestureDetector(
                       onTap: () async {
-                        setState(() {
-                          isLoading = true;
-                        });
-                        if (judul.text.trim() == "") {
-                          Flushbar(
-                            icon: Icon(
-                              Icons.info_outline,
-                              size: 28.0,
-                              color: Colors.yellow[300],
-                            ),
-                            duration: Duration(milliseconds: 2000),
-                            flushbarPosition: FlushbarPosition.TOP,
-                            flushbarStyle: FlushbarStyle.FLOATING,
-                            // backgroundColor: Color(0xFFFF5C83),
-                            borderRadius: 8,
-                            margin: EdgeInsets.all(defaultMargin),
-                            message: "Mohon isi salah satu kolom",
-                          )..show(context);
-                        } else {
-                          context.bloc<NewsBloc>().add(FilterNews(judul.text));
-                          Get.back();
-                        }
-                        setState(() {
-                          isLoading = false;
+                        new Future.delayed(Duration(seconds: 3), () {
+                          context.bloc<BeltBloc>().add(FetchBelt());
+                          Get.to(MainPage());
                         });
                       },
                       child: Container(

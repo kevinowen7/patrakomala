@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:responsive_flutter/responsive_flutter.dart';
 import 'package:searchable_dropdown/searchable_dropdown.dart';
 import 'package:supercharged/supercharged.dart';
 import 'package:patrakomala_neumorphic/shared/shared.dart';

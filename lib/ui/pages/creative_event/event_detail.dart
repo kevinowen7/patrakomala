@@ -63,6 +63,7 @@ class _EventDetailState extends State<EventDetail> {
                     initialPage: 0,
                   ),
                 ),
+                SizedBox(height:10),
                 Padding(
                   padding:
                       const EdgeInsets.symmetric(horizontal: defaultMargin),

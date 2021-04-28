@@ -52,7 +52,7 @@ class MyApp extends StatelessWidget {
         ),
       ],
       child: GetMaterialApp(
-        home: TesPage(),
+        home: CreativeBeltPoly(),
       ),
     );
   }

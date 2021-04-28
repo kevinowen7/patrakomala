@@ -69,10 +69,10 @@ class CustomBottomNavbar extends StatelessWidget {
                     ),
                     Expanded(
                         child: Text(
-                      "Creative Belt",
+                      "Creative\nBelt",
                       textAlign: TextAlign.center,
                       style: normalFontStyle.copyWith(
-                          color: '777777'.toColor(), fontSize: 10),
+                          color: '777777'.toColor(), fontSize: ResponsiveFlutter.of(context).fontSize(1)),
                     ))
                   ],
                 ),
@@ -136,10 +136,10 @@ class CustomBottomNavbar extends StatelessWidget {
                     ),
                     Expanded(
                         child: Text(
-                      "Creative News",
+                      "Creative\nNews",
                       textAlign: TextAlign.center,
                       style: normalFontStyle.copyWith(
-                          color: '777777'.toColor(), fontSize: 10),
+                          color: '777777'.toColor(), fontSize: ResponsiveFlutter.of(context).fontSize(1)),
                     ))
                   ],
                 ),
@@ -203,10 +203,10 @@ class CustomBottomNavbar extends StatelessWidget {
                     ),
                     Expanded(
                         child: Text(
-                      "Creative Product",
+                      "Creative\nProduct",
                       textAlign: TextAlign.center,
                       style: normalFontStyle.copyWith(
-                          color: '777777'.toColor(), fontSize: 10),
+                          color: '777777'.toColor(), fontSize: ResponsiveFlutter.of(context).fontSize(1)),
                     ))
                   ],
                 ),
@@ -270,10 +270,10 @@ class CustomBottomNavbar extends StatelessWidget {
                     ),
                     Expanded(
                         child: Text(
-                      "Creative Event",
+                      "Creative\nEvent",
                       textAlign: TextAlign.center,
                       style: normalFontStyle.copyWith(
-                          color: '777777'.toColor(), fontSize: 10),
+                          color: '777777'.toColor(), fontSize: ResponsiveFlutter.of(context).fontSize(1)),
                     ))
                   ],
                 ),
@@ -335,15 +335,13 @@ class CustomBottomNavbar extends StatelessWidget {
                       width: 22,
                       height: 22,
                     ),
-                    SizedBox(
-                      height: 5,
-                    ),
+                   
                     Expanded(
                         child: Text(
-                      "PCC Corner",
+                      "PCC\nCorner",
                       textAlign: TextAlign.center,
                       style: normalFontStyle.copyWith(
-                          color: '777777'.toColor(), fontSize: 10),
+                          color: '777777'.toColor(), fontSize: ResponsiveFlutter.of(context).fontSize(1)),
                     ))
                   ],
                 ),
