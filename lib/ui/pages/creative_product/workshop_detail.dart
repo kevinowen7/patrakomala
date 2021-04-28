@@ -87,7 +87,7 @@ class _WorkshopDetailState extends State<WorkshopDetail> {
                     height: 16,
                   ),
                   selectedIndex == 0
-                      ? TabProfil(bisnis.value, fasilitas,widget.masrketplace)
+                      ? TabProfil(bisnis.value, fasilitas,(widget.masrketplace != null) ? widget.masrketplace : null)
                       : TabProduct(),
                 ],
               ),

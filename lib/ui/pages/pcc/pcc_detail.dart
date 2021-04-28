@@ -172,8 +172,7 @@ class _PccDetailState extends State<PccDetail> {
               bottom: 0,
               child: InkWell(
                 onTap: () async {
-                  await launch(
-                      'https://patrakomala.disbudpar.bandung.go.id/id');
+                  await launch(widget.pcc.urlLaunch);
                 },
                 child: Container(
                   height: 110,

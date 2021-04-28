@@ -115,6 +115,31 @@ class MapServices {
     return ApiReturnValue(value: value);
   }
 
+  static Future<ApiReturnValue<List<Belt>>> tourPackages(int package,
+      {http.Client client}) async {
+    client ??= http.Client();
+
+    String url = baseURL2 + 'v1/tour-package/filter-package';
+    var response = await client.post(url,
+        headers: {"Content-Type": "application/json"},
+        body: aConvert.jsonEncode({
+          'filter': {
+            'package': package,
+          },
+        }));
+
+    if (response.statusCode != 200) {
+      return ApiReturnValue(message: "Gagal mengambil belts");
+    }
+
+    var data = aConvert.jsonDecode(response.body);
+    print(data['data'].length.toString());
+    List<Belt> value =
+        (data['data'] as Iterable).map((e) => Belt.fromJson(e)).toList();
+
+    return ApiReturnValue(value: value);
+  }
+
   static Future<BitmapDescriptor> getMarkerImageFromUrl(
     String url, {
     int targetWidth,

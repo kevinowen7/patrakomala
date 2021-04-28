@@ -10,7 +10,7 @@ class _SearchBoxBeltState extends State<SearchBoxBelt> {
   List<int> selectedSubsector;
   int selectedKecamatan;
   int selectedKelurahan;
-  int selecteTravelPackage;
+  int selectedTravelPackage;
   List<int> selectedBeltPackage;
   bool isLoadingSubsector = false;
   TextEditingController judul = TextEditingController();
@@ -381,7 +381,16 @@ class _SearchBoxBeltState extends State<SearchBoxBelt> {
                         return SelectNeuBorder(
                           hintText: "Travel Package",
                           items: travelPackageItem,
-                          onChanged: (value) {},
+                          onChanged: (value) {
+                            tpVal.asMap().forEach((key, values) {
+                              if (value == values.packageName) {
+                                setState(() {
+                                  selectedTravelPackage = values.id;
+                                });
+                              }
+                            });
+                            // print(selectedTravelPackage);
+                          },
                         );
                       } else {
                         return SelectNeuBorder(
@@ -391,33 +400,70 @@ class _SearchBoxBeltState extends State<SearchBoxBelt> {
                       }
                     }),
                   ),
-                  Container(
-                    margin: EdgeInsets.symmetric(horizontal: defaultMargin),
-                    height: 40,
-                    width: 50,
-                    decoration: BoxDecoration(
-                      boxShadow: <BoxShadow>[
-                        BoxShadow(
-                          color: Color.fromRGBO(17, 18, 19, 0.3),
-                          offset: Offset(0.0, 0.0),
-                          blurRadius: 2.0,
-                        ),
-                      ],
-                      gradient: RadialGradient(colors: [
-                        mainColorRed,
-                        mainColorRed,
-                      ]),
-                      borderRadius:
-                          BorderRadius.all(const Radius.circular(5.0)),
+                  InkWell(
+                    onTap: () {
+                      setState(() {
+                        isLoading = true;
+                      });
+                      if (selectedTravelPackage == null) {
+                        setState(() {
+                          isLoading = false;
+                        });
+                        Flushbar(
+                          icon: Icon(
+                            Icons.info_outline,
+                            size: 28.0,
+                            color: Colors.yellow[300],
+                          ),
+                          duration: Duration(milliseconds: 2000),
+                          flushbarPosition: FlushbarPosition.TOP,
+                          flushbarStyle: FlushbarStyle.FLOATING,
+                          // backgroundColor: Color(0xFFFF5C83),
+                          borderRadius: 8,
+                          margin: EdgeInsets.all(defaultMargin),
+                          message: "Paket Belt Belum dipilih !",
+                        )..show(context);
+                      } else {
+                        context
+                            .bloc<BeltBloc>()
+                            .add(TourPackages(selectedTravelPackage));
+
+                        new Future.delayed(Duration(seconds: 3), () {
+                          Get.to(MainPage());
+                          setState(() {
+                            isLoading = false;
+                          });
+                        });
+                      }
+                    },
+                    child: Container(
+                      margin: EdgeInsets.symmetric(horizontal: defaultMargin),
+                      height: 40,
+                      width: 50,
+                      decoration: BoxDecoration(
+                        boxShadow: <BoxShadow>[
+                          BoxShadow(
+                            color: Color.fromRGBO(17, 18, 19, 0.3),
+                            offset: Offset(0.0, 0.0),
+                            blurRadius: 2.0,
+                          ),
+                        ],
+                        gradient: RadialGradient(colors: [
+                          mainColorRed,
+                          mainColorRed,
+                        ]),
+                        borderRadius:
+                            BorderRadius.all(const Radius.circular(5.0)),
+                      ),
+                      child: Center(
+                          child: Text(
+                        "Cari",
+                        style: normalFontStyle.copyWith(
+                            color: Colors.white,
+                            fontSize: 14,
+                            fontWeight: FontWeight.w600),
+                      )),
                     ),
-                    child: Center(
-                        child: Text(
-                      "Cari",
-                      style: normalFontStyle.copyWith(
-                          color: Colors.white,
-                          fontSize: 14,
-                          fontWeight: FontWeight.w600),
-                    )),
                   ),
                 ],
               ),
@@ -531,7 +577,10 @@ class _SearchBoxBeltState extends State<SearchBoxBelt> {
               (!isLoading)
                   ? GestureDetector(
                       onTap: () async {
-                        new Future.delayed(Duration(seconds: 3), () {
+                        setState(() {
+                          isLoading = true;
+                        });
+                        new Future.delayed(Duration(seconds: 10), () {
                           context.bloc<BeltBloc>().add(FetchBelt());
                           Get.to(MainPage());
                         });

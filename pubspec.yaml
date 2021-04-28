@@ -57,6 +57,8 @@ dependencies:
   flutter_polyline_points: ^0.2.3
   add_2_calendar: ^1.4.0
   responsive_flutter: ^0.0.4
+  flutter_google_places:
+  google_map_polyline:
 
 dev_dependencies:
   flutter_test:

@@ -4,9 +4,8 @@ class TabProfil extends StatelessWidget {
   final Bisnis bisnis;
   final String fasilitas;
   final List marketplace;
-  TabProfil(this.bisnis,this.fasilitas,this.marketplace);
+  TabProfil(this.bisnis, this.fasilitas, this.marketplace);
 
-  
   Widget marketPlaceButton() {
     return PopupMenuButton(
         // color: Colors.transparent,
@@ -29,7 +28,7 @@ class TabProfil extends StatelessWidget {
                         padding: const EdgeInsets.fromLTRB(2, 2, 8, 2),
                         child: Image.network(i['imageUrl'], height: 40),
                       ),
-                      Text('MarketPlace Name'),
+                      Text('Playstore'),
                     ],
                   )),
             );
@@ -76,15 +75,17 @@ class TabProfil extends StatelessWidget {
                     ),
                     IconWithText(
                       icon: FontAwesome.map_marker,
-                      text:
-                          bisnis.perusahaanAlamat,
+                      text: bisnis.perusahaanAlamat,
                     ),
                     SizedBox(
                       height: 5,
                     ),
                     IconWithText(
                       icon: FontAwesome.clock_o,
-                      text: ((bisnis.jamBuka != null) ? bisnis.jamBuka : ' - ') +  ((bisnis.jamTutup != null) ? bisnis.jamTutup : ''),
+                      text: ((bisnis.jamBuka != null)
+                              ? bisnis.jamBuka
+                              : ' - ') +
+                          ((bisnis.jamTutup != null) ? bisnis.jamTutup : ''),
                     ),
                     SizedBox(
                       height: 5,
@@ -137,16 +138,18 @@ class TabProfil extends StatelessWidget {
                         borderRadius:
                             BorderRadius.all(const Radius.circular(5.0)),
                       ),
-                      child: Center(
-                        child: FlatButton(
-                          color: Colors.transparent,
-                          onPressed: null,
-                          child: Container(
-                            width: double.infinity,
-                            child: marketPlaceButton(),
-                          ),
-                        ),
-                      ),
+                      child: (marketplace != null)
+                          ? Center(
+                              child: FlatButton(
+                                color: Colors.transparent,
+                                onPressed: null,
+                                child: Container(
+                                  width: double.infinity,
+                                  child: marketPlaceButton(),
+                                ),
+                              ),
+                            )
+                          : SizedBox(),
                     ),
                   ],
                 ),

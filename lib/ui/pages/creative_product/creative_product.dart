@@ -156,7 +156,7 @@ class _CreativeProductState extends State<CreativeProduct> {
                                                 product.value[index].produkUrl +
                                                 '/0.jpg'
                                             : product.value[index].produkImg),
-                                    fit: BoxFit.cover,
+                                    fit: BoxFit.contain,
                                   ),
                                   color: Colors.transparent,
                                   borderRadius:

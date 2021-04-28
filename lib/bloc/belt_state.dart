@@ -29,3 +29,10 @@ class BeltKecamatanLoaded extends BeltState {
   @override
   List<Object> get props => [belts];
 }
+
+class TourPackagesLoaded extends BeltState {
+  final ApiReturnValue<List<Belt>> belts;
+  TourPackagesLoaded(this.belts);
+  @override
+  List<Object> get props => [belts];
+}

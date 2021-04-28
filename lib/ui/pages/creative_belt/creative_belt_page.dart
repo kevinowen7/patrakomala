@@ -32,6 +32,8 @@ class _CreativeBeltPageState extends State<CreativeBeltPage> {
   /// Markers loading flag
   bool _areMarkersLoading = true;
 
+  Set<Polyline> _polyline = {};
+
   bool isGetData = true;
 
   /// Color of the cluster circle
@@ -56,6 +58,29 @@ class _CreativeBeltPageState extends State<CreativeBeltPage> {
 
     setState(() {
       _isMapLoading = false;
+    });
+
+    _initMarkers(_markerLocations, _markerImageUrl, belt);
+  }
+
+  void _onMapCreated2(
+      List<LatLng> segment,
+      GoogleMapController controller,
+      List<LatLng> _markerLocations,
+      List<String> _markerImageUrl,
+      List<Belt> belt) {
+    _mapController.complete(controller);
+
+    setState(() {
+      _isMapLoading = false;
+      _polyline.add(Polyline(
+        polylineId: PolylineId('line1'),
+        visible: true,
+        //latlng is List<LatLng>
+        points: segment,
+        width: 2,
+        color: Colors.blue,
+      ));
     });
 
     _initMarkers(_markerLocations, _markerImageUrl, belt);
@@ -96,6 +121,11 @@ class _CreativeBeltPageState extends State<CreativeBeltPage> {
 
   Future<String> getJsonFile() async {
     return await rootBundle.loadString('assets/masSetting.json');
+  }
+
+  Future gotoWrokshop(int bisnisId) async {
+    print(bisnisId);
+    BisnisBloc().add(FetchBisnis(bisnisId));
   }
 
   /// Gets the markers and clusters to be displayed on the map for the current zoom level and
@@ -231,19 +261,10 @@ class _CreativeBeltPageState extends State<CreativeBeltPage> {
                         ),
                         GestureDetector(
                           onTap: () async {
-                            // var result = await ProductServices.getMarketPlace(
-                            //     widget.product.produkId);
-                            // for (final i in result.value) {
-                            //   var productMap = {
-                            //     'id': i.urlNm,
-                            //     'imageUrl': i.img,
-                            //   };
-                            //   marketplace.add(productMap);
-                            // }
-                            // context
-                            //     .bloc<BisnisBloc>()
-                            //     .add(FetchBisnis(belt.id));
-                            // Get.to(WorkshopDetail('jj'));
+                            gotoWrokshop(belt.id).whenComplete(() async {
+                              print('okeeee');
+                              Get.to(WorkshopDetail([]));
+                            });
                           },
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.start,
@@ -307,6 +328,47 @@ class _CreativeBeltPageState extends State<CreativeBeltPage> {
                   markers: _markers,
                   onMapCreated: (controller) => _onMapCreated(controller,
                       _markerLocations, _markerImageUrl, belts.value),
+                  onCameraMove: (position) => _updateMarkers(position.zoom),
+                ),
+              );
+            } else if (beltState is TourPackagesLoaded) {
+              ApiReturnValue<List<Belt>> belts = beltState.belts;
+
+              List<LatLng> latlngSegment1 = List();
+              LatLng _lastMapPosition;
+
+              final List<LatLng> _markerLocations = [];
+              final List<String> _markerImageUrl = [];
+
+              if (belts.value != null) {
+                belts.value.asMap().forEach((key, value) {
+                  var lat = double.parse(value.latitude);
+                  var long = double.parse(value.longitude);
+                  _markerLocations.add(LatLng(lat, long));
+                  _markerImageUrl.add(value.marker);
+                  latlngSegment1.add(LatLng(lat, long));
+                  if (key == (belts.value.length - 1)) {
+                    _lastMapPosition = LatLng(lat, long);
+                  }
+                });
+              }
+
+              return Opacity(
+                opacity: _isMapLoading ? 0 : 1,
+                child: new GoogleMap(
+                  mapToolbarEnabled: false,
+                  initialCameraPosition: CameraPosition(
+                    target: _lastMapPosition,
+                    zoom: 15,
+                  ),
+                  polylines: _polyline,
+                  markers: _markers,
+                  onMapCreated: (controller) => _onMapCreated2(
+                      latlngSegment1,
+                      controller,
+                      _markerLocations,
+                      _markerImageUrl,
+                      belts.value),
                   onCameraMove: (position) => _updateMarkers(position.zoom),
                 ),
               );

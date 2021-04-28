@@ -23,6 +23,7 @@ class PccModel extends Equatable {
     this.eventPublikasi,
     this.eventJenis,
     this.linkStreaming,
+    this.urlLaunch,
   });
 
   final int id;
@@ -46,6 +47,7 @@ class PccModel extends Equatable {
   final int eventPublikasi;
   final int eventJenis;
   final String linkStreaming;
+  final String urlLaunch;
 
   factory PccModel.fromJson(data) => PccModel(
         id: data['id'],
@@ -69,6 +71,7 @@ class PccModel extends Equatable {
         eventPublikasi: data['event_publikasi'],
         eventJenis: data['event_jenis'],
         linkStreaming: data['link_streaming'],
+        urlLaunch: data['url'],
       );
   @override
   List<Object> get props => [
@@ -93,5 +96,6 @@ class PccModel extends Equatable {
         eventPublikasi,
         eventJenis,
         linkStreaming,
+        urlLaunch,
       ];
 }

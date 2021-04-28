@@ -38,3 +38,11 @@ class BeltPackages extends BeltEvent {
   @override
   List<Object> get props => [belt];
 }
+
+class TourPackages extends BeltEvent {
+  final int package;
+
+  TourPackages(this.package);
+  @override
+  List<Object> get props => [package];
+}
