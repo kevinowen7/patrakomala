@@ -24,3 +24,4 @@ part 'kecamatan.dart';
 part 'kelurahan.dart';
 part 'travel_package.dart';
 part 'belt_package.dart';
+part 'about_pcc.dart';

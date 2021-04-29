@@ -10,3 +10,4 @@ export 'kecamatan_bloc.dart';
 export 'kelurahan_bloc.dart';
 export 'travel_package_bloc.dart';
 export 'tour_package_bloc.dart';
+export 'about_pcc_bloc.dart';
