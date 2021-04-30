@@ -140,6 +140,26 @@ class MapServices {
     return ApiReturnValue(value: value);
   }
 
+  static Future<ApiReturnValue<List<Belt>>> filter3(
+      List<int> subsector, int kecamatanID, int kelurahanID,
+      {http.Client client}) async {
+    client ??= http.Client();
+
+    String url = baseURL2 + 'mobile/belts/filter';
+    var response =
+        await client.post(url, headers: {"Content-Type": "application/json"}, body: aConvert.jsonEncode({
+          'kecamatan' : kecamatanID,
+          'kelurahan' : kelurahanID,
+          'subsector' : subsector,
+        }));
+
+    if(response.statusCode != 200){
+      return ApiReturnValue(message: "Gagal");
+    }
+
+    // List<Belt> value = (data[''])
+  }
+
   static Future<BitmapDescriptor> getMarkerImageFromUrl(
     String url, {
     int targetWidth,

@@ -387,9 +387,15 @@ class _SearchBoxBeltState extends State<SearchBoxBelt> {
                                 setState(() {
                                   selectedTravelPackage = values.id;
                                 });
+                                context
+                                    .bloc<BeltBloc>()
+                                    .add(TourPackages(selectedTravelPackage));
+
+                                new Future.delayed(Duration(seconds: 3), () {
+                                  Get.to(MainPage());
+                                });
                               }
                             });
-                            // print(selectedTravelPackage);
                           },
                         );
                       } else {
