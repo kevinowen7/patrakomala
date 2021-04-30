@@ -9,6 +9,12 @@ class _CreativeProductState extends State<CreativeProduct> {
   bool resetBtn = false;
 
   @override
+  void initState() {
+    ProductBloc().add(FetchProduct());
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: "F8F8F8".toColor(),
@@ -156,7 +162,10 @@ class _CreativeProductState extends State<CreativeProduct> {
                                                 product.value[index].produkUrl +
                                                 '/0.jpg'
                                             : product.value[index].produkImg),
-                                    fit: BoxFit.contain,
+                                    fit:
+                                        (product.value[index].produkImg == null)
+                                            ? BoxFit.contain
+                                            : BoxFit.cover,
                                   ),
                                   color: Colors.transparent,
                                   borderRadius:

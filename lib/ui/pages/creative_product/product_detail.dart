@@ -63,7 +63,7 @@ class _ProductDetailState extends State<ProductDetail> {
       var productMap = {
         'id': i.urlNm,
         'imageUrl': i.img,
-        'name' : i.name,
+        'name': i.name,
       };
       marketplace.add(productMap);
     }
@@ -109,7 +109,7 @@ class _ProductDetailState extends State<ProductDetail> {
                         padding: const EdgeInsets.fromLTRB(2, 2, 8, 2),
                         child: Image.network(i['imageUrl'], height: 40),
                       ),
-                      Text(i['name'].toString(),style:normalFontStyle),
+                      Text(i['name'].toString(), style: normalFontStyle),
                     ],
                   )),
             );
@@ -143,18 +143,18 @@ class _ProductDetailState extends State<ProductDetail> {
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(10),
                         ),
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(10),
-                          child: YoutubePlayer(
-                            controller: YoutubePlayerController(
-                              initialVideoId: widget.product.produkUrl,
-                              flags: YoutubePlayerFlags(
-                                autoPlay: true,
-                                mute: true,
-                              ),
+                        child: YoutubePlayer(
+                          controller: YoutubePlayerController(
+                            initialVideoId: widget.product.produkUrl,
+                            flags: YoutubePlayerFlags(
+                              autoPlay: false,
+                              mute: true,
+                              forceHD: false,
+                              disableDragSeek: true,
+          loop: false,
                             ),
-                            liveUIColor: Colors.amber,
                           ),
+                          liveUIColor: Colors.amber,
                         ),
                       )
                     : Container(

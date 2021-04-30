@@ -13,7 +13,6 @@ class AcaraServices {
       return ApiReturnValue(message: 'Gagal mengambil data');
     }
 
-
     var data = aConvert.jsonDecode(response.body);
     // print(data['response']['data'].length.toString());
     List<Acara> acara = (data['response']['data'] as Iterable)
@@ -39,6 +38,7 @@ class AcaraServices {
     }
 
     var data = aConvert.jsonDecode(response.body);
+    print(data['response']['data'].length.toString());
     List<Acara> acara = (data['response']['data'] as Iterable)
         .map((e) => Acara.fromJson(e))
         .toList();

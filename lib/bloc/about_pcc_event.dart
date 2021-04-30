@@ -4,7 +4,7 @@ abstract class AboutPccEvent extends Equatable {
   const AboutPccEvent();
 }
 
-class FetchPcc extends AboutPccEvent {
+class FetchAboutPcc extends AboutPccEvent {
   @override
   List<Object> get props => [];
 }

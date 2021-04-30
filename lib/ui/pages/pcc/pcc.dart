@@ -51,21 +51,39 @@ class _PccState extends State<Pcc> {
                 SizedBox(
                   height: 20,
                 ),
+                // RaisedButton(
+                //   onPressed: () {
+                //     Get.to(PreLoginPage());
+                //   },
+                // ),
                 Padding(
                   padding: const EdgeInsets.only(bottom: defaultMargin),
                   child: Container(
                     // height: 266,
                     width: double.infinity,
                     margin: EdgeInsets.symmetric(horizontal: defaultMargin),
-                    child: Text(
-                      "Patrakomala Coffee Club (PCC) adalah kegiatan yang diusung oleh Dinas Kebudayaan dan Pariwisata Kota Bandung yang bermaksud untuk mengenal dan mengidentifikasi masalah dari ke-16 sub sektor ekonomi kreatif di Kota Bandung, bertujuan untuk menimbulkan sinergitas antara pentahelix 16 sub sektor ekonomi kreatif yang kemudian mendukung kolaborasi di dalamnya.\n\nDinas Kebudayaan dan Pariwisata Kota Bandung sendiri melalui bidang ekonomi kreatif memiliki peran sebagai fasilitator dan juga regulator dalam kebijaksanaan pemecahan masalah dari pelaku Ekonomi Kreatif dalam hal suprastruktur. Selain itu Dinas Kebudayaan dan Pariwisata Kota Bandung sendiri juga sedang mencanangkan program berkelanjutan dengan beberapa proses yaitu kreasi-promosi-distribusi-konsumsi-konservasi. Dimana untuk merealisasikan program berkelanjutan tersebut diharapkan adanya kolaborasi antara semua bagian pentahelix yang salah satunya dengan kegiatan Patrakomala Coffee Club  ini.",
-                      style: normalFontStyle.copyWith(
-                        color: "333333".toColor(),
-                        fontSize: ResponsiveFlutter.of(context).fontSize(1.4),
-                        letterSpacing: 0.5,
-                      ),
-                      textAlign: TextAlign.center,
-                    ),
+                    child: BlocBuilder<AboutPccBloc, AboutPccState>(
+                        builder: (_, apState) {
+                      if (apState is AboutPccLoaded) {
+                        ApiReturnValue<List<AboutPcc>> aboutPcc = apState.aPcc;
+                        List<AboutPcc> aboutPccVal = aboutPcc.value;
+                        return Text(
+                          parse(aboutPccVal[0].text).documentElement.text +
+                              '\n\n' +
+                              parse(aboutPccVal[1].text).documentElement.text,
+                          style: normalFontStyle.copyWith(
+                            color: "333333".toColor(),
+                            fontSize:
+                                ResponsiveFlutter.of(context).fontSize(1.4),
+                            letterSpacing: 0.5,
+                          ),
+                          textAlign: TextAlign.center,
+                        );
+                      } else {
+                        return SpinKitFadingCircle(
+                            color: backgroundColorGrey, size: 50);
+                      }
+                    }),
                   ),
                 ),
                 LineBorder(),
@@ -84,7 +102,6 @@ class _PccState extends State<Pcc> {
                           onPageChanged: (index, reason) {
                             setState(() {
                               _current = index;
-                              print("${_current}");
                             });
                           },
                         ),

@@ -10,19 +10,22 @@ class _TesPageState extends State<TesPage> {
 
   Future getValidationData() async {
     var identifier = await UserServices.getIdentifier();
-    ApiReturnValue<String> obtainedEmail = await UserServices.getDeviceDetails();
-    print(identifier.value.toString()+ 'iden 1');
+    ApiReturnValue<String> obtainedEmail =
+        await UserServices.getDeviceDetails();
+    print(identifier.value.toString() + 'iden 1');
     print(obtainedEmail.message.toString() + 'iden 2');
     setState(() {
       userIdentifier =
-          (identifier.value.toString() == obtainedEmail.message.toString()) ? identifier.value : 'no-data';
+          (identifier.value.toString() == obtainedEmail.message.toString())
+              ? identifier.value
+              : 'no-data';
     });
   }
 
   // @override
   void initState() {
     getValidationData().whenComplete(() async {
-      Get.to((userIdentifier == 'no-data') ? PreLoginPage() : MainPage());
+      Get.off((userIdentifier == 'no-data') ? PreLoginPage() : MainPage());
     });
 
     super.initState();

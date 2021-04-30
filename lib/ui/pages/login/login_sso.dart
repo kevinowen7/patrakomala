@@ -101,7 +101,7 @@ class _LoginEmailState extends State<LoginEmail> {
                           await SharedPreferences.getInstance();
                       sharedPreferences.setString(
                           'identifier', identifier);
-                      Get.to(MainPage());
+                      Get.off(MainPage());
                     } catch (e) {
                       Flushbar(
                         icon: Icon(

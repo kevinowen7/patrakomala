@@ -50,6 +50,9 @@ class MyApp extends StatelessWidget {
         BlocProvider(
           create: (_) => TourPackageBloc()..add(FetchTourPackage()),
         ),
+        BlocProvider(
+          create: (_) => AboutPccBloc()..add(FetchAboutPcc()),
+        ),
       ],
       child: GetMaterialApp(
         home: TesPage(),
