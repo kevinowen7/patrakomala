@@ -37,6 +37,10 @@ class BeltBloc extends Bloc<BeltEvent, BeltState> {
       ApiReturnValue<List<Belt>> belts =
           await MapServices.tourPackages(event.package);
       yield (TourPackagesLoaded(belts));
+    } else if (event is Filter3) {
+      ApiReturnValue<List<Belt>> belts = await MapServices.filter3(
+          event.subsectorID, event.kecamatanID, event.kelurahanID);
+      yield (Filter3Loaded(belts));
     }
   }
 }

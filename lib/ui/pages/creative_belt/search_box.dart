@@ -12,8 +12,16 @@ class _SearchBoxBeltState extends State<SearchBoxBelt> {
   int selectedKelurahan;
   int selectedTravelPackage;
   List<int> selectedBeltPackage;
+  List<int> selectedIDSubsector = [];
   bool isLoadingSubsector = false;
   TextEditingController judul = TextEditingController();
+
+  Future getFilter(
+      List<int> subsectorID, int kecamatanID, int kelurahanID) async {
+    // ignore: await_only_futures
+    await BeltBloc().add(Filter3(subsectorID, kecamatanID, kelurahanID));
+    return true;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -55,35 +63,79 @@ class _SearchBoxBeltState extends State<SearchBoxBelt> {
                 mTop: 0,
                 mBot: 0,
                 child: BlocBuilder<SubsectorBloc, SubsectorState>(
-                    builder: (_, subsectorState) {
-                  if (subsectorState is SubsectorLoaded) {
-                    List<Subsector> subsectors = subsectorState.subsector;
-                    List<String> subsectorItem = [];
-                    subsectors.asMap().forEach((key, value) {
-                      subsectorItem.add(value.subSectorName);
-                    });
-                    return SelectNeuBorder(
-                      hintText: "Pilih Subsektor",
-                      items: subsectorItem,
-                      onChanged: (value) {
-                        subsectors.asMap().forEach((key, values) {
-                          if (value == values.subSectorName) {
+                  builder: (_, subsectorState) {
+                    if (subsectorState is SubsectorLoaded) {
+                      List<Subsector> subsectors = subsectorState.subsector;
+                      List<String> subsectorItem = [];
+                      subsectors.asMap().forEach((key, value) {
+                        subsectorItem.add(value.subSectorName);
+                      });
+                      return SearchMultipleCustom(
+                        selectedValue: selectedSubsector,
+                        hintText: "Pilih Subsektor",
+                        items: subsectorItem,
+                        onChanged: (value) {
+                          setState(() {
+                            selectedSubsector = value;
+                          });
+
+                          // print(subsectors[0].id);
+
+                          for (var i in selectedSubsector) {
                             setState(() {
-                              selectedSubsector = [];
-                              selectedSubsector.add(values.id);
+                              selectedIDSubsector.add(subsectors[i].id);
                             });
                           }
-                        });
-                      },
-                    );
-                  } else {
-                    return SelectNeuBorder(
-                      hintText: "Pilih Subsektor",
-                      items: [],
-                    );
-                  }
-                }),
+                        },
+                        closeButton: (newValue) {
+                          return (newValue.isNotEmpty
+                              ? "Simpan ${newValue.length == 1 ? '"' + subsectorItem[newValue.first].toString() + '"' : '(' + newValue.length.toString() + ')'}"
+                              : "Tutup");
+                        },
+                      );
+                    } else {
+                      return SelectNeuBorder(
+                        hintText: "Pilih Subsektor",
+                        items: [],
+                      );
+                    }
+                  },
+                ),
               ),
+
+              // NeuBorder3(
+              //   mTop: 0,
+              //   mBot: 0,
+              //   child: BlocBuilder<SubsectorBloc, SubsectorBloc>(
+              //       builder: (_, subsectorState) {
+              //     if (subsectorState is SubsectorLoaded) {
+              //       List<Subsector> subsectors = subsectorState.subsector;
+              //       List<String> subsectorItem = [];
+              //       subsectors.asMap().forEach((key, value) {
+              //         subsectorItem.add(value.subSectorName);
+              //       });
+              //       return SelectNeuBorder(
+              //         hintText: "Pilih Subsektor",
+              //         items: subsectorItem,
+              //         onChanged: (value) {
+              //           subsectors.asMap().forEach((key, values) {
+              //             if (value == values.subSectorName) {
+              //               setState(() {
+              //                 selectedSubsector = [];
+              //                 selectedSubsector.add(values.id);
+              //               });
+              //             }
+              //           });
+              //         },
+              //       );
+              //     } else {
+              //       return SelectNeuBorder(
+              //         hintText: "Pilih Subsektor",
+              //         items: [],
+              //       );
+              //     }
+              //   }),
+              // ),
               // InkWell(
               //     onTap: () {
               //       setState(() {
@@ -186,68 +238,6 @@ class _SearchBoxBeltState extends State<SearchBoxBelt> {
                   }
                 }),
               ),
-              // InkWell(
-              //   onTap: () {
-              //     if (selectedKecamatan == null) {
-              //       Flushbar(
-              //         icon: Icon(
-              //           Icons.info_outline,
-              //           size: 28.0,
-              //           color: Colors.yellow[300],
-              //         ),
-              //         duration: Duration(milliseconds: 2000),
-              //         flushbarPosition: FlushbarPosition.TOP,
-              //         flushbarStyle: FlushbarStyle.FLOATING,
-              //         // backgroundColor: Color(0xFFFF5C83),
-              //         borderRadius: 8,
-              //         margin: EdgeInsets.all(defaultMargin),
-              //         message: "Kecamatan Belum dipilih !",
-              //       )..show(context);
-              //     } else {
-              //       setState(() {
-              //         isLoading = true;
-              //       });
-              //       context
-              //           .bloc<BeltBloc>()
-              //           .add(BeltByKecamatan(selectedKecamatan));
-
-              //       new Future.delayed(Duration(seconds: 3), () {
-              //         setState(() {
-              //           isLoading = false;
-              //         });
-              //         Get.to(MainPage());
-              //       });
-              //     }
-              //   },
-              //   child: Container(
-              //     margin: EdgeInsets.symmetric(horizontal: defaultMargin),
-              //     height: 40,
-              //     width: 50,
-              //     decoration: BoxDecoration(
-              //       boxShadow: <BoxShadow>[
-              //         BoxShadow(
-              //           color: Color.fromRGBO(17, 18, 19, 0.3),
-              //           offset: Offset(0.0, 0.0),
-              //           blurRadius: 2.0,
-              //         ),
-              //       ],
-              //       gradient: RadialGradient(colors: [
-              //         mainColorRed,
-              //         mainColorRed,
-              //       ]),
-              //       borderRadius:
-              //           BorderRadius.all(const Radius.circular(5.0)),
-              //     ),
-              //     child: Center(
-              //         child: Text(
-              //       "Cari",
-              //       style: normalFontStyle.copyWith(
-              //           color: Colors.white,
-              //           fontSize: 14,
-              //           fontWeight: FontWeight.w600),
-              //     )),
-              //   ),
-              // ),
 
               SizedBox(height: 10),
 
@@ -286,70 +276,6 @@ class _SearchBoxBeltState extends State<SearchBoxBelt> {
                   }
                 }),
               ),
-              // InkWell(
-              //   onTap: () {
-              //     if (selectedKelurahan == null) {
-              //       Flushbar(
-              //         icon: Icon(
-              //           Icons.info_outline,
-              //           size: 28.0,
-              //           color: Colors.yellow[300],
-              //         ),
-              //         duration: Duration(milliseconds: 2000),
-              //         flushbarPosition: FlushbarPosition.TOP,
-              //         flushbarStyle: FlushbarStyle.FLOATING,
-              //         // backgroundColor: Color(0xFFFF5C83),
-              //         borderRadius: 8,
-              //         margin: EdgeInsets.all(defaultMargin),
-              //         message: "Kelurahan Belum dipilih !",
-              //       )..show(context);
-              //       setState(() {
-              //         isLoading = false;
-              //       });
-              //     } else {
-              //       setState(() {
-              //         isLoading = true;
-              //       });
-              //       context
-              //           .bloc<BeltBloc>()
-              //           .add(BeltByKelurahan(selectedKelurahan));
-              //       new Future.delayed(Duration(seconds: 3), () {
-              //         setState(() {
-              //           isLoading = false;
-              //         });
-              //         Get.to(MainPage());
-              //       });
-              //     }
-              //   },
-              //   child: Container(
-              //     margin: EdgeInsets.symmetric(horizontal: defaultMargin),
-              //     height: 40,
-              //     width: 50,
-              //     decoration: BoxDecoration(
-              //       boxShadow: <BoxShadow>[
-              //         BoxShadow(
-              //           color: Color.fromRGBO(17, 18, 19, 0.3),
-              //           offset: Offset(0.0, 0.0),
-              //           blurRadius: 2.0,
-              //         ),
-              //       ],
-              //       gradient: RadialGradient(colors: [
-              //         mainColorRed,
-              //         mainColorRed,
-              //       ]),
-              //       borderRadius:
-              //           BorderRadius.all(const Radius.circular(5.0)),
-              //     ),
-              //     child: Center(
-              //         child: Text(
-              //       "Cari",
-              //       style: normalFontStyle.copyWith(
-              //           color: Colors.white,
-              //           fontSize: 14,
-              //           fontWeight: FontWeight.w600),
-              //     )),
-              //   ),
-              // ),
 
               // TODO: TravelPackage
               SizedBox(height: 10),
@@ -374,14 +300,18 @@ class _SearchBoxBeltState extends State<SearchBoxBelt> {
                         tpVal.asMap().forEach((key, values) {
                           if (value == values.packageName) {
                             setState(() {
+                              isLoading = true;
                               selectedTravelPackage = values.id;
                             });
                             context
                                 .bloc<BeltBloc>()
                                 .add(TourPackages(selectedTravelPackage));
 
-                            new Future.delayed(Duration(seconds: 3), () {
+                            new Future.delayed(Duration(seconds: 4), () {
                               Get.to(MainPage());
+                              setState(() {
+                                isLoading = false;
+                              });
                             });
                           }
                         });
@@ -395,71 +325,6 @@ class _SearchBoxBeltState extends State<SearchBoxBelt> {
                   }
                 }),
               ),
-              // InkWell(
-              //   onTap: () {
-              //     setState(() {
-              //       isLoading = true;
-              //     });
-              //     if (selectedTravelPackage == null) {
-              //       setState(() {
-              //         isLoading = false;
-              //       });
-              //       Flushbar(
-              //         icon: Icon(
-              //           Icons.info_outline,
-              //           size: 28.0,
-              //           color: Colors.yellow[300],
-              //         ),
-              //         duration: Duration(milliseconds: 2000),
-              //         flushbarPosition: FlushbarPosition.TOP,
-              //         flushbarStyle: FlushbarStyle.FLOATING,
-              //         // backgroundColor: Color(0xFFFF5C83),
-              //         borderRadius: 8,
-              //         margin: EdgeInsets.all(defaultMargin),
-              //         message: "Paket Belt Belum dipilih !",
-              //       )..show(context);
-              //     } else {
-              //       context
-              //           .bloc<BeltBloc>()
-              //           .add(TourPackages(selectedTravelPackage));
-
-              //       new Future.delayed(Duration(seconds: 3), () {
-              //         Get.to(MainPage());
-              //         setState(() {
-              //           isLoading = false;
-              //         });
-              //       });
-              //     }
-              //   },
-              //   child: Container(
-              //     margin: EdgeInsets.symmetric(horizontal: defaultMargin),
-              //     height: 40,
-              //     width: 50,
-              //     decoration: BoxDecoration(
-              //       boxShadow: <BoxShadow>[
-              //         BoxShadow(
-              //           color: Color.fromRGBO(17, 18, 19, 0.3),
-              //           offset: Offset(0.0, 0.0),
-              //           blurRadius: 2.0,
-              //         ),
-              //       ],
-              //       gradient: RadialGradient(colors: [
-              //         mainColorRed,
-              //         mainColorRed,
-              //       ]),
-              //       borderRadius:
-              //           BorderRadius.all(const Radius.circular(5.0)),
-              //     ),
-              //     child: Center(
-              //         child: Text(
-              //       "Cari",
-              //       style: normalFontStyle.copyWith(
-              //           color: Colors.white,
-              //           fontSize: 14,
-              //           fontWeight: FontWeight.w600),
-              //     )),
-              //   ),
-              // ),
 
               // TODO:: BeltPackage
               SizedBox(height: 10),
@@ -484,8 +349,20 @@ class _SearchBoxBeltState extends State<SearchBoxBelt> {
                         tourPackageVal.asMap().forEach((key, values) {
                           if (value == values.beltTitle) {
                             setState(() {
+                              isLoading = true;
                               selectedBeltPackage = [];
                               selectedBeltPackage.add(values.id);
+                            });
+
+                            context
+                                .bloc<BeltBloc>()
+                                .add(BeltPackages(selectedBeltPackage));
+
+                            new Future.delayed(Duration(seconds: 4), () {
+                              Get.to(MainPage());
+                              setState(() {
+                                isLoading = false;
+                              });
                             });
                           }
                         });
@@ -500,82 +377,57 @@ class _SearchBoxBeltState extends State<SearchBoxBelt> {
                   }
                 }),
               ),
-              // InkWell(
-              //   onTap: () {
-              //     setState(() {
-              //       isLoading = true;
-              //     });
-              //     if (selectedBeltPackage == null) {
-              //       setState(() {
-              //         isLoading = false;
-              //       });
-              //       Flushbar(
-              //         icon: Icon(
-              //           Icons.info_outline,
-              //           size: 28.0,
-              //           color: Colors.yellow[300],
-              //         ),
-              //         duration: Duration(milliseconds: 2000),
-              //         flushbarPosition: FlushbarPosition.TOP,
-              //         flushbarStyle: FlushbarStyle.FLOATING,
-              //         // backgroundColor: Color(0xFFFF5C83),
-              //         borderRadius: 8,
-              //         margin: EdgeInsets.all(defaultMargin),
-              //         message: "Paket Belt Belum dipilih !",
-              //       )..show(context);
-              //     } else {
-              //       context
-              //           .bloc<BeltBloc>()
-              //           .add(BeltPackages(selectedBeltPackage));
-
-              //       new Future.delayed(Duration(seconds: 3), () {
-              //         Get.to(MainPage());
-              //       });
-              //     }
-              //   },
-              //   child: Container(
-              //     margin: EdgeInsets.symmetric(horizontal: defaultMargin),
-              //     height: 40,
-              //     width: 50,
-              //     decoration: BoxDecoration(
-              //       boxShadow: <BoxShadow>[
-              //         BoxShadow(
-              //           color: Color.fromRGBO(17, 18, 19, 0.3),
-              //           offset: Offset(0.0, 0.0),
-              //           blurRadius: 2.0,
-              //         ),
-              //       ],
-              //       gradient: RadialGradient(colors: [
-              //         mainColorRed,
-              //         mainColorRed,
-              //       ]),
-              //       borderRadius:
-              //           BorderRadius.all(const Radius.circular(5.0)),
-              //     ),
-              //     child: Center(
-              //         child: Text(
-              //       "Cari",
-              //       style: normalFontStyle.copyWith(
-              //           color: Colors.white,
-              //           fontSize: 14,
-              //           fontWeight: FontWeight.w600),
-              //     )),
-              //   ),
-              // ),
-
               SizedBox(height: 16),
               (!isLoading)
                   ? Column(
                       children: [
                         GestureDetector(
                           onTap: () async {
-                            setState(() {
-                              isLoading = true;
-                            });
-                            new Future.delayed(Duration(seconds: 10), () {
-                              context.bloc<BeltBloc>().add(FetchBelt());
-                              Get.to(MainPage());
-                            });
+                            if (selectedIDSubsector.length == 0 &&
+                                selectedKecamatan == null &&
+                                selectedKelurahan == null) {
+                              Flushbar(
+                                icon: Icon(
+                                  Icons.info_outline,
+                                  size: 28.0,
+                                  color: Colors.yellow[300],
+                                ),
+                                duration: Duration(milliseconds: 2000),
+                                flushbarPosition: FlushbarPosition.TOP,
+                                flushbarStyle: FlushbarStyle.FLOATING,
+                                // backgroundColor: Color(0xFFFF5C83),
+                                borderRadius: 8,
+                                margin: EdgeInsets.all(defaultMargin),
+                                message: "Pilih Salah satu kolom !",
+                              )..show(context);
+                            } else {
+                              setState(() {
+                                isLoading = true;
+                              });
+                              context.bloc<BeltBloc>().add(Filter3(
+                                  selectedIDSubsector,
+                                  selectedKecamatan,
+                                  selectedKelurahan));
+                              BeltState bState = context.bloc<BeltBloc>().state;
+                              if (bState is Filter3Loaded){
+                                print('================= selesai');
+                              } else {
+                                Get.to(MainPage());
+                              }
+                              // setState(() {
+                              //   isLoading = true;
+                              // });
+                              // new Future.delayed(Duration(seconds: 3), () {
+                              //   getFilter(selectedIDSubsector,
+                              //         selectedKecamatan, selectedKelurahan);
+
+                              //   setState(() {
+                              //     isLoading = false;
+                              //   });
+                              //   Get.to(MainPage());
+                              // });
+
+                            }
                           },
                           child: Container(
                             margin:

@@ -39,7 +39,7 @@ class _SelectNeuBorderState extends State<SelectNeuBorder> {
           return (DropdownMenuItem(
             child: Text(
               data,
-              style: normalFontStyle.copyWith(color: "333333".toColor()),
+              style: normalFontStyle.copyWith(color: Colors.grey, fontSize: 18),
             ),
             value: data,
           ));
@@ -49,7 +49,7 @@ class _SelectNeuBorderState extends State<SelectNeuBorder> {
           padding: EdgeInsets.all(0),
           child: Text(
             widget.hintText,
-            style: normalFontStyle.copyWith(color: "333333".toColor()),
+            style: normalFontStyle.copyWith(color: Colors.grey, fontSize: 18),
           ),
         ),
         searchHint: widget.hintText,

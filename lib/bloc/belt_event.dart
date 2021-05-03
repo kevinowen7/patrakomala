@@ -46,3 +46,13 @@ class TourPackages extends BeltEvent {
   @override
   List<Object> get props => [package];
 }
+
+class Filter3 extends BeltEvent {
+  final List<int> subsectorID;
+  final int kecamatanID;
+  final int kelurahanID;
+
+  Filter3(this.subsectorID, this.kecamatanID, this.kelurahanID);
+  @override
+  List<Object> get props => [subsectorID, kecamatanID, kelurahanID];
+}

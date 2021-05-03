@@ -104,15 +104,24 @@ class MapServices {
           },
         }));
 
+    // print(response.statusCode.toString());
+    // print(belts);
+
     if (response.statusCode != 200) {
       return ApiReturnValue(message: "Gagal mengambil belts");
     }
 
     var data = aConvert.jsonDecode(response.body);
-    List<Belt> value =
-        (data['data'] as Iterable).map((e) => Belt.fromJson(e)).toList();
+    print(data['status'].toString());
 
-    return ApiReturnValue(value: value);
+    if (data['status'] == 'failed') {
+      return ApiReturnValue(value: []);
+    } else {
+      List<Belt> value =
+          (data['data'] as Iterable).map((e) => Belt.fromJson(e)).toList();
+
+      return ApiReturnValue(value: value);
+    }
   }
 
   static Future<ApiReturnValue<List<Belt>>> tourPackages(int package,
@@ -133,7 +142,6 @@ class MapServices {
     }
 
     var data = aConvert.jsonDecode(response.body);
-    print(data['data'].length.toString());
     List<Belt> value =
         (data['data'] as Iterable).map((e) => Belt.fromJson(e)).toList();
 
@@ -146,18 +154,23 @@ class MapServices {
     client ??= http.Client();
 
     String url = baseURL2 + 'mobile/belts/filter';
-    var response =
-        await client.post(url, headers: {"Content-Type": "application/json"}, body: aConvert.jsonEncode({
-          'kecamatan' : kecamatanID,
-          'kelurahan' : kelurahanID,
-          'subsector' : subsector,
+    var response = await client.post(url,
+        headers: {"Content-Type": "application/json"},
+        body: aConvert.jsonEncode({
+          'kecamatan': kecamatanID,
+          'kelurahan': kelurahanID,
+          'subsector': subsector,
         }));
 
-    if(response.statusCode != 200){
+    if (response.statusCode != 200) {
       return ApiReturnValue(message: "Gagal");
     }
 
-    // List<Belt> value = (data[''])
+    var data = aConvert.jsonDecode(response.body);
+    print(data['response'].length.toString());
+    List<Belt> value =
+        (data['response'] as Iterable).map((e) => Belt.fromJson(e)).toList();
+    return ApiReturnValue(value: value);
   }
 
   static Future<BitmapDescriptor> getMarkerImageFromUrl(

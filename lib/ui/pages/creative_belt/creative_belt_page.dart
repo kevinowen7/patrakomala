@@ -261,7 +261,7 @@ class _CreativeBeltPageState extends State<CreativeBeltPage> {
                         ),
                         GestureDetector(
                           onTap: () async {
-                            gotoWrokshop(belt.id).whenComplete(() async {
+                            gotoWrokshop(belt.id).whenComplete(() {
                               print('okeeee');
                               Get.to(WorkshopDetail([]));
                             });
@@ -304,6 +304,34 @@ class _CreativeBeltPageState extends State<CreativeBeltPage> {
         BlocBuilder<BeltBloc, BeltState>(
           builder: (_, beltState) {
             if (beltState is BeltLoaded) {
+              ApiReturnValue<List<Belt>> belts = beltState.belts;
+              final List<LatLng> _markerLocations = [];
+              final List<String> _markerImageUrl = [];
+
+              if (belts.value != null) {
+                belts.value.asMap().forEach((key, value) {
+                  var lat = double.parse(value.latitude);
+                  var long = double.parse(value.longitude);
+                  _markerLocations.add(LatLng(lat, long));
+                  _markerImageUrl.add(value.marker);
+                });
+              }
+
+              return Opacity(
+                opacity: _isMapLoading ? 0 : 1,
+                child: new GoogleMap(
+                  mapToolbarEnabled: false,
+                  initialCameraPosition: CameraPosition(
+                    target: LatLng(-6.9218518, 107.6048254),
+                    zoom: _currentZoom,
+                  ),
+                  markers: _markers,
+                  onMapCreated: (controller) => _onMapCreated(controller,
+                      _markerLocations, _markerImageUrl, belts.value),
+                  onCameraMove: (position) => _updateMarkers(position.zoom),
+                ),
+              );
+            } else if (beltState is Filter3Loaded) {
               ApiReturnValue<List<Belt>> belts = beltState.belts;
               final List<LatLng> _markerLocations = [];
               final List<String> _markerImageUrl = [];

@@ -36,3 +36,10 @@ class TourPackagesLoaded extends BeltState {
   @override
   List<Object> get props => [belts];
 }
+
+class Filter3Loaded extends BeltState {
+  final ApiReturnValue<List<Belt>> belts;
+  Filter3Loaded(this.belts);
+  @override
+  List<Object> get props => [belts];
+}
