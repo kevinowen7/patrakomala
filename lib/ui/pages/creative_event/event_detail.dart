@@ -17,12 +17,7 @@ class _EventDetailState extends State<EventDetail> {
           children: [
             ListView(
               children: [
-                CustomHeader(
-                  backButton: () {
-                    Get.back();
-                  },
-                  title: "Events",
-                ),
+                SizedBox(height: 60),
                 CarouselSlider(
                   items: widget.acara.imgEvent.map((fileImage) {
                     return Container(
@@ -63,7 +58,7 @@ class _EventDetailState extends State<EventDetail> {
                     initialPage: 0,
                   ),
                 ),
-                SizedBox(height:10),
+                SizedBox(height: 10),
                 Padding(
                   padding:
                       const EdgeInsets.symmetric(horizontal: defaultMargin),
@@ -211,7 +206,15 @@ class _EventDetailState extends State<EventDetail> {
                   ),
                 ),
               ),
-            )
+            ),
+            Positioned(
+              child: CustomHeader(
+                backButton: () {
+                  Get.back();
+                },
+                title: "Events",
+              ),
+            ),
           ],
         ),
       ),

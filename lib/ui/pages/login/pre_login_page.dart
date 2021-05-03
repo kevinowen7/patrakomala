@@ -75,7 +75,7 @@ class PreLoginPage extends StatelessWidget {
                         style: normalFontStyle.copyWith(
                             color: 'FEFEFE'.toColor(),
                             fontWeight: FontWeight.w600,
-                            fontSize: 14),
+                            fontSize: 13),
                       ),
                       Container(
                         width: 20,

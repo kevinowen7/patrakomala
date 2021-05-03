@@ -91,38 +91,56 @@ class _PdfViewState extends State<PdfView> {
           onPageError: (page, e) {},
         ),
         floatingActionButton: Row(
-          mainAxisAlignment: MainAxisAlignment.end,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
-            IconButton(
-              icon: Icon(Icons.chevron_left),
-              iconSize: 50,
-              color: Colors.black,
-              onPressed: () {
-                setState(() {
-                  if (_currentPage > 0) {
-                    _currentPage--;
-                    _pdfViewController.setPage(_currentPage);
-                  }
-                });
-              },
+            Padding(
+              padding: EdgeInsets.only(left: 40),
+              child: FlatButton(
+                color: Colors.transparent,
+                child: Row(children: [
+                  Icon(Icons.arrow_back),
+                  Text(' Kembali',
+                      style: normalFontStyle.copyWith(fontSize: 18)),
+                ]),
+                onPressed: () {
+                  Get.back();
+                },
+              ),
             ),
-            Text(
-              "${_currentPage + 1}/$_totalPages",
-              style: TextStyle(color: Colors.black, fontSize: 20),
-            ),
-            IconButton(
-              icon: Icon(Icons.chevron_right),
-              iconSize: 50,
-              color: Colors.black,
-              onPressed: () {
-                setState(() {
-                  if (_currentPage < _totalPages - 1) {
-                    _currentPage++;
-                    _pdfViewController.setPage(_currentPage);
-                  }
-                });
-              },
-            ),
+            Row(
+              children: [
+                IconButton(
+                  icon: Icon(Icons.chevron_left),
+                  iconSize: 50,
+                  color: Colors.black,
+                  onPressed: () {
+                    setState(() {
+                      if (_currentPage > 0) {
+                        _currentPage--;
+                        _pdfViewController.setPage(_currentPage);
+                      }
+                    });
+                  },
+                ),
+                Text(
+                  "${_currentPage + 1}/$_totalPages",
+                  style: TextStyle(color: Colors.black, fontSize: 20),
+                ),
+                IconButton(
+                  icon: Icon(Icons.chevron_right),
+                  iconSize: 50,
+                  color: Colors.black,
+                  onPressed: () {
+                    setState(() {
+                      if (_currentPage < _totalPages - 1) {
+                        _currentPage++;
+                        _pdfViewController.setPage(_currentPage);
+                      }
+                    });
+                  },
+                ),
+              ],
+            )
           ],
         ),
       );
@@ -138,8 +156,10 @@ class _PdfViewState extends State<PdfView> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               SpinKitFadingCircle(color: mainColorRed, size: 50),
-              SizedBox(height: 10,),
-              Text("Sedang Memuat Dokumen...",style: normalFontStyle),
+              SizedBox(
+                height: 10,
+              ),
+              Text("Sedang Memuat Dokumen...", style: normalFontStyle),
             ],
           )),
         ));

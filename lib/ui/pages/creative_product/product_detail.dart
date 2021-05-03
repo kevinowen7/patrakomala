@@ -128,11 +128,8 @@ class _ProductDetailState extends State<ProductDetail> {
           children: [
             ListView(
               children: [
-                CustomHeader(
-                  backButton: () {
-                    Get.back();
-                  },
-                  title: "Produk",
+                SizedBox(
+                  height: 60,
                 ),
                 (widget.product.produkImg == null)
                     ? Container(
@@ -151,7 +148,7 @@ class _ProductDetailState extends State<ProductDetail> {
                               mute: true,
                               forceHD: false,
                               disableDragSeek: true,
-          loop: false,
+                              loop: false,
                             ),
                           ),
                           liveUIColor: Colors.amber,
@@ -268,6 +265,14 @@ class _ProductDetailState extends State<ProductDetail> {
                       textAlign: TextAlign.left,
                     )),
               ],
+            ),
+            Positioned(
+              child: CustomHeader(
+                backButton: () {
+                  Get.back();
+                },
+                title: "Produk",
+              ),
             ),
             Positioned(
               bottom: 0,

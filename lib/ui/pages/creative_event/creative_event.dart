@@ -22,9 +22,7 @@ class _CreativeEventState extends State<CreativeEvent> {
           child: Stack(
         children: [
           ListView(children: [
-            CustomHeader(
-              title: "Events",
-            ),
+            SizedBox(height: 60),
             InkWell(
               onTap: () {
                 Get.to(SearchBoxAcara());
@@ -457,7 +455,7 @@ class _CreativeEventState extends State<CreativeEvent> {
                         )
                         .toList(),
                   );
-                }else if(aState is AcaraFilterLoaded){
+                } else if (aState is AcaraFilterLoaded) {
                   ApiReturnValue<List<Acara>> acara = aState.acara;
                   List<Acara> valAcara = acara.value;
                   return Row(
@@ -509,7 +507,12 @@ class _CreativeEventState extends State<CreativeEvent> {
                 }
               },
             ),
-          ])
+          ]),
+          Positioned(
+            child: CustomHeader(
+              title: "Events",
+            ),
+          )
         ],
       )),
     );

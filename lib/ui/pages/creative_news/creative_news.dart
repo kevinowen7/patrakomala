@@ -15,8 +15,11 @@ class _CreativeNewsState extends State<CreativeNews> {
       body: SafeArea(
         child: Stack(
           children: [
+            Positioned(
+              child: CustomHeader(title: "Berita & Publikasi"),
+            ),
             ListView(children: [
-              CustomHeader(title: "Berita & Publikasi"),
+              SizedBox(height: 60),
               CustomTabBar(
                 titles: ['Berita', 'Publikasi'],
                 selectedIndex: selectedIndex,

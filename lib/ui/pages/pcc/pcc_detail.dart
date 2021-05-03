@@ -39,12 +39,7 @@ class _PccDetailState extends State<PccDetail> {
           children: [
             ListView(
               children: [
-                CustomHeader(
-                  backButton: () {
-                    Get.back();
-                  },
-                  title: "Pcc Corner",
-                ),
+                SizedBox(height: 60),
                 Container(
                   margin: EdgeInsets.fromLTRB(
                       defaultMargin, 8, defaultMargin, defaultMargin),
@@ -229,7 +224,15 @@ class _PccDetailState extends State<PccDetail> {
                   ),
                 ),
               ),
-            )
+            ),
+            Positioned(
+              child: CustomHeader(
+                backButton: () {
+                  Get.back();
+                },
+                title: "Pcc Corner",
+              ),
+            ),
           ],
         ),
       ),

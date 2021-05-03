@@ -13,11 +13,8 @@ class NewsDetail extends StatelessWidget {
           children: [
             ListView(
               children: [
-                CustomHeader(
-                  backButton: () {
-                    Get.back();
-                  },
-                  title: "Berita",
+                SizedBox(
+                  height: 60,
                 ),
                 CarouselSlider(
                   items: news.imgEvent.map((fileImage) {
@@ -84,6 +81,14 @@ class NewsDetail extends StatelessWidget {
                       textAlign: TextAlign.left,
                     )),
               ],
+            ),
+            Positioned(
+              child: CustomHeader(
+                backButton: () {
+                  Get.back();
+                },
+                title: "Berita",
+              ),
             ),
           ],
         ),

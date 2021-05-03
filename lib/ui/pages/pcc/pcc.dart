@@ -17,9 +17,7 @@ class _PccState extends State<Pcc> {
           children: [
             ListView(
               children: [
-                CustomHeader(
-                  title: "PCC Corner",
-                ),
+                SizedBox(height: 60),
                 InkWell(
                   onTap: () {
                     Get.to(SearchBoxPcc());
@@ -51,11 +49,11 @@ class _PccState extends State<Pcc> {
                 SizedBox(
                   height: 20,
                 ),
-                RaisedButton(
-                  onPressed: () {
-                    Get.to(PreLoginPage());
-                  },
-                ),
+                // RaisedButton(
+                //   onPressed: () {
+                //     Get.to(PreLoginPage());
+                //   },
+                // ),
                 Padding(
                   padding: const EdgeInsets.only(bottom: defaultMargin),
                   child: Container(
@@ -422,6 +420,11 @@ class _PccState extends State<Pcc> {
                   height: 100,
                 ),
               ],
+            ),
+            Positioned(
+              child: CustomHeader(
+                title: "PCC Corner",
+              ),
             ),
           ],
         ),

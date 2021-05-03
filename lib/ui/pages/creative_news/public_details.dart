@@ -17,14 +17,8 @@ class _PublicDetailState extends State<PublicDetail> {
           children: [
             ListView(
               children: [
-                CustomHeader(
-                  backButton: () {
-                    Get.back();
-                  },
-                  title: "Publikasi",
-                ),
                 SizedBox(
-                  height: 20,
+                  height: 80,
                 ),
                 Center(
                     child: Text(widget.publikasi.title,
@@ -45,11 +39,15 @@ class _PublicDetailState extends State<PublicDetail> {
                         fontSize: 17),
                   ),
                 ),
-                SizedBox(height:20),
+                SizedBox(height: 20),
                 GestureDetector(
                   onTap: () async {
-                    print('https://patrakomala.disbudpar.bandung.go.id/uploads/event_news/documents/' + widget.publikasi.documents);
-                    Get.to(PdfView('https://patrakomala.disbudpar.bandung.go.id/uploads/event_news/documents/' + widget.publikasi.documents));
+                    print(
+                        'https://patrakomala.disbudpar.bandung.go.id/uploads/event_news/documents/' +
+                            widget.publikasi.documents);
+                    Get.to(PdfView(
+                        'https://patrakomala.disbudpar.bandung.go.id/uploads/event_news/documents/' +
+                            widget.publikasi.documents));
                   },
                   child: Container(
                     margin: EdgeInsets.symmetric(horizontal: defaultMargin),
@@ -88,6 +86,14 @@ class _PublicDetailState extends State<PublicDetail> {
                       textAlign: TextAlign.left,
                     )),
               ],
+            ),
+            Positioned(
+              child: CustomHeader(
+                backButton: () {
+                  Get.back();
+                },
+                title: "Publikasi",
+              ),
             ),
           ],
         ),
