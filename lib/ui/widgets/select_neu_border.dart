@@ -25,7 +25,6 @@ class _SelectNeuBorderState extends State<SelectNeuBorder> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 271,
       // height: 40,
       //
       decoration: BoxDecoration(

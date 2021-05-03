@@ -8,7 +8,7 @@ class NeuBorder3 extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.fromLTRB(defaultMargin, mTop, 0, mBot),
+      margin: EdgeInsets.fromLTRB(defaultMargin, mTop, defaultMargin, mBot),
       decoration: BoxDecoration(
         boxShadow: <BoxShadow>[
           BoxShadow(
