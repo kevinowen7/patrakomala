@@ -173,6 +173,9 @@ class MapServices {
     return ApiReturnValue(value: value);
   }
 
+    // static Future<ApiReturnValue<s
+
+
   static Future<BitmapDescriptor> getMarkerImageFromUrl(
     String url, {
     int targetWidth,
@@ -192,6 +195,7 @@ class MapServices {
 
     return BitmapDescriptor.fromBytes(markerImageBytes);
   }
+
 
   /// Draw a [clusterColor] circle with the [clusterSize] text inside that is [width] wide.
   ///

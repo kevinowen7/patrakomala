@@ -1,13 +1,19 @@
 part of '../pages.dart';
 
-class TabProduct extends StatelessWidget {
-  final List<String> imageList = [
-    'https://myeatandtravelstory.files.wordpress.com/2017/03/cover-braga-1280x855.jpg?w=1280&h=855&crop=1',
-    'https://ik.imagekit.io/tvlk/cul-asset/guys1L+Yyer9kzI3sp-pb0CG1j2bhflZGFUZOoIf1YOBAm37kEUOKR41ieUZm7ZJ/tvlk-prod-cul-assets/culinary/asset/REST_IMG-960x720-FIT_AND_TRIM-8f057e8555fa27002bf0296c64316874.jpeg?tr=q-40,c-at_max,w-1080,h-1920&_src=imagekit',
-    'https://backpanel.kemlu.go.id/sites/pusat/PublishingImages/Tentang%20Kami/Museum%20Konferensi%20Asia%20Afrika_jpg.jpg',
-    'https://asset.kompas.com/crops/IVeFFpLdYLdryzxXPhXwDuuz_NI=/0x0:780x390/780x390/data/photo/2014/07/02/1700039bandunggg2780x390.jpg',
-    'https://4.bp.blogspot.com/-CXnLhw35tdk/U6_cQIKnwRI/AAAAAAAAAJQ/VfgpazMAYRQ/s1600/braga_malam.jpg'
-  ];
+class TabProduct extends StatefulWidget {
+  @override
+  _TabProductState createState() => _TabProductState();
+}
+
+class _TabProductState extends State<TabProduct> {
+  ScrollController scrollController = ScrollController();
+
+  void onScroll(){
+    double maxScroll = scrollController.position.maxScrollExtent;
+    double currentScroll = scrollController.position.pixels;
+
+    print(currentScroll.toString());
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -19,6 +25,7 @@ class TabProduct extends StatelessWidget {
           ApiReturnValue<List<Product>> product = productState.products;
 
           return StaggeredGridView.countBuilder(
+              controller: scrollController,
               shrinkWrap: true,
               crossAxisCount: 2,
               crossAxisSpacing: 12,

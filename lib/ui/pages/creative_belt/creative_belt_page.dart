@@ -25,6 +25,7 @@ class _CreativeBeltPageState extends State<CreativeBeltPage> {
 
   /// Current map zoom. Initial zoom will be 15, street level
   double _currentZoom = 12.5;
+  double _initialZoom = 12.5;
 
   /// Map loading flag
   bool _isMapLoading = true;
@@ -35,6 +36,7 @@ class _CreativeBeltPageState extends State<CreativeBeltPage> {
   Set<Polyline> _polyline = {};
 
   bool isGetData = true;
+  bool isZoom = false;
 
   /// Color of the cluster circle
   final Color _clusterColor = Colors.blue;
@@ -317,10 +319,13 @@ class _CreativeBeltPageState extends State<CreativeBeltPage> {
                 });
               }
 
+              // return SizedBox();
+
               return Opacity(
                 opacity: _isMapLoading ? 0 : 1,
                 child: new GoogleMap(
                   mapToolbarEnabled: false,
+                  zoomGesturesEnabled: isZoom,
                   initialCameraPosition: CameraPosition(
                     target: LatLng(-6.9218518, 107.6048254),
                     zoom: _currentZoom,
@@ -328,13 +333,31 @@ class _CreativeBeltPageState extends State<CreativeBeltPage> {
                   markers: _markers,
                   onMapCreated: (controller) => _onMapCreated(controller,
                       _markerLocations, _markerImageUrl, belts.value),
-                  onCameraMove: (position) => _updateMarkers(position.zoom),
+                  onCameraMove: (position) {
+                    setState(() {
+                      isZoom = true;
+                      _currentZoom = position.zoom;
+                    });
+                    _updateMarkers(position.zoom);
+
+                    if (_currentZoom < _initialZoom) {
+                      setState(() {
+                        isZoom = false;
+                      });
+                    }else{
+                      isZoom = true;
+                    }
+
+                    print(_currentZoom);
+                  },
                 ),
               );
             } else if (beltState is Filter3Loaded) {
               ApiReturnValue<List<Belt>> belts = beltState.belts;
               final List<LatLng> _markerLocations = [];
               final List<String> _markerImageUrl = [];
+
+              // print('========================'+belts.value.length.toString());
 
               if (belts.value != null) {
                 belts.value.asMap().forEach((key, value) {
@@ -345,6 +368,8 @@ class _CreativeBeltPageState extends State<CreativeBeltPage> {
                 });
               }
 
+              // return SizedBox();
+
               return Opacity(
                 opacity: _isMapLoading ? 0 : 1,
                 child: new GoogleMap(
@@ -356,7 +381,10 @@ class _CreativeBeltPageState extends State<CreativeBeltPage> {
                   markers: _markers,
                   onMapCreated: (controller) => _onMapCreated(controller,
                       _markerLocations, _markerImageUrl, belts.value),
-                  onCameraMove: (position) => _updateMarkers(position.zoom),
+                  onCameraMove: (position) {
+                    _updateMarkers(position.zoom);
+                    print(position.zoom);
+                  },
                 ),
               );
             } else if (beltState is TourPackagesLoaded) {
@@ -374,7 +402,9 @@ class _CreativeBeltPageState extends State<CreativeBeltPage> {
                   var long = double.parse(value.longitude);
                   _markerLocations.add(LatLng(lat, long));
                   _markerImageUrl.add(value.marker);
+
                   latlngSegment1.add(LatLng(lat, long));
+
                   if (key == (belts.value.length - 1)) {
                     _lastMapPosition = LatLng(lat, long);
                   }

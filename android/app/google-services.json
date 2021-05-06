@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "1024495369211",
+    "project_id": "fir-patrakomala-apps",
+    "storage_bucket": "fir-patrakomala-apps.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1024495369211:android:73e6ee3c73a835f765e95e",
+        "android_client_info": {
+          "package_name": "com.example.patrakomala_neumorphic"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1024495369211-fesvk8pgan36g2u5qoeet1s3nbubjul0.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB7CY3bRY4Q4yQcGAwynKiO_PB-9K5ae6U"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1024495369211-fesvk8pgan36g2u5qoeet1s3nbubjul0.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

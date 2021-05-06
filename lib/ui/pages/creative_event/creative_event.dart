@@ -105,7 +105,13 @@ class _CreativeEventState extends State<CreativeEvent> {
               if (aState is AcaraLoaded) {
                 initializeDateFormatting();
                 ApiReturnValue<List<Acara>> acara = aState.acara;
-                List<Acara> valAcara = acara.value;
+                int maxItem = acara.value.length - 1;
+                int start = 0;
+                int end = 10;
+                List<Acara> valAcara = (maxItem > 10)
+                    ? acara.value.sublist(start, end)
+                    : acara.value;
+
                 return CarouselSlider(
                   options: CarouselOptions(
                     height: (MediaQuery.of(context).size.height) - 350,
@@ -115,6 +121,7 @@ class _CreativeEventState extends State<CreativeEvent> {
                       });
                     },
                     aspectRatio: 16 / 9,
+                    enableInfiniteScroll: true,
                     viewportFraction: 0.9,
                     initialPage: 0,
                   ),
@@ -410,7 +417,9 @@ class _CreativeEventState extends State<CreativeEvent> {
               builder: (_, aState) {
                 if (aState is AcaraLoaded) {
                   ApiReturnValue<List<Acara>> acara = aState.acara;
-                  List<Acara> valAcara = acara.value;
+                  int maxItem = acara.value.length - 1;
+                  List<Acara> valAcara =
+                      (maxItem > 10) ? acara.value.sublist(0, 3) : acara.value;
                   return Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: valAcara

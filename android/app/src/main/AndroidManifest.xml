@@ -13,7 +13,7 @@
     <application
         android:name="io.flutter.app.FlutterApplication"
         android:label="Patrakomala Bandung"
-        android:icon="@drawable/logo_patrakomala_square">
+        android:icon="@drawable/playstore">
         <meta-data android:name="com.google.android.geo.API_KEY"
                    android:value="AIzaSyACxKN2mbFIStANEfvIbGZDrzrer2o-6d0"/>
         <activity

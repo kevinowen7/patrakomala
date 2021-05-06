@@ -56,6 +56,7 @@ class _ProductDetailState extends State<ProductDetail> {
   bool isBisnis = false;
   int bisnisId = 0;
   List marketplace = [];
+  YoutubePlayerController _controller;
 
   void getMarketplace() async {
     var result = await ProductServices.getMarketPlace(widget.product.produkId);
@@ -84,6 +85,18 @@ class _ProductDetailState extends State<ProductDetail> {
   void initState() {
     this.cekBisnis();
     this.getMarketplace();
+    _controller = YoutubePlayerController(
+      initialVideoId: YoutubePlayer.convertUrlToId(
+          (widget.product.produkImg != null)
+              ? 'jL4_38V10tI'
+              : widget.product.produkUrl),
+      flags: YoutubePlayerFlags(
+          mute: false,
+          autoPlay: true,
+          disableDragSeek: true,
+          loop: false,
+          enableCaption: false),
+    );
     super.initState();
   }
 
@@ -140,18 +153,24 @@ class _ProductDetailState extends State<ProductDetail> {
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(10),
                         ),
-                        child: YoutubePlayer(
-                          controller: YoutubePlayerController(
-                            initialVideoId: widget.product.produkUrl,
-                            flags: YoutubePlayerFlags(
-                              autoPlay: false,
-                              mute: true,
-                              forceHD: false,
-                              disableDragSeek: true,
-                              loop: false,
-                            ),
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(10),
+                          child: YoutubePlayer(
+                            controller: _controller,
+                            showVideoProgressIndicator: true,
+                            bottomActions: <Widget>[
+                              const SizedBox(width: 14.0),
+                              CurrentPosition(),
+                              const SizedBox(width: 8.0),
+                              ProgressBar(isExpanded: true),
+                              RemainingDuration(),
+                            ],
+                            aspectRatio: 4 / 3,
+                            progressIndicatorColor: Colors.white,
+                            onReady: () {
+                              print('Player is ready.');
+                            },
                           ),
-                          liveUIColor: Colors.amber,
                         ),
                       )
                     : Container(

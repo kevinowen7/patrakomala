@@ -7,6 +7,6 @@
     <item>
         <bitmap
             android:gravity="center"
-            android:src="@drawable/logo_patrakomala_square" />
+            android:src="@drawable/playstore" />
     </item>
 </layer-list>
