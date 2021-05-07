@@ -46,7 +46,7 @@ dependencies:
   flutter_spinkit: ^4.1.2+1
   shared_preferences: ^0.5.12+4
   device_info: ^1.0.0
-  flushbar: ^1.10.0
+  flushbar: ^1.10.4
   youtube_player_flutter: ^7.0.0+7
   slugify: ^1.0.0
   cached_network_image: ^2.2.0
