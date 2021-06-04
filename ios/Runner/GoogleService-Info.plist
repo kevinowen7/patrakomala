@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>140275062149-725hd17414iql87apfprdbothj59720q.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.140275062149-725hd17414iql87apfprdbothj59720q</string>
+	<key>API_KEY</key>
+	<string>AIzaSyC-9umpQUOJZ4zQt49w8VzWzaitbGqQi0w</string>
+	<key>GCM_SENDER_ID</key>
+	<string>140275062149</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.example.patrakomalaNeumorphic</string>
+	<key>PROJECT_ID</key>
+	<string>patrakomala-da94f</string>
+	<key>STORAGE_BUCKET</key>
+	<string>patrakomala-da94f.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:140275062149:ios:f9bf4b99eb0de2f531e0ec</string>
+</dict>
+</plist>

@@ -1,33 +1,33 @@
 {
   "project_info": {
-    "project_number": "1024495369211",
-    "project_id": "fir-patrakomala-apps",
-    "storage_bucket": "fir-patrakomala-apps.appspot.com"
+    "project_number": "140275062149",
+    "project_id": "patrakomala-da94f",
+    "storage_bucket": "patrakomala-da94f.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:1024495369211:android:73e6ee3c73a835f765e95e",
+        "mobilesdk_app_id": "1:140275062149:android:dcba6ffa8d1f879031e0ec",
         "android_client_info": {
           "package_name": "com.example.patrakomala_neumorphic"
         }
       },
       "oauth_client": [
         {
-          "client_id": "1024495369211-fesvk8pgan36g2u5qoeet1s3nbubjul0.apps.googleusercontent.com",
+          "client_id": "140275062149-o24pa8cpad03vqb5upv8eqaj9ocm2utt.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyB7CY3bRY4Q4yQcGAwynKiO_PB-9K5ae6U"
+          "current_key": "AIzaSyCUWMu-nkTVpg3yn-19pgXPi2WgHZLX8tc"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "1024495369211-fesvk8pgan36g2u5qoeet1s3nbubjul0.apps.googleusercontent.com",
+              "client_id": "140275062149-o24pa8cpad03vqb5upv8eqaj9ocm2utt.apps.googleusercontent.com",
               "client_type": 3
             }
           ]
