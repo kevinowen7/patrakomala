@@ -19,8 +19,8 @@ class CustomBottomNavbar extends StatelessWidget {
               }
             },
             child: Container(
-              width: 65,
-              height: 55,
+              width: 60,
+              height: 50,
               decoration: (selectedIndex == 0)
                   ? BoxDecoration(
                       color: Color(0xFFDFDFDF),
@@ -86,8 +86,8 @@ class CustomBottomNavbar extends StatelessWidget {
               }
             },
             child: Container(
-              width: 65,
-              height: 55,
+              width: 60,
+              height: 50,
               decoration: (selectedIndex == 1)
                   ? BoxDecoration(
                       color: Color(0xFFDFDFDF),
@@ -153,8 +153,8 @@ class CustomBottomNavbar extends StatelessWidget {
               }
             },
             child: Container(
-              width: 65,
-              height: 55,
+              width: 60,
+              height: 50,
               decoration: (selectedIndex == 2)
                   ? BoxDecoration(
                       color: Color(0xFFDFDFDF),
@@ -220,8 +220,8 @@ class CustomBottomNavbar extends StatelessWidget {
               }
             },
             child: Container(
-              width: 65,
-              height: 55,
+              width: 60,
+              height: 50,
               decoration: (selectedIndex == 3)
                   ? BoxDecoration(
                       color: Color(0xFFDFDFDF),
@@ -287,8 +287,8 @@ class CustomBottomNavbar extends StatelessWidget {
               }
             },
             child: Container(
-              width: 65,
-              height: 55,
+              width: 60,
+              height: 50,
               decoration: (selectedIndex == 4)
                   ? BoxDecoration(
                       color: Color(0xFFDFDFDF),
