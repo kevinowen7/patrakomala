@@ -325,7 +325,7 @@ class _CreativeBeltPageState extends State<CreativeBeltPage> {
                 opacity: _isMapLoading ? 0 : 1,
                 child: new GoogleMap(
                   mapToolbarEnabled: false,
-                  zoomGesturesEnabled: isZoom,
+                  zoomGesturesEnabled: true,
                   initialCameraPosition: CameraPosition(
                     target: LatLng(-6.9218518, 107.6048254),
                     zoom: _currentZoom,
@@ -334,19 +334,19 @@ class _CreativeBeltPageState extends State<CreativeBeltPage> {
                   onMapCreated: (controller) => _onMapCreated(controller,
                       _markerLocations, _markerImageUrl, belts.value),
                   onCameraMove: (position) {
-                    setState(() {
-                      isZoom = true;
-                      _currentZoom = position.zoom;
-                    });
+                    // setState(() {
+                    //   isZoom = true;
+                    //   _currentZoom = position.zoom;
+                    // });
                     _updateMarkers(position.zoom);
 
-                    if (_currentZoom < _initialZoom) {
-                      setState(() {
-                        isZoom = false;
-                      });
-                    }else{
-                      isZoom = true;
-                    }
+                    // if (_currentZoom < _initialZoom) {
+                    //   setState(() {
+                    //     isZoom = false;
+                    //   });
+                    // }else{
+                    //   isZoom = true;
+                    // }
 
                     print(_currentZoom);
                   },

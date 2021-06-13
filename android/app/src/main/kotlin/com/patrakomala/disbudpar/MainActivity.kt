@@ -1,4 +1,4 @@
-package com.example.patrakomala_neumorphic
+package com.patrakomala.disbudpar
 
 import io.flutter.embedding.android.FlutterActivity
 

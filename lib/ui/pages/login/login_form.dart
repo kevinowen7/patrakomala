@@ -289,7 +289,7 @@ class _LoginFormEmailPageState extends State<LoginFormEmailPage> {
                           final SharedPreferences sharedPreferences =
                               await SharedPreferences.getInstance();
                           sharedPreferences.setString('identifier', identifier);
-                          Get.off(MainPage());
+                          Get.offAll(MainPage());
                         } catch (e) {
                           Flushbar(
                             icon: Icon(

@@ -167,14 +167,10 @@ class MapServices {
     }
 
     var data = aConvert.jsonDecode(response.body);
-    print(data['response'].length.toString());
     List<Belt> value =
         (data['response'] as Iterable).map((e) => Belt.fromJson(e)).toList();
     return ApiReturnValue(value: value);
   }
-
-    // static Future<ApiReturnValue<s
-
 
   static Future<BitmapDescriptor> getMarkerImageFromUrl(
     String url, {

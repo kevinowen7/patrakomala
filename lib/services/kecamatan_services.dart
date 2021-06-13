@@ -9,7 +9,6 @@ class KecamatanServices {
     var response =
         await client.get(url, headers: {"Content-Type": "application/json"});
 
-    print(response.statusCode.toString());
 
     if (response.statusCode != 200) {
       return ApiReturnValue(message: "Gagal mengambil Kecamatan");
@@ -30,7 +29,6 @@ class KecamatanServices {
     var response =
         await client.get(url, headers: {"Content-Type": "application/json"});
 
-    print(response.statusCode.toString());
 
     if (response.statusCode != 200) {
       return ApiReturnValue(message: "Gagal mengambil Kelurahan");
@@ -52,8 +50,6 @@ class KecamatanServices {
     var response =
         await client.get(url, headers: {"Content-Type": "application/json"});
 
-    print('tp = ' + response.statusCode.toString());
-
     if (response.statusCode != 200) {
       return ApiReturnValue(message: "Gagal mengambil tp");
     }
@@ -73,8 +69,6 @@ class KecamatanServices {
     String url = baseURL2 + 'v1/tour-package/list-belt';
     var response =
         await client.get(url, headers: {"Content-Type": "application/json"});
-
-    print('tpb = ' + response.statusCode.toString());
 
     if (response.statusCode != 200) {
       return ApiReturnValue(message: "Gagal mengambil tp");

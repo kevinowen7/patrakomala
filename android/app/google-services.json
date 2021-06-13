@@ -1,33 +1,33 @@
 {
   "project_info": {
-    "project_number": "140275062149",
-    "project_id": "patrakomala-da94f",
-    "storage_bucket": "patrakomala-da94f.appspot.com"
+    "project_number": "693304185921",
+    "project_id": "patrakomala-disbudpar",
+    "storage_bucket": "patrakomala-disbudpar.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:140275062149:android:dcba6ffa8d1f879031e0ec",
+        "mobilesdk_app_id": "1:693304185921:android:ad50a0557bfc933d00a2c0",
         "android_client_info": {
-          "package_name": "com.example.patrakomala_neumorphic"
+          "package_name": "com.patrakomala.disbudpar"
         }
       },
       "oauth_client": [
         {
-          "client_id": "140275062149-o24pa8cpad03vqb5upv8eqaj9ocm2utt.apps.googleusercontent.com",
+          "client_id": "693304185921-cp521s9odjmfdc7u9la256kgnrnccl3b.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyCUWMu-nkTVpg3yn-19pgXPi2WgHZLX8tc"
+          "current_key": "AIzaSyBCY_Sb0Bm4WW28unhKmO1wgE_4gRtTot4"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "140275062149-o24pa8cpad03vqb5upv8eqaj9ocm2utt.apps.googleusercontent.com",
+              "client_id": "693304185921-cp521s9odjmfdc7u9la256kgnrnccl3b.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

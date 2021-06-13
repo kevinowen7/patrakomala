@@ -277,7 +277,7 @@ class _LoginFormPhonePageState extends State<LoginFormPhonePage> {
                           final SharedPreferences sharedPreferences =
                               await SharedPreferences.getInstance();
                           sharedPreferences.setString('identifier', identifier);
-                          Get.off(MainPage());
+                          Get.offAll(MainPage());
                         } catch (e) {
                           Flushbar(
                             icon: Icon(
