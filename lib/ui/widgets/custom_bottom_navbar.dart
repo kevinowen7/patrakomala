@@ -19,8 +19,8 @@ class CustomBottomNavbar extends StatelessWidget {
               }
             },
             child: Container(
-              width: 60,
-              height: 50,
+              width: 64,
+              height: 54,
               decoration: (selectedIndex == 0)
                   ? BoxDecoration(
                       color: Color(0xFFDFDFDF),
@@ -72,7 +72,8 @@ class CustomBottomNavbar extends StatelessWidget {
                       "Creative\nBelt",
                       textAlign: TextAlign.center,
                       style: normalFontStyle.copyWith(
-                          color: '777777'.toColor(), fontSize: ResponsiveFlutter.of(context).fontSize(1)),
+                          color: '777777'.toColor(),
+                          fontSize: ResponsiveFlutter.of(context).fontSize(1)),
                     ))
                   ],
                 ),
@@ -86,8 +87,8 @@ class CustomBottomNavbar extends StatelessWidget {
               }
             },
             child: Container(
-              width: 60,
-              height: 50,
+              width: 64,
+              height: 54,
               decoration: (selectedIndex == 1)
                   ? BoxDecoration(
                       color: Color(0xFFDFDFDF),
@@ -139,7 +140,8 @@ class CustomBottomNavbar extends StatelessWidget {
                       "Creative\nNews",
                       textAlign: TextAlign.center,
                       style: normalFontStyle.copyWith(
-                          color: '777777'.toColor(), fontSize: ResponsiveFlutter.of(context).fontSize(1)),
+                          color: '777777'.toColor(),
+                          fontSize: ResponsiveFlutter.of(context).fontSize(1)),
                     ))
                   ],
                 ),
@@ -153,8 +155,8 @@ class CustomBottomNavbar extends StatelessWidget {
               }
             },
             child: Container(
-              width: 60,
-              height: 50,
+              width: 64,
+              height: 54,
               decoration: (selectedIndex == 2)
                   ? BoxDecoration(
                       color: Color(0xFFDFDFDF),
@@ -206,7 +208,8 @@ class CustomBottomNavbar extends StatelessWidget {
                       "Creative\nProduct",
                       textAlign: TextAlign.center,
                       style: normalFontStyle.copyWith(
-                          color: '777777'.toColor(), fontSize: ResponsiveFlutter.of(context).fontSize(1)),
+                          color: '777777'.toColor(),
+                          fontSize: ResponsiveFlutter.of(context).fontSize(1)),
                     ))
                   ],
                 ),
@@ -220,8 +223,8 @@ class CustomBottomNavbar extends StatelessWidget {
               }
             },
             child: Container(
-              width: 60,
-              height: 50,
+              width: 64,
+              height: 54,
               decoration: (selectedIndex == 3)
                   ? BoxDecoration(
                       color: Color(0xFFDFDFDF),
@@ -273,7 +276,8 @@ class CustomBottomNavbar extends StatelessWidget {
                       "Creative\nEvent",
                       textAlign: TextAlign.center,
                       style: normalFontStyle.copyWith(
-                          color: '777777'.toColor(), fontSize: ResponsiveFlutter.of(context).fontSize(1)),
+                          color: '777777'.toColor(),
+                          fontSize: ResponsiveFlutter.of(context).fontSize(1)),
                     ))
                   ],
                 ),
@@ -287,8 +291,8 @@ class CustomBottomNavbar extends StatelessWidget {
               }
             },
             child: Container(
-              width: 60,
-              height: 50,
+              width: 64,
+              height: 54,
               decoration: (selectedIndex == 4)
                   ? BoxDecoration(
                       color: Color(0xFFDFDFDF),
@@ -335,13 +339,13 @@ class CustomBottomNavbar extends StatelessWidget {
                       width: 22,
                       height: 22,
                     ),
-                   
                     Expanded(
                         child: Text(
                       "PCC\nCorner",
                       textAlign: TextAlign.center,
                       style: normalFontStyle.copyWith(
-                          color: '777777'.toColor(), fontSize: ResponsiveFlutter.of(context).fontSize(1)),
+                          color: '777777'.toColor(),
+                          fontSize: ResponsiveFlutter.of(context).fontSize(1)),
                     ))
                   ],
                 ),
