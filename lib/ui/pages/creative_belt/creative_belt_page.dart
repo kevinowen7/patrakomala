@@ -312,8 +312,15 @@ class _CreativeBeltPageState extends State<CreativeBeltPage> {
 
               if (belts.value != null) {
                 belts.value.asMap().forEach((key, value) {
-                  var lat = double.parse(value.latitude);
-                  var long = double.parse(value.longitude);
+                  var lat;
+                  var long;
+                  try {
+                    lat = double.parse(value.latitude);
+                    long = double.parse(value.longitude);
+                  } catch (e) {
+                    lat = 0;
+                    long = 0;
+                  }
                   _markerLocations.add(LatLng(lat, long));
                   _markerImageUrl.add(value.marker);
                 });

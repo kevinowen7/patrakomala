@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>693304185921-ctvpuh59iiqd7gpk937si3la5l62sfhl.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.693304185921-ctvpuh59iiqd7gpk937si3la5l62sfhl</string>
+	<key>API_KEY</key>
+	<string>AIzaSyApqR-iVu8nN1TaFRhcLGfkGW8rLmx2FgA</string>
+	<key>GCM_SENDER_ID</key>
+	<string>693304185921</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.patrakomala.disbudpar</string>
+	<key>PROJECT_ID</key>
+	<string>patrakomala-disbudpar</string>
+	<key>STORAGE_BUCKET</key>
+	<string>patrakomala-disbudpar.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:693304185921:ios:a24d694958bfc3cd00a2c0</string>
+</dict>
+</plist>

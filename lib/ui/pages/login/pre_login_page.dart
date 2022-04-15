@@ -194,6 +194,60 @@ class PreLoginPage extends StatelessWidget {
                 ),
               ),
             ),
+            SizedBox(
+              height: 10,
+            ),
+            InkWell(
+              onTap: () {
+                Get.offAll(MainPage());
+              },
+              child: Container(
+                width: 271,
+                height: 40,
+                decoration: BoxDecoration(
+                  boxShadow: <BoxShadow>[
+                    BoxShadow(
+                      color: Color(0xFF333333),
+                      offset: Offset(0.0, -2.0),
+                      blurRadius: 4.0,
+                    ),
+                    BoxShadow(
+                      color: Color(0xFF030303),
+                      offset: Offset(0.0, 1.0),
+                      blurRadius: 4.0,
+                    ),
+                    BoxShadow(
+                      color: Color.fromRGBO(51, 51, 51, 0.16),
+                      offset: Offset(0, 0.0),
+                      blurRadius: 0.0,
+                    ),
+                  ],
+                  color: "F8F8F8".toColor(),
+                  borderRadius: BorderRadius.all(const Radius.circular(10.0)),
+                ),
+                child: Padding(
+                  padding: EdgeInsets.fromLTRB(10, 4, 10, 4),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Icon(
+                        Icons.accessibility_new,
+                        color: mainColorRed,
+                      ),
+                      Padding(
+                        padding: EdgeInsets.only(left: 14),
+                        child: Text(
+                          "Login Sebagai Pengunjung",
+                          style: normalFontStyle.copyWith(
+                              color: '333333'.toColor(), fontSize: 15),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
           ],
         ),
       ),

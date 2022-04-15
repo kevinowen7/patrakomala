@@ -194,7 +194,9 @@ class _PccState extends State<Pcc> {
                                                             215,
                                                         child: Text(
                                                           item.namaEvent,
-                                                          style: titleStyle,
+                                                          style: titleStyle
+                                                              .copyWith(
+                                                                  fontSize: 12),
                                                           maxLines: 2,
                                                         ),
                                                       ),
@@ -205,7 +207,9 @@ class _PccState extends State<Pcc> {
                                                                     "id_ID")
                                                                 .format(item
                                                                     .tanggal),
-                                                        style: normalFontStyle,
+                                                        style: normalFontStyle
+                                                            .copyWith(
+                                                                fontSize: 11),
                                                       ),
                                                       SizedBox(height: 10),
                                                       Container(
@@ -223,7 +227,7 @@ class _PccState extends State<Pcc> {
                                                                       .text
                                                                       .substring(
                                                                           0,
-                                                                          90) +
+                                                                          60) +
                                                                   '...',
                                                           style: normalFontStyle
                                                               .copyWith(

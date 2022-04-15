@@ -8,7 +8,7 @@ class TabProduct extends StatefulWidget {
 class _TabProductState extends State<TabProduct> {
   ScrollController scrollController = ScrollController();
 
-  void onScroll(){
+  void onScroll() {
     double maxScroll = scrollController.position.maxScrollExtent;
     double currentScroll = scrollController.position.pixels;
 
@@ -111,12 +111,17 @@ class _TabProductState extends State<TabProduct> {
                                       child: Padding(
                                         padding: const EdgeInsets.all(2.0),
                                         child: Text(
-                                            product.value[index].subsector,
-                                            style: normalFontStyle.copyWith(
-                                                color: Colors.white,
-                                                fontSize: 11)),
+                                          product.value[index].subsector ==
+                                                  'Aplikasi dan Games'
+                                              ? 'Aplikasi'
+                                              : product.value[index].subsector,
+                                          style: normalFontStyle.copyWith(
+                                              color: Colors.white,
+                                              fontSize: 11),
+                                          maxLines: 1,
+                                        ),
                                       ),
-                                    )
+                                    ),
                                   ],
                                 ),
                               ],

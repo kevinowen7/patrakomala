@@ -82,7 +82,7 @@ class TabPublikasi extends StatelessWidget {
                 ),
               ),
             );
-          }else{
+          } else {
             return SizedBox();
           }
         },
@@ -112,11 +112,6 @@ class TabPublikasi extends StatelessWidget {
                               children: [
                                 Text(e.title, style: titleStyle),
                                 SizedBox(height: 5),
-                                Text("Tahun Terbit 2019",
-                                    style: normalFontStyle.copyWith(
-                                        color: "777777".toColor(),
-                                        fontSize: 12)),
-                                SizedBox(height: 10),
                               ],
                             ),
                           ),
@@ -150,11 +145,6 @@ class TabPublikasi extends StatelessWidget {
                               children: [
                                 Text(e.title, style: titleStyle),
                                 SizedBox(height: 5),
-                                Text("Tahun Terbit 2019",
-                                    style: normalFontStyle.copyWith(
-                                        color: "777777".toColor(),
-                                        fontSize: 12)),
-                                SizedBox(height: 10),
                               ],
                             ),
                           ),

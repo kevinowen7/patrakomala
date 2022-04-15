@@ -3,21 +3,21 @@
 <plist version="1.0">
 <dict>
 	<key>CLIENT_ID</key>
-	<string>140275062149-725hd17414iql87apfprdbothj59720q.apps.googleusercontent.com</string>
+	<string>693304185921-ctvpuh59iiqd7gpk937si3la5l62sfhl.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.140275062149-725hd17414iql87apfprdbothj59720q</string>
+	<string>com.googleusercontent.apps.693304185921-ctvpuh59iiqd7gpk937si3la5l62sfhl</string>
 	<key>API_KEY</key>
-	<string>AIzaSyC-9umpQUOJZ4zQt49w8VzWzaitbGqQi0w</string>
+	<string>AIzaSyApqR-iVu8nN1TaFRhcLGfkGW8rLmx2FgA</string>
 	<key>GCM_SENDER_ID</key>
-	<string>140275062149</string>
+	<string>693304185921</string>
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>com.example.patrakomalaNeumorphic</string>
+	<string>com.patrakomala.disbudpar</string>
 	<key>PROJECT_ID</key>
-	<string>patrakomala-da94f</string>
+	<string>patrakomala-disbudpar</string>
 	<key>STORAGE_BUCKET</key>
-	<string>patrakomala-da94f.appspot.com</string>
+	<string>patrakomala-disbudpar.appspot.com</string>
 	<key>IS_ADS_ENABLED</key>
 	<false></false>
 	<key>IS_ANALYTICS_ENABLED</key>
@@ -29,6 +29,6 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:140275062149:ios:f9bf4b99eb0de2f531e0ec</string>
+	<string>1:693304185921:ios:a24d694958bfc3cd00a2c0</string>
 </dict>
 </plist>

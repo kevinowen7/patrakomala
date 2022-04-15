@@ -101,7 +101,9 @@ class _EventDetailState extends State<EventDetail> {
                       ),
                       IconWithText(
                         icon: Icons.location_pin,
-                        text: widget.acara.takePlace,
+                        text: widget.acara.takePlace == null
+                            ? 'Tidak disebutkan'
+                            : widget.acara.takePlace,
                       ),
                     ],
                   ),
